@@ -1,0 +1,23 @@
+{
+  "name": "Ilian1",
+  "description": "electricity_game",
+  "main": "",
+  "keywords": [
+    "game",
+    "electricity",
+    "devlabs",
+    "education"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Snap.svg": "snap.svg#^0.4.1"
+  }
+}
