@@ -7,6 +7,8 @@ function hitTest (obj1, obj2) {
 var s=Snap("100%","100%");
 // these are the objects that will be able to be dragged
 var bulbOrig,bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,battery,light,bulbWire,batteryComp;
+var textAmpMeter=s.text(25,195,"2 A");
+textAmpMeter.attr({"font-size":20});
 // states of the needed objects for the electric circuit
 var bulbReady=0,ampMeterReady=0,batteryReady=0,electricalCur=0;
 // coordinates of the supposed place for the bulb and curCoord - for the new initial place
@@ -20,7 +22,7 @@ var things;
 Snap.load("scheme1.svg",function(data) {
          wires=data.selectAll("#Path-2");
          bulbOrig=s.group(data.select("#light-bulb"),data.select("#light-bulb"));
-         ampMeter=s.group(data.select("#Rectangle-3"),data.select("#Rectangle-4"), data.selectAll("#circles"),data.select("#ampere-meter-path"),data.select("#ampere-meter"),data.select("#A"),data.select("#Line"));
+         ampMeter=s.group(data.select("#Rectangle-3"),data.select("#Rectangle-4"), data.selectAll("#circles"),data.select("#ampere-meter-path"),data.select("#ampere-meter"),data.select("#A"),data.select("#Line"),textAmpMeter);
          groupBottom=s.group(ampMeter,line1,line2,line3,wires);
          batteryComp=[data.selectAll("#Rectangle-bat"),data.selectAll("#Rectangle-2")];
          battery=s.group(batteryComp[0],batteryComp[1],data.select("#Group-11"));
@@ -48,7 +50,7 @@ Snap.load("scheme1.svg",function(data) {
                                     light.attr({opacity:0});
                                     bulbWire.attr({fill:"grey"});
                                     curCoord=[bulb.getBBox().x,bulb.getBBox().y];
-                                    things=[bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,buttonReset,battery];
+                                    things=[bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,buttonReset,buttonElCur,battery];
                                     work();
                            });
                   });
@@ -68,6 +70,7 @@ function hitCheck (ind, curTransform, obj, dx, dy) {
                   return false;
 }
 function work () {
+         if (flag3!=0) return ;
          for (i=0; i<things.length; i++) {
              things[i].undrag();
              }
@@ -92,6 +95,7 @@ function work () {
                      });
             }
          // checks if the amperе-meter is in the right place
+         textAmpMeter.attr({opacity:0});
          if (ampMeterReady==0) {
             line2.attr({opacity:1});
             t = new Snap.Matrix();
@@ -216,32 +220,38 @@ var text2=s.text(436,452,"tok");
 var buttonElCur=s.group(rect2,text2);
 rect2.attr({stroke:"black", strokeWidth:1, fill:"white"});
 text2.attr({"font-size":20, "id": "tok"});
-// flag shows if the restart button can be used
-var flag=0;
+// flag1 shows if the restart button can be used, flag2 if the battery will blow and flag3 - if the reset button can be used
+var flag1=0,flag2=0,flag3=0;
 buttonElCur.node.onclick = function () {
             if (batteryReady==0) {
                alert('No battery!');
                return ;
                }
             if (bulbReady==0) {
-               flag++;
+               if (flag2!=0) return 0;
+               flag2++;
                batteryComp[0].animate({fill:"red"},1500);
                batteryComp[1].animate({fill:"red"},1500);
                for (i=0; i<things.length; i++) {
                    things[i].undrag();
                    }
-               /* future feature:
-               rect3.attr({opacity:1});
-               text3.attr({opacity:1});
-               */
+               setTimeout(function() {
+                         rect3.attr({opacity:1});
+                         text3.attr({opacity:1});
+                         flag1++;
+                         },1600);
                return ;
                }
             if (ampMeterReady==0) return ;
+            flag3++;
             for (i=0; i<things.length; i++) {
                 things[i].undrag();
                 }
             light.animate({opacity:1},1500);
             bulbWire.animate({fill:"orangered"},1500);
+            setTimeout(function(){
+                      textAmpMeter.attr({opacity:1});
+                      },1600);
 }
 // makes a restart button
 var rect3=s.rect(180,400,100,100);
@@ -251,14 +261,13 @@ rect3.attr({stroke:"black", strokeWidth:1, fill:"white"});
 text3.attr({"font-size":20, "id": "restart"});
 rect3.attr({opacity:0});
 text3.attr({opacity:0});
-/* future feature:
 buttonRestart.node.onclick = function () {
-              if (flag==0) return ;
+              if (flag1==0) return ;
               bulbReady=batteryReady=ampMeterReady=0;
               rect3.attr({opacity:0});
               text3.attr({opacity:0});
-              flag=0;
+              flag1=0; flag2=0;
               batteryComp[0].attr({fill:"#C5E1A5"});
               batteryComp[1].attr({fill:"#DEDEDE"});
               work();
-}*/
+}
