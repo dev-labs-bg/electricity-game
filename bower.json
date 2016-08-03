@@ -18,6 +18,7 @@
     "tests"
   ],
   "dependencies": {
-    "Snap.svg": "snap.svg#^0.4.1"
+    "Snap.svg": "snap.svg#^0.4.1",
+    "jquery": "^3.1.0"
   }
 }
