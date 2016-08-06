@@ -1,4 +1,4 @@
-#A, #V, #reset, #tok {
+#A, #V, #textAmpMeter {
     -webkit-touch-callout: none;
     -webkit-user-select:none;
     -khtml-user-select:none;
@@ -8,3 +8,13 @@
     user-select:none;
     cursor: default;
 }
+.btn-wrapperReset, .btn-wrapperCheck, .btn-wrapperRestart, .proba1 {
+    position: absolute;
+}
+#reset, #check {
+    line-height: 30px;
+}
+.proba {
+    position: absolute;
+}
+
