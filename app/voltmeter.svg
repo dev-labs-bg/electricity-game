@@ -22,7 +22,6 @@
         </mask>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(0, -166.000000)">
-        <title>волтметър</title>
         <g id="voltmeter">
             <rect id="Rectangle-3" fill="#DDDDDD" x="2" y="169" width="73" height="100" rx="5"></rect>
             <rect id="Rectangle-4" fill="#FFFFFF" x="20" y="179" width="39" height="20"></rect>
