@@ -39,7 +39,7 @@ var buttonReset,buttonOn,buttonRestart,buttonCheck,buttonHelp,buttonStatement;
 var flag1=0,flag2=0,flag3=0;
 
 function loadSvgs () {
-Snap.load("scheme1.svg",function(data) {
+Snap.load("app/scheme1.svg",function(data) {
          wires=data.selectAll("#Path-2");
          bulbOrig=s.group(data.select("#light-bulb"),data.select("#light-bulb"));
          ampMeter=s.group(data.select("#Rectangle-3"),data.select("#Rectangle-4"), data.selectAll("#circles"),data.select("#ampere-meter-path"),data.select("#ampere-meter"),data.select("#A"),data.select("#Line"),textAmpMeter);
@@ -50,7 +50,7 @@ Snap.load("scheme1.svg",function(data) {
          groupBottom=s.group(data,lines[0],lines[1],lines[2],wires);
          s.append(groupBottom);
          bulbOrig.remove();
-         Snap.load("scheme4.svg",function(data) {
+         Snap.load("app/scheme4.svg",function(data) {
                   // the object is groupped with itself otherwise it cannot leave the boundary of scheme4.svg
                   toaster=s.group(data.select("#bread-toaster"),data.select("#bread-toaster"));
                   microwave=s.group(data.select("#microwave"),data.select("#microwave"));
@@ -58,10 +58,10 @@ Snap.load("scheme1.svg",function(data) {
                   blender=s.group(data.select("#blender"),data.select("#blender"));
                   groupBottom=s.group(toaster,microwave,fridge,blender,lines[0],lines[1],lines[2],wires);
                   s.append(groupBottom);
-                  Snap.load("voltmeter.svg",function(data) {
+                  Snap.load("app/voltmeter.svg",function(data) {
                            voltMeter=s.group(data.select("#Page-1"),data.select("#Page-1"));
                            s.append(voltMeter);
-                           Snap.load("lightening-bulb.svg",function(data) {
+                           Snap.load("app/lightening-bulb.svg",function(data) {
                                     light=data.selectAll("#Combined-Shape");
                                     bulbWire=data.select("#gWire"); bulbWireColor=data.select("#wire");
                                     bulb=s.group(light,bulbWire,data.select("#bulb-light"));
