@@ -4,30 +4,49 @@ function hitTest (obj1, obj2) {
              (obj1.getBBox().x2<obj2.getBBox().x)||(obj1.getBBox().y2<obj2.getBBox().y)) return false;
          return true;
 }
+function hitTestBtn (obj1, obj2) {
+         // analogously with hitTest but for obj1 - button (not Snap object) and obj2 - Snap object
+         if ((obj1.position().left>obj2.getBBox().x2)||(obj1.position().top>obj2.getBBox().y2)||
+             (obj1.position().left+obj1.innerWidth()<obj2.getBBox().x)||(obj1.position().top+obj1.innerHeight()<obj2.getBBox().y)) {
+            return false;
+            }
+         return true;
+}
+function message (text) {
+         // function opening modal with message: text
+         $("#pText").text(text);
+         $(".modal").openModal();
+}
 var s=Snap("100%","100%");
 // these are the objects that will be able to be dragged
 var bulbOrig,bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,battery,light,bulbWire,batteryComp;
+var bulbWireColor;
 var textAmpMeter=s.text(25,195,"2 A");
-textAmpMeter.attr({"font-size":20});
+var formula=s.text(640,230,"Закон на Ом: I=U/R => U=R.I=(6 Ω)*(2 A)="),voltSign=s.text(1250,230,"V"),input;
 // states of the needed objects for the electric circuit
 var bulbReady=0,ampMeterReady=0,batteryReady=0,electricalCur=0;
 // coordinates of the supposed place for the bulb and curCoord - for the new initial place
 var prevCoord,curCoord;
 // prev is array where the old position of the objects is saved
 var prev=[],origTransform=[];
-// object for making some object under wires, line1, line2 and line3
-var groupBottom,wires;
-// array containing all objects
-var things;
+// object for making some object under wires, lines[0], lines[1] and lines[2]
+var groupBottom,wires,lines=[];
+// things - array containing all objects and buttons - array containing all buttons
+var things,buttons;
+var buttonReset,buttonOn,buttonRestart,buttonCheck,buttonHelp,buttonStatement;
+// flag1 shows if the restart button can be used, flag2 if the battery will blow and flag3 - if the reset button can be used
+var flag1=0,flag2=0,flag3=0;
+
+function loadSvgs () {
 Snap.load("scheme1.svg",function(data) {
          wires=data.selectAll("#Path-2");
          bulbOrig=s.group(data.select("#light-bulb"),data.select("#light-bulb"));
          ampMeter=s.group(data.select("#Rectangle-3"),data.select("#Rectangle-4"), data.selectAll("#circles"),data.select("#ampere-meter-path"),data.select("#ampere-meter"),data.select("#A"),data.select("#Line"),textAmpMeter);
-         groupBottom=s.group(ampMeter,line1,line2,line3,wires);
-         batteryComp=[data.selectAll("#Rectangle-bat"),data.selectAll("#Rectangle-2")];
-         battery=s.group(batteryComp[0],batteryComp[1],data.select("#Group-11"));
+         groupBottom=s.group(ampMeter,lines[0],lines[1],lines[2],wires);
+         batteryComp=[data.selectAll("#Rectangle-bat"),data.select("#label"),data.selectAll("#Rectangle-2")];
+         battery=s.group(batteryComp[0],batteryComp[1],batteryComp[2],data.select("#Group-11"));
          prevCoord=[bulbOrig.getBBox().x,bulbOrig.getBBox().y];
-         groupBottom=s.group(data,line1,line2,line3,wires);
+         groupBottom=s.group(data,lines[0],lines[1],lines[2],wires);
          s.append(groupBottom);
          bulbOrig.remove();
          Snap.load("scheme4.svg",function(data) {
@@ -35,33 +54,41 @@ Snap.load("scheme1.svg",function(data) {
                   toaster=s.group(data.select("#bread-toaster"),data.select("#bread-toaster"));
                   microwave=s.group(data.select("#microwave"),data.select("#microwave"));
                   fridge=s.group(data.select("#fridge"),data.select("#fridge"));
-                  blender=s.group(data.selectAll("#blender"),data.selectAll("#blender"));
-                  groupBottom=s.group(toaster,microwave,fridge,blender,line1,line2,line3,wires);
+                  blender=s.group(data.select("#blender"),data.select("#blender"));
+                  groupBottom=s.group(toaster,microwave,fridge,blender,lines[0],lines[1],lines[2],wires);
                   s.append(groupBottom);
                   Snap.load("voltmeter.svg",function(data) {
                            voltMeter=s.group(data.select("#Page-1"),data.select("#Page-1"));
                            s.append(voltMeter);
-                           Snap.load("lightening-bulb2.svg",function(data) {
+                           Snap.load("lightening-bulb.svg",function(data) {
                                     light=data.selectAll("#Combined-Shape");
-                                    bulbWire=data.select("#wire");
+                                    bulbWire=data.select("#gWire"); bulbWireColor=data.select("#wire");
                                     bulb=s.group(light,bulbWire,data.select("#bulb-light"));
-                                    groupBottom=s.group(bulb,line1,line2,line3,wires);
-                                    s.append(groupBottom);
+                                    groupBottom=s.group(bulb,lines[0],lines[1],lines[2],wires);
+                                    s.append(bulb);
                                     light.attr({opacity:0});
-                                    bulbWire.attr({fill:"grey"});
+                                    bulbWireColor.attr({fill:"grey"});
                                     curCoord=[bulb.getBBox().x,bulb.getBBox().y];
-                                    things=[bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,buttonReset,buttonElCur,battery];
+                                    things=[bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,battery];
+                                    buttons=[buttonReset.parent(),buttonOn.parent()];
                                     work();
                            });
                   });
          });
 });
+}
 function hitCheck (ind, curTransform, obj, dx, dy) {
                   // function to check if obj hits with some of the other objects
                   obj.attr({transform: origTransform[ind] + (origTransform[ind] ? "T" : "t") + [dx, dy]});
                   for (i=0; i<things.length; i++) {
                       if (obj==things[i]) continue;
                       if (hitTest(things[i],obj)==1) {
+                         obj.attr({transform: origTransform[ind] + (origTransform[ind] ? "T" : "t") + [prev[ind][0], prev[ind][1]]});
+                         return true;
+                         }
+                      }
+                  for (i=0; i<buttons.length; i++) {
+                      if (hitTestBtn(buttons[i],obj)==1) {
                          obj.attr({transform: origTransform[ind] + (origTransform[ind] ? "T" : "t") + [prev[ind][0], prev[ind][1]]});
                          return true;
                          }
@@ -76,7 +103,7 @@ function work () {
              }
          // checks if the light-bulb is in the right place
          if (bulbReady==0) {
-            line1.attr({opacity:1});
+            lines[0].attr({opacity:1});
             t = new Snap.Matrix();
             t.translate(prevCoord[0]-curCoord[0]+437,prevCoord[1]-curCoord[1]+116);
             bulb.transform(t);
@@ -84,20 +111,28 @@ function work () {
                      var curTransform=Snap.parseTransformString(origTransform[0])[0];
                      if (hitCheck(0,curTransform,this,dx,dy)==1) return ;
                      // checks if the bulb is near the supposed place and makes a hole in the wire
-                     if ((prevCoord[0]-bulb.getBBox().x)*(prevCoord[0]-bulb.getBBox().x)+(prevCoord[1]-bulb.getBBox().y)*(prevCoord[1]-bulb.getBBox().y)<=2000) line1.animate({opacity:0},200);
-                     else line1.animate({opacity:1},200);
+                     if ((prevCoord[0]-bulb.getBBox().x)*(prevCoord[0]-bulb.getBBox().x)+(prevCoord[1]-bulb.getBBox().y)*(prevCoord[1]-bulb.getBBox().y)<=6000) lines[0].attr({opacity:0});
+                     else lines[0].attr({opacity:1});
                      // checks if the bulb is in the right place and removes the drag handlers
                      //console.log(Math.abs(prevCoord[0]-bulb.getBBox().x));
                      if ((Math.abs(prevCoord[0]-bulb.getBBox().x)<3)&&
-                         (Math.abs(prevCoord[1]-bulb.getBBox().y)<3)) line1.attr({opacity:0}), alert('Bravo'), bulbReady++, this.undrag();
+                         (Math.abs(prevCoord[1]-bulb.getBBox().y)<3)) lines[0].attr({opacity:0}), message('Супер! :) Лампата е наместена на мястото си.'), bulbReady++, this.undrag();
                      },function() {
                      origTransform[0] = this.transform().local;
+                     },function() {
+                     if (lines[0].attr("opacity")==0) {
+                        t = new Snap.Matrix();
+                        t.translate(prevCoord[0]-curCoord[0],prevCoord[1]-curCoord[1]);
+                        bulb.transform(t);
+                        message('Супер! :) Лампата е наместена на мястото си.');
+                        bulbReady++; this.undrag();
+                        }
                      });
             }
          // checks if the amperе-meter is in the right place
          textAmpMeter.attr({opacity:0});
          if (ampMeterReady==0) {
-            line2.attr({opacity:1});
+            lines[1].attr({opacity:1});
             t = new Snap.Matrix();
             t.translate(871,-48);
             ampMeter.transform(t);
@@ -105,29 +140,45 @@ function work () {
                          //analogously with the bulb handler
                          var curTransform=Snap.parseTransformString(origTransform[1])[0];
                          if (hitCheck(1,curTransform,this,dx,dy)==1) return ;
-                         if ((curTransform[1]+dx)*(curTransform[1]+dx)+(curTransform[2]+dy)*(curTransform[2]+dy)<=2000) line2.animate({opacity:0},200);
-                         else line2.animate({opacity:1},200);
+                         if ((curTransform[1]+dx)*(curTransform[1]+dx)+(curTransform[2]+dy)*(curTransform[2]+dy)<=8000) lines[1].attr({opacity:0});
+                         else lines[1].attr({opacity:1});
                          if ((Math.abs(curTransform[1]+dx)<3)&&
-                             (Math.abs(curTransform[2]+dy)<3)) alert("Bravo!"), ampMeterReady++, this.undrag();
+                             (Math.abs(curTransform[2]+dy)<3)) message("Амперметърът е сложен, където трябва."), ampMeterReady++, this.undrag();
                          },function() {
                          origTransform[1] = this.transform().local;
+                         },function() {
+                         if (lines[1].attr("opacity")==0) {
+                            t = new Snap.Matrix();
+                            t.translate(0,0);
+                            ampMeter.transform(t);
+                            message("Амперметърът е сложен, където трябва.")
+                            ampMeterReady++, this.undrag();
+                            }
                          });
             }
          // checks if the battery is in the right place
          if (batteryReady==0) {
-            line3.attr({opacity:1});
+            lines[2].attr({opacity:1});
             t = new Snap.Matrix();
             t.translate(717,118);
             battery.transform(t);
             battery.drag(function (dx, dy, posx, posy) {
                         var curTransform=Snap.parseTransformString(origTransform[2])[0];
                         if (hitCheck(2,curTransform,this,dx,dy)==1) return ;
-                        if ((curTransform[1]+dx)*(curTransform[1]+dx)+(curTransform[2]+dy)*(curTransform[2]+dy)<=4000) line3.animate({opacity:0},200);
-                        else line3.animate({opacity:1},200);
-                        if ((Math.abs(curTransform[1]+dx)<6)&&
-                            (Math.abs(curTransform[2]+dy)<6)) alert("Bravo!"), batteryReady++, this.undrag();
+                        if ((curTransform[1]+dx)*(curTransform[1]+dx)+(curTransform[2]+dy)*(curTransform[2]+dy)<=8000) lines[2].attr({opacity:0});
+                        else lines[2].attr({opacity:1});
+                        if ((Math.abs(curTransform[1]+dx)<3)&&
+                            (Math.abs(curTransform[2]+dy)<30)) message("Най-важната част на веригата (батерията) е на правилното място. Браво!"), batteryReady++, this.undrag();
                         },function() {
                         origTransform[2] = this.transform().local;
+                        },function() {
+                        if (lines[2].attr("opacity")==0) {
+                           t = new Snap.Matrix();
+                           t.translate(0,0);
+                           battery.transform(t);
+                           message("Най-важната част на веригата (батерията) е на правилното място. Браво!");
+                           batteryReady++, this.undrag();
+                           }
                         });
             }
          t = new Snap.Matrix();
@@ -177,97 +228,144 @@ function work () {
                        origTransform[7] = this.transform().local;
                        });
 }
+function flash () {
+         light.animate({opacity:0.5},200,mina.linear,function() {
+                      light.animate({opacity:1},200);
+                      });
+         setTimeout(function(){
+                    flash();
+                    },500);
+}
+function on () {
+         for (i=0; i<things.length; i++) {
+             things[i].undrag();
+             }
+         light.animate({opacity:1},1500);
+         bulbWireColor.animate({fill:"orangered"},1500);
+         setTimeout(function(){
+                   textAmpMeter.attr({opacity: 1});
+                   voltSign.attr({opacity: 1});
+                   input.css({top: 183, left: 1115});
+                   buttonCheck.parent().css({top: 300, left: 1050});
+                   buttonHelp.parent().css({top: 300, left: 800});
+                   flash();
+                   },1600);
+         for (i=3; i<lines.length; i++) {
+             lines[i].remove();
+             }
+         for (i=0; i<things.length; i++) {
+             if ((things[i]==bulb)||(things[i]==ampMeter)||(things[i]==battery)) continue;
+             things[i].remove();
+             }
+         buttonReset.remove();
+         buttonRestart.remove();
+         buttonOn.remove();
+}
 
-var line1=s.line(318.8,79,348.2,79);
-line1.attr({stroke:"black", strokeWidth:4});
-var line2=s.line(40,166,40,272);
-line2.attr({stroke:"black", strokeWidth:4});
-var line3=s.line(292,360,372,360);
-line3.attr({stroke:"black", strokeWidth:4});
+formula.attr({"font-size": 25, "font-weight": "bold", id: "formula"});
+formula.attr({opacity: 0});
+voltSign.attr({"font-size": 25, "font-weight": "bold", id: "voltSign"})
+voltSign.attr({opacity:0});
+textAmpMeter.attr({"font-size":20, id:"textAmpMeter"});
+
+lines[0]=s.line(318.8,79,348.2,79);
+lines[0].attr({stroke:"black", strokeWidth:4});
+lines[1]=s.line(40,166,40,272);
+lines[1].attr({stroke:"black", strokeWidth:4});
+lines[2]=s.line(292,360,372,360);
+lines[2].attr({stroke:"black", strokeWidth:4});
 
 // makes horizontal lines for the 3x3 grid
-var line4=s.line(698,100,1122,100);
-line4.attr({stroke:"black", strokeWidth:4});
-var line5=s.line(700,240,1122,240);
-line5.attr({stroke:"black", strokeWidth:4});
-var line6=s.line(700,380,1122,380);
-line6.attr({stroke:"black", strokeWidth:4});
-var line7=s.line(698,520,1122,520);
-line7.attr({stroke:"black", strokeWidth:4});
+lines[3]=s.line(698,100,1122,100);
+lines[3].attr({stroke:"black", strokeWidth:4});
+lines[4]=s.line(700,240,1122,240);
+lines[4].attr({stroke:"black", strokeWidth:4});
+lines[5]=s.line(700,380,1122,380);
+lines[5].attr({stroke:"black", strokeWidth:4});
+lines[6]=s.line(698,520,1122,520);
+lines[6].attr({stroke:"black", strokeWidth:4});
 
 // makes vertical lines for the 3x3 grid
-var line8=s.line(700,100,700,520);
-line8.attr({stroke:"black", strokeWidth:4});
-var line9=s.line(840,100,840,520);
-line9.attr({stroke:"black", strokeWidth:4});
-var line10=s.line(980,100,980,520);
-line10.attr({stroke:"black", strokeWidth:4});
-var line11=s.line(1120,100,1120,520);
-line11.attr({stroke:"black", strokeWidth:4});
+lines[7]=s.line(700,100,700,520);
+lines[7].attr({stroke:"black", strokeWidth:4});
+lines[8]=s.line(840,100,840,520);
+lines[8].attr({stroke:"black", strokeWidth:4});
+lines[9]=s.line(980,100,980,520);
+lines[9].attr({stroke:"black", strokeWidth:4});
+lines[10]=s.line(1120,100,1120,520);
+lines[10].attr({stroke:"black", strokeWidth:4});
 
-// makes a reset button
-var rect1=s.rect(860,400,100,100);
-var text1=s.text(890,452,"reset");
-var buttonReset=s.group(rect1,text1);
-rect1.attr({stroke:"black", strokeWidth:1, fill:"white"});
-text1.attr({"font-size":20, "id": "reset"});
-buttonReset.node.onclick = function () {
-           work();
-}
-// makes a button to start the electrical circuit
-var rect2=s.rect(400,400,100,100);
-var text2=s.text(436,452,"tok");
-var buttonElCur=s.group(rect2,text2);
-rect2.attr({stroke:"black", strokeWidth:1, fill:"white"});
-text2.attr({"font-size":20, "id": "tok"});
-// flag1 shows if the restart button can be used, flag2 if the battery will blow and flag3 - if the reset button can be used
-var flag1=0,flag2=0,flag3=0;
-buttonElCur.node.onclick = function () {
-            if (batteryReady==0) {
-               alert('No battery!');
-               return ;
-               }
-            if (bulbReady==0) {
-               if (flag2!=0) return 0;
-               flag2++;
-               batteryComp[0].animate({fill:"red"},1500);
-               batteryComp[1].animate({fill:"red"},1500);
-               for (i=0; i<things.length; i++) {
-                   things[i].undrag();
-                   }
-               setTimeout(function() {
-                         rect3.attr({opacity:1});
-                         text3.attr({opacity:1});
-                         flag1++;
-                         },1600);
-               return ;
-               }
-            if (ampMeterReady==0) return ;
-            flag3++;
-            for (i=0; i<things.length; i++) {
-                things[i].undrag();
-                }
-            light.animate({opacity:1},1500);
-            bulbWire.animate({fill:"orangered"},1500);
-            setTimeout(function(){
-                      textAmpMeter.attr({opacity:1});
-                      },1600);
-}
-// makes a restart button
-var rect3=s.rect(180,400,100,100);
-var text3=s.text(205,452,"restart");
-var buttonRestart=s.group(rect3,text3);
-rect3.attr({stroke:"black", strokeWidth:1, fill:"white"});
-text3.attr({"font-size":20, "id": "restart"});
-rect3.attr({opacity:0});
-text3.attr({opacity:0});
-buttonRestart.node.onclick = function () {
-              if (flag1==0) return ;
-              bulbReady=batteryReady=ampMeterReady=0;
-              rect3.attr({opacity:0});
-              text3.attr({opacity:0});
-              flag1=0; flag2=0;
-              batteryComp[0].attr({fill:"#C5E1A5"});
-              batteryComp[1].attr({fill:"#DEDEDE"});
-              work();
-}
+$(document).ready(function() {
+                 // controls the buttons made with materialize
+                 buttonReset=$('#reset');
+                 buttonReset.on('click',function(){
+                               work();
+                               });
+                 buttonReset.parent().css({top: 400, left: 860});
+                 buttonOn=$('#on');
+                 buttonOn.on('click',function() {
+                            if (batteryReady==0) {
+                               message('Батерията не е поставена във веригата и ток не може да протече!');
+                               return ;
+                               }
+                            if (bulbReady==0) {
+                               if (flag2!=0) return 0;
+                               flag2++;
+                               batteryComp[0].animate({fill:"red"},1500);
+                               batteryComp[1].animate({fill:"red"},1500);
+                               batteryComp[2].animate({fill:"red"},1500);
+                               for (i=0; i<things.length; i++) {
+                                   things[i].undrag();
+                                   }
+                               setTimeout(function() {
+                                         $("#canvas").css({left: 150, top: -305});
+                                         message('Упс, това е неприятно. :( Батерията беше свързана без консуматор (на електричен ток). Тогава се казва, че е свързана на късо. Отделя се голям заряд и батерията изгаря дори понякога може да се взриви. Рестартирай нивото с бутона РЕСТАРТ.');
+                                         buttonRestart.parent().css({top: 400, left: 55});
+                                         flag1++;
+                                         },1600);
+                               return ;
+                               }
+                            if (ampMeterReady==0) return ;
+                               flag3++;
+                               on();
+                            });
+                 buttonOn.parent().css({top: 400, left: 500});
+                 buttonRestart=$('#restart');
+                 buttonRestart.on('click',function() {
+                                 if (flag1==0) return ;
+                                 bulbReady=batteryReady=ampMeterReady=0;
+                                 flag1=0; flag2=0;
+                                 batteryComp[2].attr({fill:"#C5E1A5"});
+                                 batteryComp[1].attr({fill:"#FFFFFF"});
+                                 batteryComp[0].attr({fill:"#DEDEDE"});
+                                 $("#canvas").css({left: -1000});
+                                 buttonRestart.parent().css({top: -1000, left: -1000});                
+                                 work();
+                                 });
+                 buttonRestart.parent().css({top: -1000, left: -1000});
+                 input=$(".input-field");
+                 input.css({top: -1000, left: -1000});
+                 buttonCheck=$('#check');
+                 buttonCheck.parent().css({top:-1000, left: -1000});
+                 buttonCheck.on('click',function() {
+                               if ($("#ans").val()==="12") {
+                                  $("#ans").prop('disabled','true');
+                                  message('Браво :)! Батерията е с 12 V напрежение.');
+                                  buttonHelp.remove(); this.remove();
+                                  }
+                               else { if ($("#ans").val()==="") message('Не си написал отговора.');
+                                      else message('Имаш грешка. Пробвай пак.'); }
+                               });
+                 buttonHelp=$('#help');
+                 buttonHelp.parent().css({top:-1000, left: -1000});
+                 buttonHelp.on('click',function() {
+                              formula.attr({opacity: 1});
+                              this.remove();
+                              });
+                 buttonStatement=$("#statement");
+                 buttonStatement.parent().css({top:20, left: 600});
+                 buttonStatement.on('click',function() {
+                                   message('Имаш на разположение уредите в мрежата. Целта е да съставиш електрическа верига с някои от предметите, така че да откриеш неизвестното напрежение на батерията. Това, което знаеш е, че лампата е с 6 Ω съпротивление. Когато отидеш до някой уред излиза екранно пояснение какво е наименованието му. Можеш да влачиш всички уреди и ако си хванал правилен, то когато минеш с него близо до мястото, което трябва да заеме във веригата, ще се отвори отвор, където трябва да го поставиш. Когато уреда е поставен както трябва, ще излезе съобщение и повече няма да можеш да го влачиш. Успех!');
+                                   });
+                 loadSvgs();
+});

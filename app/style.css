@@ -1,4 +1,4 @@
-#A, #V, #reset, #tok {
+#A, #V, #textAmpMeter, #formula, #voltSign {
     -webkit-touch-callout: none;
     -webkit-user-select:none;
     -khtml-user-select:none;
@@ -8,3 +8,19 @@
     user-select:none;
     cursor: default;
 }
+.btn-wrapperReset, .btn-wrapperOn, .btn-wrapperRestart, .input-field, .btn-wrapperHelp, .btn-wrapperCheck, .btn-wrapperStatement {
+    position: absolute;
+}
+#reset, #on, #restart, #help, #check {
+    line-height: 30px;
+}
+canvas {
+    position:absolute;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    left: -1000px;
+}
+img{display:none;}
