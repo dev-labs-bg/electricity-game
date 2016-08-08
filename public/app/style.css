@@ -8,7 +8,7 @@
     user-select:none;
     cursor: default;
 }
-.btn-wrapperReset, .btn-wrapperOn, .btn-wrapperRestart, .input-field, .btn-wrapperHelp, .btn-wrapperCheck, .btn-wrapperStatement {
+.btn-wrapperReset, .btn-wrapperOn, .btn-wrapperRestart, .input-field, .btn-wrapperHelp, .btn-wrapperCheck, .btn-wrapperStatement, .button-collapse {
     position: absolute;
 }
 #reset, #on, #restart, #help, #check {
