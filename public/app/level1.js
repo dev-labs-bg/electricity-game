@@ -136,7 +136,7 @@ function initLvl1() {
                          things[i].undrag();
                          }
                      timeOutBlow = setTimeout(function() {
-                                             $("#canvas").css({left: 150, top: -305});
+                                             $("#canvas").css({left: battery.getBBox().x-$("#canvas").innerWidth()/2+(Math.random()*100)%30, top: battery.getBBox().y-$("#canvas").innerHeight()+20+(Math.random()*100)%30});
                                              message('Упс, това е неприятно. :( Батерията беше свързана без консуматор (на електричен ток). Тогава се казва, че е свързана на късо. Отделя се голям заряд и батерията изгаря дори понякога може да се взриви. Рестартирай нивото с бутона РЕСТАРТ.');
                                              buttonRestart.parent().css({top: 400, left: 55});
                                              flag1++;
