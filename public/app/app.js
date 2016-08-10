@@ -26,13 +26,13 @@ function removeBtn (btn) {
 // s contains the drawing surface of Snap
 var s;
 // buttons
-var buttonReset,buttonOn,buttonRestart,buttonCheck,buttonHelp,buttonStatement;
+var buttonReset,buttonElCur,buttonRestart,buttonCheck,buttonHelp,buttonStatement;
 // input box for level1
 var inputLvl1;
 
 $(document).ready(function() {
                  // finding html for buttons of level 1
-                 buttonReset=$('#reset'); buttonOn=$('#on');
+                 buttonReset=$('#reset'); buttonElCur=$('#on');
                  buttonRestart=$('#restart'); buttonCheck=$('#check');
                  buttonHelp=$('#help'); buttonStatement=$("#statement");
                  // finding html for input box for level1
@@ -42,7 +42,6 @@ $(document).ready(function() {
                  $(".button-collapse").css({top:0, left:0});
     
                  $(".level1").hide();
-                 
 });
 
 function menu (level) {
