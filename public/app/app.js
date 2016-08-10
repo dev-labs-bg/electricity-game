@@ -42,6 +42,7 @@ $(document).ready(function() {
                  $(".button-collapse").css({top:0, left:0});
     
                  $(".level1").hide();
+                 
 });
 
 function menu (level) {
