@@ -6,6 +6,13 @@ var origCoord=[5];
 var selName1,selName2;
 // flags if the animations have finished
 var flag1,flag2;
+var a=[8],val,used=[8],electricalCurrent=[8];
+for (var i=0; i<8; i++) {
+    a[i]=[0,0,0,0,0,0,0,0];
+    }
+a[3][5]=a[5][3]=1;
+a[3][4]=a[4][3]=1;
+a[1][2]=1;
 
 function initLvl2 () {
          // load snap for level1
@@ -69,6 +76,7 @@ function workLvl2 () {
 }
 
 function mirrorX () {
+         // function for mirror flipping a switch
          if ((flag1!=0)||(flag2!=0)) return ;
          var index;
          for (var i=0; i<8; i++) {
@@ -89,6 +97,45 @@ function mirrorX () {
          flag2++;
          switches[index].animate({transform: t},300,mina.linear,function() {flag2=0});
          stateSwitches[index]++; stateSwitches[index]%=2;
+         if (index==0) a[2][4]=a[4][2]=stateSwitches[index];
+         else if ((index==1)||(index==5)) {
+                 if (stateSwitches[index]==1) val=1;
+                 else val=-1;
+                 a[5][6]+=val;
+                 }
+         else if (index==2) a[4][7]=stateSwitches[index];
+         else if (index==3) a[2][3]=stateSwitches[index];
+         else if (index==4) a[1][5]=stateSwitches[index];
+         else if (index==6) a[6][7]=stateSwitches[index];
+         else a[0][1]=a[1][0]=stateSwitches[index];
+         for (var i=0; i<8; i++) {
+             used[i]=[0,0,0,0,0,0,0,0]; electricalCurrent[i]=0;
+             }
+         dfs(0);
+         if ((electricalCurrent[1]==1)&&(electricalCurrent[5]==1)&&(stateSwitches[4]==1)) bulbsComp[0][0].attr({opacity:1});
+         else bulbsComp[0][0].attr({opacity:0});
+         if ((electricalCurrent[2]==1)&&(electricalCurrent[3]==1)&&(stateSwitches[3]==1)) bulbsComp[1][0].attr({opacity:1});
+         else bulbsComp[1][0].attr({opacity:0});
+         if ((electricalCurrent[2]==1)&&(electricalCurrent[4]==1)&&(stateSwitches[0]==1)) bulbsComp[2][0].attr({opacity:1});
+         else bulbsComp[2][0].attr({opacity:0});
+         if ((electricalCurrent[4]==1)&&(electricalCurrent[7]==1)&&(stateSwitches[2]==1)) bulbsComp[3][0].attr({opacity:1});
+         else bulbsComp[3][0].attr({opacity:0});
+         if ((electricalCurrent[3]==1)&&(electricalCurrent[6]==1)&&(stateSwitches[1]==1)&&(stateSwitches[5]==0)) bulbsComp[4][0].attr({opacity:1});
+         else bulbsComp[4][0].attr({opacity:0});
+}
+
+function dfs (vr) { //console.log(vr);
+         if (vr==7) {
+            electricalCurrent[7]=1; return ;
+            }
+         for (var i=0; i<8; i++) {
+             if (a[vr][i]==0) continue;
+             if (used[vr][i]==0) {
+                used[vr][i]=1;
+                dfs(i);
+                }
+             if (electricalCurrent[i]==1) electricalCurrent[vr]=1;
+             }
 }
 
 function removeLvl2 () {
