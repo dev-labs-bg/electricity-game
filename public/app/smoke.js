@@ -112,12 +112,6 @@ render();
 // save off the original image for colorizing
 var origImage = smokeImage;
 
-window.onresize = resizeMe;
-window.onload = resizeMe;
-
-function resizeMe() {
-  canvas.height = document.body.offsetHeight;
-}
 
 function changeColor() {
   var tCanvas = document.createElement("canvas"),

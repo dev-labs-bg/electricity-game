@@ -41,11 +41,12 @@ $(document).ready(function() {
                  $(".button-collapse").sideNav();
                  $(".button-collapse").css({top:0, left:0});
     
-                 $(".level1").hide();
+                 $(".level1").hide(); $(".level2").hide();
 });
 
 function menu (level) {
          // function managing levels of the electricity-game
-         removeLvl1();
+         removeLvl1(); removeLvl2();
          if (level==1) initLvl1();
+         if (level==2) initLvl2();
 }

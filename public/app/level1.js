@@ -12,8 +12,8 @@ var prev,origTransform;
 var groupBottom,wires,lines;
 // things - array containing all objects and buttons - array containing all buttons
 var things,buttons;
-// flag1 shows if the restart button can be used, flag2 if the battery will blow and flag3 - if the reset button can be used
-var flag1,flag2,flag3;
+// flag1 shows if the restart button can be used, flag2 if the battery will blow, flag3 - if the reset button can be used and flag4 - if the next stage is on
+var flag1,flag2,flag3,flag4;
 // variables for removing timeOuts
 var timeOutBlink,timeOutBlow,timeOutLight;
 
@@ -25,7 +25,7 @@ function initLvl1() {
     
     // default values for variables
     bulbReady=0,ampMeterReady=0,batteryReady=0,electricalCur=0;
-    flag1=0; flag2=0; flag3=0;
+    flag1=0; flag2=0; flag3=0; flag4=0;
     prev=[]; origTransform=[]; lines=[];
     
     // text and attributes for svg textboxes
@@ -107,7 +107,7 @@ function initLvl1() {
                                        curCoord=[bulb.getBBox().x,bulb.getBBox().y];
                                        things=[bulb,ampMeter,battery,toaster,microwave,fridge,blender,voltMeter];
                                        buttons=[buttonReset.parent(),buttonElCur.parent()];
-                                       work();
+                                       workLvl1();
                               });
                      });
              });
@@ -116,7 +116,7 @@ function initLvl1() {
     // makes handlers and css atrributes for the buttons made with materialize
     buttonReset.parent().css({top: 400, left: 860});
     buttonReset.on('click',function(){
-                  work();
+                  workLvl1();
                   });
     
     buttonElCur.parent().css({top: 400, left: 500});
@@ -158,7 +158,7 @@ function initLvl1() {
                     batteryComp[0].attr({fill:"#DEDEDE"});
                     $("#canvas").css({left: -1000});
                     buttonRestart.parent().css({top: -1000, left: -1000});                
-                    work();
+                    workLvl1();
                     });
     
     buttonCheck.parent().css({top:-1000, left: -1000});
@@ -215,7 +215,7 @@ function findIndex (obj) {
              }
 }
 
-function work () {
+function workLvl1 () {
          // if flag3 is 1, then all the light bulb, the ampere meter and the battery are on the right place and this function won't be excuted
          if (flag3!=0) return ;
           
@@ -328,6 +328,7 @@ function work () {
 
 function blink () {
          // animation for the blinking of the light of the light bulb
+         if (flag4==0) return ;
          light.animate({opacity:0.5},200,mina.linear,function() {
                       light.animate({opacity:1},200);
                       });
@@ -338,6 +339,7 @@ function blink () {
 
 function electricCurrent () {
          // next stage of the level when all the light bulb, the ampere meter and the battery are on the right place
+         flag4++;
          for (var i=0; i<things.length; i++) {
              things[i].undrag();
              }
