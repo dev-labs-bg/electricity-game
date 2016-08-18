@@ -6,13 +6,10 @@ var origCoord=[5];
 var selName1,selName2;
 // flags if the animations have finished
 var flag1,flag2;
-var a=[8],val,used=[8],electricalCurrent=[8];
-for (var i=0; i<8; i++) {
-    a[i]=[0,0,0,0,0,0,0,0];
-    }
-a[3][5]=a[5][3]=1;
-a[3][4]=a[4][3]=1;
-a[1][2]=1;
+// making adjecent matrix a for the graph with the points connecting wire
+var a=[8];
+// array used for the dfs function and an array if electrical current passes through a point
+var used=[8],electricalCurrent=[8];
 
 function initLvl2 () {
          // load snap for level1
@@ -25,6 +22,15 @@ function initLvl2 () {
              stateSwitches[i]=0;
              }
          flag1=flag2=0;
+    
+         // setting matrix with initial values
+         for (var i=0; i<8; i++) {
+             a[i]=[0,0,0,0,0,0,0,0];
+             }
+         // points connecting wire without a switch have an edge
+         a[3][5]=a[5][3]=1;
+         a[3][4]=a[4][3]=1;
+         a[1][2]=1;
     
          // loading objects from svgs for level 2
          Snap.load("app/scheme2.svg",function(data) {
@@ -96,7 +102,10 @@ function mirrorX () {
                 switchesComp[index][1].animate({fill: "red"},300,mina.linear,function() {flag1=0}); }
          flag2++;
          switches[index].animate({transform: t},300,mina.linear,function() {flag2=0});
+         // changing state of the current switch
          stateSwitches[index]++; stateSwitches[index]%=2;
+        
+         // adding or removing edges according to the pressed switch
          if (index==0) a[2][4]=a[4][2]=stateSwitches[index];
          else if ((index==1)||(index==5)) {
                  if (stateSwitches[index]==1) val=1;
@@ -108,24 +117,31 @@ function mirrorX () {
          else if (index==4) a[1][5]=stateSwitches[index];
          else if (index==6) a[6][7]=stateSwitches[index];
          else a[0][1]=a[1][0]=stateSwitches[index];
+    
+         // setting initial values to used and electricalCurrent
          for (var i=0; i<8; i++) {
              used[i]=[0,0,0,0,0,0,0,0]; electricalCurrent[i]=0;
              }
+         // making dfs to find through whick points may pass electrical current in the circuit
          dfs(0);
-         if ((electricalCurrent[1]==1)&&(electricalCurrent[5]==1)&&(stateSwitches[4]==1)) bulbsComp[0][0].attr({opacity:1});
-         else bulbsComp[0][0].attr({opacity:0});
-         if ((electricalCurrent[2]==1)&&(electricalCurrent[3]==1)&&(stateSwitches[3]==1)) bulbsComp[1][0].attr({opacity:1});
-         else bulbsComp[1][0].attr({opacity:0});
-         if ((electricalCurrent[2]==1)&&(electricalCurrent[4]==1)&&(stateSwitches[0]==1)) bulbsComp[2][0].attr({opacity:1});
-         else bulbsComp[2][0].attr({opacity:0});
-         if ((electricalCurrent[4]==1)&&(electricalCurrent[7]==1)&&(stateSwitches[2]==1)) bulbsComp[3][0].attr({opacity:1});
-         else bulbsComp[3][0].attr({opacity:0});
-         if ((electricalCurrent[3]==1)&&(electricalCurrent[6]==1)&&(stateSwitches[1]==1)&&(stateSwitches[5]==0)) bulbsComp[4][0].attr({opacity:1});
-         else bulbsComp[4][0].attr({opacity:0});
+    
+         // if through the points connecting wire with light bulb passes electrical current and the switch is on, than the light bulb should turn on, otherwise - off
+         if ((electricalCurrent[1]==1)&&(electricalCurrent[5]==1)&&(stateSwitches[4]==1)) turnOn(bulbsComp[0][0],bulbsComp[0][2],250,blink.bind(this,bulbsComp[0][0],bulbsComp[0][2]));
+         else turnOff(bulbsComp[0][0],bulbsComp[0][2],250);
+         if ((electricalCurrent[2]==1)&&(electricalCurrent[3]==1)&&(stateSwitches[3]==1)) turnOn(bulbsComp[1][0],bulbsComp[1][2],250,blink.bind(this,bulbsComp[1][0],bulbsComp[1][2]));
+         else turnOff(bulbsComp[1][0],bulbsComp[1][2],250);
+         if ((electricalCurrent[2]==1)&&(electricalCurrent[4]==1)&&(stateSwitches[0]==1)) turnOn(bulbsComp[2][0],bulbsComp[2][2],250,blink.bind(this,bulbsComp[2][0],bulbsComp[2][2]));
+         else turnOff(bulbsComp[2][0],bulbsComp[2][2],250);
+         if ((electricalCurrent[4]==1)&&(electricalCurrent[7]==1)&&(stateSwitches[2]==1)) turnOn(bulbsComp[3][0],bulbsComp[3][2],250,blink.bind(this,bulbsComp[3][0],bulbsComp[3][2]));
+         else turnOff(bulbsComp[3][0],bulbsComp[3][2],250);
+         // this light bulb is special because if through the wire without light bulb passes electrical current because of the 0 resistance, electrical current won't pass through the light bulb
+         if ((electricalCurrent[3]==1)&&(electricalCurrent[6]==1)&&(stateSwitches[1]==1)&&(stateSwitches[5]==0)) turnOn(bulbsComp[4][0],bulbsComp[4][2],250,blink.bind(this,bulbsComp[4][0],bulbsComp[4][2]));
+         else turnOff(bulbsComp[4][0],bulbsComp[4][2],250);
 }
 
-function dfs (vr) { //console.log(vr);
+function dfs (vr) {
          if (vr==7) {
+            // if there is a path to the battery than there is electrical current in the circuit
             electricalCurrent[7]=1; return ;
             }
          for (var i=0; i<8; i++) {
@@ -134,6 +150,7 @@ function dfs (vr) { //console.log(vr);
                 used[vr][i]=1;
                 dfs(i);
                 }
+             // if electrical current passes through point i than is may pass through current point
              if (electricalCurrent[i]==1) electricalCurrent[vr]=1;
              }
 }

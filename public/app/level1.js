@@ -12,10 +12,10 @@ var prev,origTransform;
 var groupBottom,wires,lines;
 // things - array containing all objects and buttons - array containing all buttons
 var things,buttons;
-// flag1 shows if the restart button can be used, flag2 if the battery will blow, flag3 - if the reset button can be used and flag4 - if the next stage is on
-var flag1,flag2,flag3,flag4;
+// flag1 shows if the restart button can be used, flag2 if the battery will blow and flag3 - if the reset button can be used
+var flag1,flag2,flag3;
 // variables for removing timeOuts
-var timeOutBlink,timeOutBlow,timeOutLight;
+var timeOutBlow,timeOutLight;
 
 function initLvl1() {
     // load snap for level1
@@ -25,7 +25,7 @@ function initLvl1() {
     
     // default values for variables
     bulbReady=0,ampMeterReady=0,batteryReady=0,electricalCur=0;
-    flag1=0; flag2=0; flag3=0; flag4=0;
+    flag1=0; flag2=0; flag3=0;
     prev=[]; origTransform=[]; lines=[];
     
     // text and attributes for svg textboxes
@@ -326,26 +326,12 @@ function workLvl1 () {
              }
 }
 
-function blink () {
-         // animation for the blinking of the light of the light bulb
-         if (flag4==0) return ;
-         light.animate({opacity:0.5},200,mina.linear,function() {
-                      light.animate({opacity:1},200);
-                      });
-         timeOutBlink = setTimeout(function(){
-                                  blink();
-                                  },500);
-}
-
 function electricCurrent () {
          // next stage of the level when all the light bulb, the ampere meter and the battery are on the right place
-         flag4++;
          for (var i=0; i<things.length; i++) {
              things[i].undrag();
              }
-         // makes animation for the light-bulb to flash
-         light.animate({opacity:1},1500);
-         bulbWireColor.animate({fill:"orangered"},1500);    
+         turnOn(light,bulbWireColor,1500);
          timeOutLight = setTimeout(function(){
                                   // show textboxes and buttons after finishing animation
                                   textAmpMeter.attr({opacity: 1});
@@ -355,7 +341,7 @@ function electricCurrent () {
                                   buttonHelp.parent().css({top: 300, left: 800});
 
                                   // starts the looping blink animation
-                                  blink();
+                                  blink(light,bulbWireColor);
                         },1600);
 
          // removing the 3x3 grid
@@ -377,7 +363,6 @@ function electricCurrent () {
 function removeLvl1 () {
          $("#canvas").css({left: -1000});
          if ((light!==undefined)&&(light!==null)) light.remove();
-         if ((timeOutBlink!==undefined)&&(timeOutBlink!==null)) clearTimeout(timeOutBlink);
          if ((timeOutBlow!==undefined)&&(timeOutBlow!==null)) clearTimeout(timeOutBlow);
          if ((timeOutLight!==undefined)&&(timeOutLight!==null)) clearTimeout(timeOutLight);
          if ((s!==undefined)&&(s!==null)) s.clear();

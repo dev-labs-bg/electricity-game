@@ -12,15 +12,43 @@ function hitTestBtn (obj1, obj2) {
             }
          return true;
 }
+
 function message (text) {
          // function opening modal with message: text
          $("#pText").text(text);
          $(".modal").openModal();
 }
+
 function removeBtn (btn) {
          // function for removing handlers of button and making him disappear from the screen
          btn.parent().css({top:-1000, left:-1000});
          btn.off();
+}
+
+function blink (light, wireColor) {
+         // animation for the blinking of the light of the light bulb
+         
+         // rgb(255,69,0) - orangered color
+         if (wireColor.attr("fill")!="rgb(255, 69, 0)") {
+            //console.log(((obj!=undefined)&&(obj!=null)));
+            if ((light!=undefined)&&(light!=null)) turnOff(light,wireColor,0);
+            return ;
+            }
+         light.animate({opacity:0.5},200,mina.linear,function() {
+                      light.animate({opacity:1},200);
+                      });
+         setTimeout(function(){ blink(light,wireColor);},450);
+}
+
+function turnOn (light, wireColor, time, func) {
+         // makes animation for the light-bulb to flash
+         light.animate({opacity:1},time,func);
+         wireColor.animate({fill:"orangered"},time);
+}
+function turnOff (light, wireColor, time, func) {
+         // makes animation for the light-bulb to stop flashing
+         light.animate({opacity:0},time);
+         wireColor.animate({fill:"grey"},time);
 }
 
 // s contains the drawing surface of Snap
