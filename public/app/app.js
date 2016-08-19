@@ -63,6 +63,7 @@ $(document).ready(function() {
                  buttonReset=$('#reset'); buttonElCur=$('#on');
                  buttonRestart=$('#restart'); buttonCheck=$('#check');
                  buttonHelp=$('#help'); buttonStatement=$("#statement");
+                 removeBtn(buttonStatement);
                  // finding html for input box for level1
                  inputLvl1=$(".input-field");
                  // the menu
