@@ -78,4 +78,5 @@ function menu (level) {
          removeLvl1(); removeLvl2();
          if (level==1) initLvl1();
          if (level==2) initLvl2();
+         $('.button-collapse').sideNav('hide');
 }

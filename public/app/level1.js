@@ -18,174 +18,187 @@ var flag1,flag2,flag3;
 var timeOutBlow,timeOutLight;
 
 function initLvl1() {
-    // load snap for level1
-    s=Snap(".level1 .circuit");
+         // load snap for level1
+         s=Snap(".level1 .circuit");
     
-    $(".level1").show();
+         $(".level1").show();
     
-    // default values for variables
-    bulbReady=0,ampMeterReady=0,batteryReady=0,electricalCur=0;
-    flag1=0; flag2=0; flag3=0;
-    prev=[]; origTransform=[]; lines=[];
+         // default values for variables
+         bulbReady=0,ampMeterReady=0,batteryReady=0,electricalCur=0;
+         flag1=0; flag2=0; flag3=0;
+         prev=[]; origTransform=[]; lines=[];
     
-    // text and attributes for svg textboxes
-    textAmpMeter=s.text(25,195,"2 A");
-    textAmpMeter.attr({"font-size":20, id:"textAmpMeter"});
-    
-    formula=s.text(640,230,"Закон на Ом: I=U/R => U=R.I=(6 Ω)*(2 A)=");
-    formula.attr({"font-size": 25, "font-weight": "bold", id: "formula"});
-    formula.attr({opacity: 0});
-    
-    voltSign=s.text(1250,230,"V");
-    voltSign.attr({"font-size": 25, "font-weight": "bold", id: "voltSign"})
-    voltSign.attr({opacity:0});
-    
-    // make input box undisabled and without text
-    $("#ans").prop('disabled',false);
-    $("#ans").val("");
-    $("#label").removeClass("active");
-    
-    // lines for the holes in the wires
-    lines[0]=s.line(318.8,79,348.2,79);
-    lines[0].attr({stroke:"black", strokeWidth:4});
-    lines[1]=s.line(40,166,40,272);
-    lines[1].attr({stroke:"black", strokeWidth:4});
-    lines[2]=s.line(292,360,372,360);
-    lines[2].attr({stroke:"black", strokeWidth:4});
+         initTextFieldsLvl1();
+         makeSvgLinesLvl1();
+         loadSvgsLvl1();
+         handlersBtnsLvl1();
+}
 
-    // makes horizontal lines for the 3x3 grid
-    lines[3]=s.line(698,100,1122,100);
-    lines[3].attr({stroke:"black", strokeWidth:4});
-    lines[4]=s.line(700,240,1122,240);
-    lines[4].attr({stroke:"black", strokeWidth:4});
-    lines[5]=s.line(700,380,1122,380);
-    lines[5].attr({stroke:"black", strokeWidth:4});
-    lines[6]=s.line(698,520,1122,520);
-    lines[6].attr({stroke:"black", strokeWidth:4});
+function initTextFieldsLvl1 () {
+         // text and attributes for svg textboxes
+         textAmpMeter=s.text(25,195,"2 A");
+         textAmpMeter.attr({"font-size":20, id:"textAmpMeter"});
+    
+         formula=s.text(640,230,"Закон на Ом: I=U/R => U=R.I=(6 Ω)*(2 A)=");
+         formula.attr({"font-size": 25, "font-weight": "bold", id: "formula"});
+         formula.attr({opacity: 0});
+    
+         voltSign=s.text(1250,230,"V");
+         voltSign.attr({"font-size": 25, "font-weight": "bold", id: "voltSign"})
+         voltSign.attr({opacity:0});
+    
+         // make input box undisabled and without text
+         $("#ans").prop('disabled',false);
+         $("#ans").val("");
+         $("#label").removeClass("active");
+    
+         // hides the input box
+         inputLvl1.css({top: -1000, left: -1000});
+}
+    
+function makeSvgLinesLvl1 () {
+         // lines for the holes in the wires
+         lines[0]=s.line(318.8,79,348.2,79);
+         lines[0].attr({stroke:"black", strokeWidth:4});
+         lines[1]=s.line(40,166,40,272);
+         lines[1].attr({stroke:"black", strokeWidth:4});
+         lines[2]=s.line(292,360,372,360);
+         lines[2].attr({stroke:"black", strokeWidth:4});
 
-    // makes vertical lines for the 3x3 grid
-    lines[7]=s.line(700,100,700,520);
-    lines[7].attr({stroke:"black", strokeWidth:4});
-    lines[8]=s.line(840,100,840,520);
-    lines[8].attr({stroke:"black", strokeWidth:4});
-    lines[9]=s.line(980,100,980,520);
-    lines[9].attr({stroke:"black", strokeWidth:4});
-    lines[10]=s.line(1120,100,1120,520);
-    lines[10].attr({stroke:"black", strokeWidth:4});
-    
-    // loading objects from svgs for level 1
-    Snap.load("app/scheme1.svg",function(data) {
-             wires=data.selectAll("#Path-2");
-             bulbOrig=s.group(data.select("#light-bulb"),data.select("#light-bulb"));
-             ampMeter=s.group(data.select("#Rectangle-3"),data.select("#Rectangle-4"), data.selectAll("#circles"),data.select("#ampere-meter-path"),data.select("#ampere-meter"),data.select("#A"),data.select("#Line"),textAmpMeter);
-             groupBottom=s.group(ampMeter,lines[0],lines[1],lines[2],wires);
-             batteryComp=[data.selectAll("#Rectangle-bat"),data.select("#label"),data.selectAll("#Rectangle-2")];
-             battery=s.group(batteryComp[0],batteryComp[1],batteryComp[2],data.select("#Group-11"));
-             prevCoord=[bulbOrig.getBBox().x,bulbOrig.getBBox().y];
-             groupBottom=s.group(data,lines[0],lines[1],lines[2],wires);
-             s.append(groupBottom);
-             bulbOrig.remove();
-             Snap.load("app/scheme4.svg",function(data) {
-                     // the object is groupped with itself otherwise it cannot leave the boundary of scheme4.svg
-                     toaster=s.group(data.select("#bread-toaster"),data.select("#bread-toaster"));
-                     microwave=s.group(data.select("#microwave"),data.select("#microwave"));
-                     fridge=s.group(data.select("#fridge"),data.select("#fridge"));
-                     blender=s.group(data.select("#blender"),data.select("#blender"));
-                     groupBottom=s.group(toaster,microwave,fridge,blender,lines[0],lines[1],lines[2],wires);
-                     s.append(groupBottom);
-                     Snap.load("app/voltmeter.svg",function(data) {
-                              voltMeter=s.group(data.select("#Page-1"),data.select("#Page-1"));
-                              s.append(voltMeter);
-                              Snap.load("app/lightening-bulb.svg",function(data) {
-                                       light=data.selectAll("#Combined-Shape");
-                                       bulbWire=data.select("#gWire"); bulbWireColor=data.select("#wire");
-                                       bulb=s.group(light,bulbWire,data.select("#bulb-light"));
-                                       groupBottom=s.group(bulb,lines[0],lines[1],lines[2],wires);
-                                       s.append(bulb);
-                                       light.attr({opacity:0});
-                                       bulbWireColor.attr({fill:"grey"});
-                                       curCoord=[bulb.getBBox().x,bulb.getBBox().y];
-                                       things=[bulb,ampMeter,battery,toaster,microwave,fridge,blender,voltMeter];
-                                       buttons=[buttonReset.parent(),buttonElCur.parent()];
-                                       workLvl1();
-                              });
-                     });
-             });
-    });
+         // makes horizontal lines for the 3x3 grid
+         lines[3]=s.line(698,100,1122,100);
+         lines[3].attr({stroke:"black", strokeWidth:4});
+         lines[4]=s.line(700,240,1122,240);
+         lines[4].attr({stroke:"black", strokeWidth:4});
+         lines[5]=s.line(700,380,1122,380);
+         lines[5].attr({stroke:"black", strokeWidth:4});
+         lines[6]=s.line(698,520,1122,520);
+         lines[6].attr({stroke:"black", strokeWidth:4});
 
-    // makes handlers and css atrributes for the buttons made with materialize
-    buttonReset.parent().css({top: 400, left: 860});
-    buttonReset.on('click',function(){
-                  workLvl1();
+         // makes vertical lines for the 3x3 grid
+         lines[7]=s.line(700,100,700,520);
+         lines[7].attr({stroke:"black", strokeWidth:4});
+         lines[8]=s.line(840,100,840,520);
+         lines[8].attr({stroke:"black", strokeWidth:4});
+         lines[9]=s.line(980,100,980,520);
+         lines[9].attr({stroke:"black", strokeWidth:4});
+         lines[10]=s.line(1120,100,1120,520);
+         lines[10].attr({stroke:"black", strokeWidth:4});
+}
+
+function loadSvgsLvl1 () {
+         // loading objects from svgs for level 1
+         Snap.load("app/scheme1.svg",function(data) {
+                  wires=data.selectAll("#Path-2");
+                  bulbOrig=s.group(data.select("#light-bulb"),data.select("#light-bulb"));
+                  ampMeter=s.group(data.select("#Rectangle-3"),data.select("#Rectangle-4"),  data.selectAll("#circles"),data.select("#ampere-meter-path"),data.select("#ampere-meter"),data.select("#A"),data.select("#Line"),textAmpMeter);
+                  groupBottom=s.group(ampMeter,lines[0],lines[1],lines[2],wires);
+                  batteryComp=[data.selectAll("#Rectangle-bat"),data.select("#label"),data.selectAll("#Rectangle-2")];
+                  battery=s.group(batteryComp[0],batteryComp[1],batteryComp[2],data.select("#Group-11"));
+                  prevCoord=[bulbOrig.getBBox().x,bulbOrig.getBBox().y];
+                  groupBottom=s.group(data,lines[0],lines[1],lines[2],wires);
+                  s.append(groupBottom);
+                  bulbOrig.remove();
+                  Snap.load("app/scheme4.svg",function(data) {
+                          // the object is groupped with itself otherwise it cannot leave the boundary of scheme4.svg
+                          toaster=s.group(data.select("#bread-toaster"),data.select("#bread-toaster"));
+                          microwave=s.group(data.select("#microwave"),data.select("#microwave"));
+                          fridge=s.group(data.select("#fridge"),data.select("#fridge"));
+                          blender=s.group(data.select("#blender"),data.select("#blender"));
+                          groupBottom=s.group(toaster,microwave,fridge,blender,lines[0],lines[1],lines[2],wires);
+                          s.append(groupBottom);
+                          Snap.load("app/voltmeter.svg",function(data) {
+                                   voltMeter=s.group(data.select("#Page-1"),data.select("#Page-1"));
+                                   s.append(voltMeter);
+                                   Snap.load("app/lightening-bulb.svg",function(data) {
+                                            light=data.selectAll("#Combined-Shape");
+                                            bulbWire=data.select("#gWire"); bulbWireColor=data.select("#wire");
+                                            bulb=s.group(light,bulbWire,data.select("#bulb-light"));
+                                            groupBottom=s.group(bulb,lines[0],lines[1],lines[2],wires);
+                                            s.append(bulb);
+                                            light.attr({opacity:0});
+                                            bulbWireColor.attr({fill:"grey"});
+                                            curCoord=[bulb.getBBox().x,bulb.getBBox().y];
+                                            things=[bulb,ampMeter,battery,toaster,microwave,fridge,blender,voltMeter];
+                                            buttons=[buttonReset.parent(),buttonElCur.parent()];
+                                            workLvl1();
+                                   });
+                          });
                   });
-    
-    buttonElCur.parent().css({top: 400, left: 500});
-    buttonElCur.on('click',function() {
-                  // validation for the electirical circuit
-                  if (batteryReady==0) {
-                     message('Батерията не е поставена във веригата и ток не може да протече!');
-                     return ;
-                     }
-                  if (bulbReady==0) {
-                     if (flag2!=0) return 0;
-                     flag2++;
-                     batteryComp[0].animate({fill:"red"},1500);
-                     batteryComp[1].animate({fill:"red"},1500);
-                     batteryComp[2].animate({fill:"red"},1500);
-                     for (i=0; i<things.length; i++) {
-                         things[i].undrag();
-                         }
-                     timeOutBlow = setTimeout(function() {
-                                             $("#canvas").css({left: battery.getBBox().x-$("#canvas").innerWidth()/2+(Math.random()*100)%30, top: battery.getBBox().y-$("#canvas").innerHeight()+20+(Math.random()*100)%30});
-                                             message('Упс, това е неприятно. :( Батерията беше свързана без консуматор (на електричен ток). Тогава се казва, че е свързана на късо. Отделя се голям заряд и батерията изгаря дори понякога може да се взриви. Рестартирай нивото с бутона РЕСТАРТ.');
-                                             buttonRestart.parent().css({top: 400, left: 55});
-                                             flag1++;
-                                             },1600);
-                     return ;
-                     }
-                  if (ampMeterReady==0) return ;
-                  flag3++;
-                  electricCurrent();
-                  });
-    
-    buttonRestart.parent().css({top: -1000, left: -1000});
-    buttonRestart.on('click',function() {
-                    if (flag1==0) return ;
-                    bulbReady=batteryReady=ampMeterReady=0;
-                    flag1=0; flag2=0;
-                    batteryComp[2].attr({fill:"#C5E1A5"});
-                    batteryComp[1].attr({fill:"#FFFFFF"});
-                    batteryComp[0].attr({fill:"#DEDEDE"});
-                    $("#canvas").css({left: -1000});
-                    buttonRestart.parent().css({top: -1000, left: -1000});                
-                    workLvl1();
-                    });
-    
-    buttonCheck.parent().css({top:-1000, left: -1000});
-    buttonCheck.on('click',function() {
-                  if ($("#ans").val()==="12") {
-                     $("#ans").prop('disabled',true);
-                     message('Браво :)! Батерията е с 12 V напрежение.');
-                     removeBtn(buttonHelp);
-                     removeBtn($(this));
-                     }
-                  else { if ($("#ans").val()==="") message('Не си написал отговора.');
-                         else message('Имаш грешка. Пробвай пак.'); }
-                  });
-    
-    buttonHelp.parent().css({top:-1000, left: -1000});
-    buttonHelp.on('click',function() {
-                 formula.attr({opacity: 1});
-                 removeBtn($(this));
-                 });
-    
-    buttonStatement.parent().css({top:20, left: 600});
-    buttonStatement.on('click',function() {
-                      message('Имаш на разположение уредите в мрежата. Целта е да съставиш електрическа верига с някои от предметите, така че да откриеш неизвестното напрежение на батерията. Това, което знаеш е, че лампата е с 6 Ω съпротивление. Когато отидеш до някой уред излиза екранно пояснение какво е наименованието му. Можеш да влачиш всички уреди и ако си хванал правилен, то когато минеш с него близо до мястото, което трябва да заеме във веригата, ще се отвори отвор, където трябва да го поставиш. Когато уреда е поставен както трябва, ще излезе съобщение и повече няма да можеш да го влачиш. Успех!');
+         });
+}
+
+function handlersBtnsLvl1 () {
+         // makes handlers and css atrributes for the buttons made with materialize
+         buttonReset.parent().css({top: 400, left: 860});
+         buttonReset.on('click',function(){
+                       workLvl1();
+                       });
+
+         buttonElCur.parent().css({top: 400, left: 500});
+         buttonElCur.on('click',function() {
+                       // validation for the electirical circuit
+                       if (batteryReady==0) {
+                          message('Батерията не е поставена във веригата и ток не може да протече!');
+                          return ;
+                          }
+                       if (bulbReady==0) {
+                          if (flag2!=0) return 0;
+                          flag2++;
+                          batteryComp[0].animate({fill:"red"},1500);
+                          batteryComp[1].animate({fill:"red"},1500);
+                          batteryComp[2].animate({fill:"red"},1500);
+                          for (i=0; i<things.length; i++) {
+                              things[i].undrag();
+                              }
+                          timeOutBlow = setTimeout(function() {
+                                                  $("#canvas").css({left: battery.getBBox().x-$("#canvas").innerWidth()/2+ (Math.random()*100)%30, top: battery.getBBox().y-$("#canvas").innerHeight()+20+(Math.random()*100)%30});
+                                                  message('Упс, това е неприятно. :( Батерията беше свързана без консуматор (на електричен ток). Тогава се казва, че е свързана на късо. Отделя се голям заряд и батерията изгаря дори понякога може да се взриви. Рестартирай нивото с бутона РЕСТАРТ.');
+                                                  buttonRestart.parent().css({top: 400, left: 55});
+                                                  flag1++;
+                                                  },1600);
+                          return ;
+                          }
+                       if (ampMeterReady==0) return ;
+                       flag3++;
+                       electricCurrent();
+                       });
+
+         buttonRestart.parent().css({top: -1000, left: -1000});
+         buttonRestart.on('click',function() {
+                         if (flag1==0) return ;
+                         bulbReady=batteryReady=ampMeterReady=0;
+                         flag1=0; flag2=0;
+                         batteryComp[2].attr({fill:"#C5E1A5"});
+                         batteryComp[1].attr({fill:"#FFFFFF"});
+                         batteryComp[0].attr({fill:"#DEDEDE"});
+                         $("#canvas").css({left: -1000});
+                         buttonRestart.parent().css({top: -1000, left: -1000});                
+                         workLvl1();
+                         });
+
+         buttonCheck.parent().css({top:-1000, left: -1000});
+         buttonCheck.on('click',function() {
+                       if ($("#ans").val()==="12") {
+                          $("#ans").prop('disabled',true);
+                          message('Браво :)! Батерията е с 12 V напрежение.');
+                          removeBtn(buttonHelp);
+                          removeBtn($(this));
+                          }
+                       else { if ($("#ans").val()==="") message('Не си написал отговора.');
+                              else message('Имаш грешка. Пробвай пак.'); }
+                       });
+
+         buttonHelp.parent().css({top:-1000, left: -1000});
+         buttonHelp.on('click',function() {
+                      formula.attr({opacity: 1});
+                      removeBtn($(this));
                       });
-    
-    // hides the input box
-    inputLvl1.css({top: -1000, left: -1000});
+
+         buttonStatement.parent().css({top:20, left: 600});
+         buttonStatement.on('click',function() {
+                           message('Имаш на разположение уредите в мрежата. Целта е да съставиш електрическа верига с някои от предметите, така че да откриеш неизвестното напрежение на батерията. Това, което знаеш е, че лампата е с 6 Ω съпротивление. Когато отидеш до някой уред излиза екранно пояснение какво е наименованието му. Можеш да влачиш всички уреди и ако си хванал правилен, то когато минеш с него близо до мястото, което трябва да заеме във веригата, ще се отвори отвор, където трябва да го поставиш. Когато уреда е поставен както трябва, ще излезе съобщение и повече няма да можеш да го влачиш. Успех!');
+                           });
 };
 
 function hitCheck (ind, curTransform, obj, dx, dy) {
