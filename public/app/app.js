@@ -27,7 +27,7 @@ function removeBtn (btn) {
 
 function blink (light, wireColor) {
          // animation for the blinking of the light of the light bulb
-         
+    
          // rgb(255,69,0) - orangered color
          if (wireColor.attr("fill")!="rgb(255, 69, 0)") {
             //console.log(((obj!=undefined)&&(obj!=null)));

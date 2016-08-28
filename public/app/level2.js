@@ -56,6 +56,7 @@ function initLvl2 () {
                       // initial very fast animation so that the other are normal
                       switches[i].animate({transform: t},0);
                       switchesComp[i][0].attr({fill: "white"});
+                      switches[i].attr({style: "pointer-events: bounding-box"});
                       }
                   loadLighteningBulbs(0);
                   });
@@ -73,6 +74,10 @@ function loadLighteningBulbs (index)  {
             workLvl2();
             return ;
             }
+    
+         // prevent stange bug (failed to load app/lightening-bulb.svg several times)
+         Snap.load("app/lightening-bulb.svg", function () {});
+    
          Snap.load("app/lightening-bulb.svg",function(data) {
                   bulbsComp[index]=[data.selectAll("#Combined-Shape"),data.select("#gWire"),data.select("#wire")]; bulbs[index]=s.group(bulbsComp[index][0],bulbsComp[index][1],data.select("#bulb-light"));
                   s.append(bulbs[index]);
@@ -146,16 +151,16 @@ function changeGraph (index) {
 function checkBulbs () {
          // if through the points connecting wire with light bulb passes electrical current and the switch is on, than the light bulb should turn on, otherwise - off
          flagApprBulbs=flagOtherBulbs=0;
-         if ((electricalCurrent[1]==1)&&(electricalCurrent[5]==1)&&(stateSwitches[4]==1)) turnOn(bulbsComp[0][0],bulbsComp[0][2],250,blink.bind(this,bulbsComp[0][0],bulbsComp[0][2])), flagApprBulbs++;
+         if (electricalCurrent[1]&&electricalCurrent[5]&&stateSwitches[4]) turnOn(bulbsComp[0][0],bulbsComp[0][2],250,blink.bind(this,bulbsComp[0][0],bulbsComp[0][2])), flagApprBulbs++;
          else turnOff(bulbsComp[0][0],bulbsComp[0][2],250);
-         if ((electricalCurrent[2]==1)&&(electricalCurrent[3]==1)&&(stateSwitches[3]==1)) turnOn(bulbsComp[1][0],bulbsComp[1][2],250,blink.bind(this,bulbsComp[1][0],bulbsComp[1][2])), flagOtherBulbs++;
+         if (electricalCurrent[2]&&electricalCurrent[3]&&stateSwitches[3]) turnOn(bulbsComp[1][0],bulbsComp[1][2],250,blink.bind(this,bulbsComp[1][0],bulbsComp[1][2])), flagOtherBulbs++;
          else turnOff(bulbsComp[1][0],bulbsComp[1][2],250);
-         if ((electricalCurrent[2]==1)&&(electricalCurrent[4]==1)&&(stateSwitches[0]==1)) turnOn(bulbsComp[2][0],bulbsComp[2][2],250,blink.bind(this,bulbsComp[2][0],bulbsComp[2][2])), flagOtherBulbs++;
+         if (electricalCurrent[2]&&electricalCurrent[4]&&stateSwitches[0]) turnOn(bulbsComp[2][0],bulbsComp[2][2],250,blink.bind(this,bulbsComp[2][0],bulbsComp[2][2])), flagOtherBulbs++;
          else turnOff(bulbsComp[2][0],bulbsComp[2][2],250);
          // these light bulb are special because if through the wire(s) without light bulb passes electrical current because of the 0 resistance, electrical current won't pass through the light bulbs
-         if ((electricalCurrent[4]==1)&&(electricalCurrent[7]==1)&&(stateSwitches[2]==1)&&((stateSwitches[5]==0)||(stateSwitches[6]==0))) turnOn(bulbsComp[3][0],bulbsComp[3][2],250,blink.bind(this,bulbsComp[3][0],bulbsComp[3][2])), flagOtherBulbs++;
+         if (electricalCurrent[4]&&electricalCurrent[7]&&stateSwitches[2]&&((!stateSwitches[5])||(!stateSwitches[6]))) turnOn(bulbsComp[3][0],bulbsComp[3][2],250,blink.bind(this,bulbsComp[3][0],bulbsComp[3][2])), flagOtherBulbs++;
          else turnOff(bulbsComp[3][0],bulbsComp[3][2],250);
-         if ((electricalCurrent[3]==1)&&(electricalCurrent[6]==1)&&(stateSwitches[1]==1)&&(stateSwitches[5]==0)) turnOn(bulbsComp[4][0],bulbsComp[4][2],250,blink.bind(this,bulbsComp[4][0],bulbsComp[4][2])), flagApprBulbs++;
+         if (electricalCurrent[3]&&electricalCurrent[6]&&stateSwitches[1]&&(!stateSwitches[5])) turnOn(bulbsComp[4][0],bulbsComp[4][2],250,blink.bind(this,bulbsComp[4][0],bulbsComp[4][2])), flagApprBulbs++;
          else turnOff(bulbsComp[4][0],bulbsComp[4][2],300);
          timeOutCheck = setTimeout(function() {
                                   // if the appropriate light bulbs are flashing, then the level is finished
