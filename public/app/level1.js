@@ -1,7 +1,7 @@
 // these are the objects that will be able to be dragged and some of their components
 var bulbOrig,bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,battery,light,bulbWire,batteryComp,bulbWireColor;
 // snap textfields
-var textAmpMeter,formula,voltSign;
+var textAmpMeter,formula,voltSign,textObjPosition;
 // states of the needed objects for the electric circuit
 var bulbReady,ampMeterReady,batteryReady,electricalCur;
 // coordinates of the supposed place for the bulb and curCoord - for the new initial place
@@ -44,9 +44,13 @@ function initTextFieldsLvl1 () {
          formula.attr({opacity: 0});
     
          voltSign=s.text(1250,230,"V");
-         voltSign.attr({"font-size": 25, "font-weight": "bold", id: "voltSign"})
+         voltSign.attr({"font-size": 25, "font-weight": "bold", id: "voltSign"});
          voltSign.attr({opacity:0});
     
+         textObjPosition=s.text(330,215,"Студено!");
+         textObjPosition.attr({"font-size": 25, id: "objPosition", "text-anchor": "middle"});
+         textObjPosition.attr({opacity:0});
+         
          // make input box undisabled and without text
          $("#ans").prop('disabled',false);
          $("#ans").val("");
@@ -159,7 +163,17 @@ function handlersBtnsLvl1 () {
                                                   },1600);
                           return ;
                           }
-                       if (ampMeterReady==0) return ;
+                       if (ampMeterReady==0) {
+                          if (bulbWireColor.attr("fill")!="rgb(255, 69, 0)") {
+                             turnOn(light,bulbWireColor,1500);
+                             timeOutLight = setTimeout(function() {
+                                                      // starts the looping blink animation
+                                                      blink(light,bulbWireColor);
+                                                      },1600);
+                             }
+                          message('Почти си готов :). Трябва само още едно нещо да се включи във веригата, за да може да решиш задачата.');
+                          return ;
+                          }
                        flag3++;
                        electricCurrent();
                        });
@@ -228,13 +242,32 @@ function findIndex (obj) {
              }
 }
 
+function changeColText (finx, finy, curx, cury, distRed, distOrange) {
+         // change colour of the central text field according to the distance from the object and its right place
+         var dist=(finx-curx)*(finx-curx)+(finy-cury)*(finy-cury);
+         if (dist<=distRed) {
+            textObjPosition.attr({text:"Горещо!"});
+            textObjPosition.animate({opacity:1, fill:"red"},100);
+            return ;
+            }
+         if (dist<=distOrange) {
+            textObjPosition.attr({text:"Топло!"});
+            textObjPosition.animate({opacity:1, fill:"orange"},100);
+            return ;
+            }
+         textObjPosition.attr({text:"Студено!"});
+         textObjPosition.animate({opacity:1, fill:"blue"},100);
+}
+
 function workLvl1 () {
          // if flag3 is 1, then all the light bulb, the ampere meter and the battery are on the right place and this function won't be excuted
          if (flag3!=0) return ;
           
+         // the below lines are for resetting
          for (var i=0; i<things.length; i++) {
              things[i].undrag();
              }
+         textObjPosition.attr({opacity:0});
              
          // checks if the light-bulb is in the right place
          if (bulbReady==0) {
@@ -245,12 +278,19 @@ function workLvl1 () {
             bulb.drag(function(dx, dy, posx, posy) {
                      var curTransform=Snap.parseTransformString(origTransform[0])[0];
                      if (hitCheck(0,curTransform,this,dx,dy)==1) return ;
+                     // change colour of central text field
+                     changeColText(prevCoord[0],prevCoord[1],bulb.getBBox().x,bulb.getBBox().y,6000,18000);
+                
                      // checks if the bulb is near the supposed place and makes a hole in the wire
                      if ((prevCoord[0]-bulb.getBBox().x)*(prevCoord[0]-bulb.getBBox().x)+(prevCoord[1]-bulb.getBBox().y)*(prevCoord[1]-bulb.getBBox().y)<=6000) lines[0].attr({opacity:0});
                      else lines[0].attr({opacity:1});
                      // checks if the bulb is in the right place and removes the drag handlers
                      if ((Math.abs(prevCoord[0]-bulb.getBBox().x)<3)&&
-                         (Math.abs(prevCoord[1]-bulb.getBBox().y)<3)) lines[0].attr({opacity:0}), message('Супер! :) Лампата е наместена на мястото си.'), bulbReady++, this.undrag();
+                         (Math.abs(prevCoord[1]-bulb.getBBox().y)<3)) {
+                        lines[0].attr({opacity:0}); message('Супер! :) Лампата е наместена на мястото си.');
+                        textObjPosition.stop(); textObjPosition.attr({opacity:0});
+                        bulbReady++; this.undrag();
+                        }
                      },function() {
                      origTransform[0] = this.transform().local;
                      },function() {
@@ -259,6 +299,7 @@ function workLvl1 () {
                         t.translate(prevCoord[0]-curCoord[0],prevCoord[1]-curCoord[1]);
                         bulb.transform(t);
                         message('Супер! :) Лампата е наместена на мястото си.');
+                        textObjPosition.stop(); textObjPosition.attr({opacity:0});
                         bulbReady++; this.undrag();
                         }
                      });
@@ -275,10 +316,15 @@ function workLvl1 () {
                          //analogously with the bulb handler
                          var curTransform=Snap.parseTransformString(origTransform[1])[0];
                          if (hitCheck(1,curTransform,this,dx,dy)==1) return ;
+                         changeColText(0,0,curTransform[1]+dx,curTransform[2]+dy,8000,32000);
                          if ((curTransform[1]+dx)*(curTransform[1]+dx)+(curTransform[2]+dy)*(curTransform[2]+dy)<=8000) lines[1].attr({opacity:0});
                          else lines[1].attr({opacity:1});
                          if ((Math.abs(curTransform[1]+dx)<3)&&
-                             (Math.abs(curTransform[2]+dy)<3)) message("Амперметърът е сложен, където трябва."), ampMeterReady++, this.undrag();
+                             (Math.abs(curTransform[2]+dy)<3)) {
+                            message("Амперметърът е сложен, където трябва.");
+                            textObjPosition.stop(); textObjPosition.attr({opacity:0});
+                            ampMeterReady++, this.undrag();
+                            }
                          },function() {
                          origTransform[1] = this.transform().local;
                          },function() {
@@ -286,7 +332,8 @@ function workLvl1 () {
                             t = new Snap.Matrix();
                             t.translate(0,0);
                             ampMeter.transform(t);
-                            message("Амперметърът е сложен, където трябва.")
+                            message("Амперметърът е сложен, където трябва.");
+                            textObjPosition.stop(); textObjPosition.attr({opacity:0});
                             ampMeterReady++, this.undrag();
                             }
                          });
@@ -302,10 +349,15 @@ function workLvl1 () {
                         //analogously with the bulb handler
                         var curTransform=Snap.parseTransformString(origTransform[2])[0];
                         if (hitCheck(2,curTransform,this,dx,dy)==1) return ;
+                        changeColText(0,0,curTransform[1]+dx,curTransform[2]+dy,8000,24000);
                         if ((curTransform[1]+dx)*(curTransform[1]+dx)+(curTransform[2]+dy)*(curTransform[2]+dy)<=8000) lines[2].attr({opacity:0});
                         else lines[2].attr({opacity:1});
                         if ((Math.abs(curTransform[1]+dx)<3)&&
-                            (Math.abs(curTransform[2]+dy)<30)) message("Най-важната част на веригата (батерията) е на правилното място. Браво!"), batteryReady++, this.undrag();
+                            (Math.abs(curTransform[2]+dy)<30)) {
+                           message("Най-важната част на веригата (батерията) е на правилното място. Браво!");
+                           textObjPosition.stop(); textObjPosition.attr({opacity:0});
+                           batteryReady++, this.undrag();
+                           }
                         },function() {
                         origTransform[2] = this.transform().local;
                         },function() {
@@ -314,6 +366,7 @@ function workLvl1 () {
                            t.translate(0,0);
                            battery.transform(t);
                            message("Най-важната част на веригата (батерията) е на правилното място. Браво!");
+                           textObjPosition.stop(); textObjPosition.attr({opacity:0});
                            batteryReady++, this.undrag();
                            }
                         });
@@ -332,6 +385,8 @@ function workLvl1 () {
                            var index=findIndex(this);
                            curTransform=Snap.parseTransformString(origTransform[index])[0];
                            if (hitCheck(index,curTransform,this,dx,dy)==1) return ;
+                           textObjPosition.attr({text:"Студено!"});
+                           textObjPosition.animate({opacity:1, fill:"blue"},100);
                            },function() {
                            var index=findIndex(this);
                            origTransform[index] = this.transform().local;
@@ -344,18 +399,27 @@ function electricCurrent () {
          for (var i=0; i<things.length; i++) {
              things[i].undrag();
              }
-         turnOn(light,bulbWireColor,1500);
-         timeOutLight = setTimeout(function(){
-                                  // show textboxes and buttons after finishing animation
-                                  textAmpMeter.attr({opacity: 1});
-                                  voltSign.attr({opacity: 1});
-                                  inputLvl1.css({top: 183, left: 1115});
-                                  buttonCheck.parent().css({top: 300, left: 1050});
-                                  buttonHelp.parent().css({top: 300, left: 800});
+         if (bulbWireColor.attr("fill")!="rgb(255, 69, 0)") {
+            // if the lamp isn't bright, than made it bright
+            turnOn(light,bulbWireColor,1500);
+            timeOutLight = setTimeout(function(){
+                                     // show textboxes and buttons after finishing animation
+                                     textAmpMeter.attr({opacity: 1});
+                                     voltSign.attr({opacity: 1});
+                                     inputLvl1.css({top: 183, left: 1115});
+                                     buttonCheck.parent().css({top: 300, left: 1050});
+                                     buttonHelp.parent().css({top: 300, left: 800});
 
-                                  // starts the looping blink animation
-                                  blink(light,bulbWireColor);
-                        },1600);
+                                     // starts the looping blink animation
+                                     blink(light,bulbWireColor);
+                                     },1600);
+            }
+         else { // if the lamp is already bright, than show the necessary text fields and buttons
+                textAmpMeter.attr({opacity: 1});
+                voltSign.attr({opacity: 1});
+                inputLvl1.css({top: 183, left: 1115});
+                buttonCheck.parent().css({top: 300, left: 1050});
+                buttonHelp.parent().css({top: 300, left: 800}); }
 
          // removing the 3x3 grid
          for (var i=3; i<lines.length; i++) {

@@ -30,7 +30,6 @@ function blink (light, wireColor) {
     
          // rgb(255,69,0) - orangered color
          if (wireColor.attr("fill")!="rgb(255, 69, 0)") {
-            //console.log(((obj!=undefined)&&(obj!=null)));
             if ((light!=undefined)&&(light!=null)) turnOff(light,wireColor,0);
             return ;
             }
