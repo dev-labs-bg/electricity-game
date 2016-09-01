@@ -47,7 +47,7 @@
                         <path d="M109,337 L163,337" id="Path-2" stroke-width="4" transform="translate(10.000000, 52.000000)" stroke="#000000"></path>
                         <path d="M323,416.985297 L323,456" id="Path-2" stroke-width="4" transform="translate(10.000000, 52.000000)" stroke="#000000"></path>
                     </g>
-                    <g id="Group-13" transform="translate(10.000000, 52.000000)" stroke="#000000" style="pointer-events: bounding-box">
+                    <g id="Group-13" transform="translate(10.000000, 52.000000)" stroke="#000000">
                         <g id="switch-on1" transform="translate(53.000000, 0.000000)" stroke-width="0.5" fill="#000000">
                             <title>ключ</title>
                             <g id="Capa_1">

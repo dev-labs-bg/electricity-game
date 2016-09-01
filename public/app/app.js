@@ -27,10 +27,9 @@ function removeBtn (btn) {
 
 function blink (light, wireColor) {
          // animation for the blinking of the light of the light bulb
-         
+    
          // rgb(255,69,0) - orangered color
          if (wireColor.attr("fill")!="rgb(255, 69, 0)") {
-            //console.log(((obj!=undefined)&&(obj!=null)));
             if ((light!=undefined)&&(light!=null)) turnOff(light,wireColor,0);
             return ;
             }
@@ -78,4 +77,5 @@ function menu (level) {
          removeLvl1(); removeLvl2();
          if (level==1) initLvl1();
          if (level==2) initLvl2();
+         $('.button-collapse').sideNav('hide');
 }
