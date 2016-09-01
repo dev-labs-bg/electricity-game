@@ -74,8 +74,9 @@ $(document).ready(function() {
 
 function menu (level) {
          // function managing levels of the electricity-game
-         removeLvl1(); removeLvl2();
+         removeLvl1(); removeLvl2(); removeLvl3();
          if (level==1) initLvl1();
          if (level==2) initLvl2();
+         if (level==3) initLvl3();
          $('.button-collapse').sideNav('hide');
 }

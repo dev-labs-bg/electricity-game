@@ -1,7 +1,7 @@
 // these are the objects that will be able to be dragged and some of their components
 var bulbOrig,bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,battery,light,bulbWire,batteryComp,bulbWireColor;
 // snap textfields
-var textAmpMeter,formula,voltSign,textObjPosition;
+var textAmpMeter,formula,voltSign,hintObj;
 // states of the needed objects for the electric circuit
 var bulbReady,ampMeterReady,batteryReady,electricalCur;
 // coordinates of the supposed place for the bulb and curCoord - for the new initial place
@@ -47,9 +47,9 @@ function initTextFieldsLvl1 () {
          voltSign.attr({"font-size": 25, "font-weight": "bold", id: "voltSign"});
          voltSign.attr({opacity:0});
     
-         textObjPosition=s.text(330,215,"Студено!");
-         textObjPosition.attr({"font-size": 25, id: "objPosition", "text-anchor": "middle"});
-         textObjPosition.attr({opacity:0});
+         hintObj=s.text(330,215,"Студено!");
+         hintObj.attr({"font-size": 25, id: "objPosition", "text-anchor": "middle"});
+         hintObj.attr({opacity:0});
          
          // make input box undisabled and without text
          $("#ans").prop('disabled',false);
@@ -246,17 +246,17 @@ function changeColText (finx, finy, curx, cury, distRed, distOrange) {
          // change colour of the central text field according to the distance from the object and its right place
          var dist=(finx-curx)*(finx-curx)+(finy-cury)*(finy-cury);
          if (dist<=distRed) {
-            textObjPosition.attr({text:"Горещо!"});
-            textObjPosition.animate({opacity:1, fill:"red"},100);
+            hintObj.attr({text:"Горещо!"});
+            hintObj.animate({opacity:1, fill:"red"},100);
             return ;
             }
          if (dist<=distOrange) {
-            textObjPosition.attr({text:"Топло!"});
-            textObjPosition.animate({opacity:1, fill:"orange"},100);
+            hintObj.attr({text:"Топло!"});
+            hintObj.animate({opacity:1, fill:"orange"},100);
             return ;
             }
-         textObjPosition.attr({text:"Студено!"});
-         textObjPosition.animate({opacity:1, fill:"blue"},100);
+         hintObj.attr({text:"Студено!"});
+         hintObj.animate({opacity:1, fill:"blue"},100);
 }
 
 function workLvl1 () {
@@ -267,7 +267,7 @@ function workLvl1 () {
          for (var i=0; i<things.length; i++) {
              things[i].undrag();
              }
-         textObjPosition.attr({opacity:0});
+         hintObj.attr({opacity:0});
              
          // checks if the light-bulb is in the right place
          if (bulbReady==0) {
@@ -288,7 +288,7 @@ function workLvl1 () {
                      if ((Math.abs(prevCoord[0]-bulb.getBBox().x)<3)&&
                          (Math.abs(prevCoord[1]-bulb.getBBox().y)<3)) {
                         lines[0].attr({opacity:0}); message('Супер! :) Лампата е наместена на мястото си.');
-                        textObjPosition.stop(); textObjPosition.attr({opacity:0});
+                        hintObj.stop(); hintObj.attr({opacity:0});
                         bulbReady++; this.undrag();
                         }
                      },function() {
@@ -299,7 +299,7 @@ function workLvl1 () {
                         t.translate(prevCoord[0]-curCoord[0],prevCoord[1]-curCoord[1]);
                         bulb.transform(t);
                         message('Супер! :) Лампата е наместена на мястото си.');
-                        textObjPosition.stop(); textObjPosition.attr({opacity:0});
+                        hintObj.stop(); hintObj.attr({opacity:0});
                         bulbReady++; this.undrag();
                         }
                      });
@@ -322,7 +322,7 @@ function workLvl1 () {
                          if ((Math.abs(curTransform[1]+dx)<3)&&
                              (Math.abs(curTransform[2]+dy)<3)) {
                             message("Амперметърът е сложен, където трябва.");
-                            textObjPosition.stop(); textObjPosition.attr({opacity:0});
+                            hintObj.stop(); hintObj.attr({opacity:0});
                             ampMeterReady++, this.undrag();
                             }
                          },function() {
@@ -333,7 +333,7 @@ function workLvl1 () {
                             t.translate(0,0);
                             ampMeter.transform(t);
                             message("Амперметърът е сложен, където трябва.");
-                            textObjPosition.stop(); textObjPosition.attr({opacity:0});
+                            hintObj.stop(); hintObj.attr({opacity:0});
                             ampMeterReady++, this.undrag();
                             }
                          });
@@ -355,7 +355,7 @@ function workLvl1 () {
                         if ((Math.abs(curTransform[1]+dx)<3)&&
                             (Math.abs(curTransform[2]+dy)<30)) {
                            message("Най-важната част на веригата (батерията) е на правилното място. Браво!");
-                           textObjPosition.stop(); textObjPosition.attr({opacity:0});
+                           hintObj.stop(); hintObj.attr({opacity:0});
                            batteryReady++, this.undrag();
                            }
                         },function() {
@@ -366,7 +366,7 @@ function workLvl1 () {
                            t.translate(0,0);
                            battery.transform(t);
                            message("Най-важната част на веригата (батерията) е на правилното място. Браво!");
-                           textObjPosition.stop(); textObjPosition.attr({opacity:0});
+                           hintObj.stop(); hintObj.attr({opacity:0});
                            batteryReady++, this.undrag();
                            }
                         });
@@ -385,8 +385,8 @@ function workLvl1 () {
                            var index=findIndex(this);
                            curTransform=Snap.parseTransformString(origTransform[index])[0];
                            if (hitCheck(index,curTransform,this,dx,dy)==1) return ;
-                           textObjPosition.attr({text:"Студено!"});
-                           textObjPosition.animate({opacity:1, fill:"blue"},100);
+                           hintObj.attr({text:"Студено!"});
+                           hintObj.animate({opacity:1, fill:"blue"},100);
                            },function() {
                            var index=findIndex(this);
                            origTransform[index] = this.transform().local;
