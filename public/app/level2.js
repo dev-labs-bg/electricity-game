@@ -62,7 +62,7 @@ function initLvl2 () {
                   });
          
          // makes handlers and css atrributes for the buttons made with materialize
-         buttonStatement.parent().css({top:20, left: 600});
+         buttonStatement.parent().css({top:5, left: 600});
          buttonStatement.on('click',function() {
                            message('Първоначално всички ключове във веригата са изключени. Идеята е да се включат част от тях, така че да светнат само лампата точно над батерията и първата вдясно от нея. При всяко състояние на ключовете ще светват подходящите лампи. Забавлявай се!');
                            });

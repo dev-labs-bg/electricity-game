@@ -1,7 +1,7 @@
 // these are the objects that will be able to be dragged and some of their components
 var bulbOrig,bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,battery,light,bulbWire,batteryComp,bulbWireColor;
 // snap textfields
-var textAmpMeter,formula,voltSign,hintObj;
+var formula,voltSign,hintObj;
 // states of the needed objects for the electric circuit
 var bulbReady,ampMeterReady,batteryReady,electricalCur;
 // coordinates of the supposed place for the bulb and curCoord - for the new initial place
@@ -94,7 +94,7 @@ function loadSvgsLvl1 () {
          // loading objects from svgs for level 1
          Snap.load("app/scheme1.svg",function(data) {
                   wires=data.selectAll("#Path-2");
-                  bulbOrig=s.group(data.select("#light-bulb"),data.select("#light-bulb"));
+                  bulbOrig=data.select("#light-bulb");
                   ampMeter=s.group(data.select("#Rectangle-3"),data.select("#Rectangle-4"),  data.selectAll("#circles"),data.select("#ampere-meter-path"),data.select("#ampere-meter"),data.select("#A"),data.select("#Line"),textAmpMeter);
                   groupBottom=s.group(ampMeter,lines[0],lines[1],lines[2],wires);
                   batteryComp=[data.selectAll("#Rectangle-bat"),data.select("#label"),data.selectAll("#Rectangle-2")];
@@ -104,15 +104,14 @@ function loadSvgsLvl1 () {
                   s.append(groupBottom);
                   bulbOrig.remove();
                   Snap.load("app/scheme4.svg",function(data) {
-                          // the object is groupped with itself otherwise it cannot leave the boundary of scheme4.svg
-                          toaster=s.group(data.select("#bread-toaster"),data.select("#bread-toaster"));
-                          microwave=s.group(data.select("#microwave"),data.select("#microwave"));
-                          fridge=s.group(data.select("#fridge"),data.select("#fridge"));
-                          blender=s.group(data.select("#blender"),data.select("#blender"));
+                          toaster=data.select("#bread-toaster");
+                          microwave=data.select("#microwave");
+                          fridge=data.select("#fridge");
+                          blender=data.select("#blender");
                           groupBottom=s.group(toaster,microwave,fridge,blender,lines[0],lines[1],lines[2],wires);
                           s.append(groupBottom);
                           Snap.load("app/voltmeter.svg",function(data) {
-                                   voltMeter=s.group(data.select("#Page-1"),data.select("#Page-1"));
+                                   voltMeter=data.select("#Page-1");
                                    s.append(voltMeter);
                                    Snap.load("app/lightening-bulb.svg",function(data) {
                                             light=data.selectAll("#Combined-Shape");
@@ -124,7 +123,7 @@ function loadSvgsLvl1 () {
                                             bulbWireColor.attr({fill:"grey"});
                                             curCoord=[bulb.getBBox().x,bulb.getBBox().y];
                                             things=[bulb,ampMeter,battery,toaster,microwave,fridge,blender,voltMeter];
-                                            buttons=[buttonReset.parent(),buttonElCur.parent()];
+                                            buttons=[buttonReset.parent(),buttonElCur.parent(),buttonStatement.parent()];
                                             workLvl1();
                                    });
                           });
@@ -209,7 +208,7 @@ function handlersBtnsLvl1 () {
                       removeBtn($(this));
                       });
 
-         buttonStatement.parent().css({top:20, left: 600});
+         buttonStatement.parent().css({top:5, left: 600});
          buttonStatement.on('click',function() {
                            message('Имаш на разположение уредите в мрежата. Целта е да съставиш електрическа верига с някои от предметите, така че да откриеш неизвестното напрежение на батерията. Това, което знаеш е, че лампата е с 6 Ω съпротивление. Когато отидеш до някой уред излиза екранно пояснение какво е наименованието му. Можеш да влачиш всички уреди и ако си хванал правилен, то когато минеш с него близо до мястото, което трябва да заеме във веригата, ще се отвори отвор, където трябва да го поставиш. Когато уреда е поставен както трябва, ще излезе съобщение и повече няма да можеш да го влачиш. Успех!');
                            });
@@ -375,11 +374,11 @@ function workLvl1 () {
          // for all other objects it is checked if they will hit other objects when dragged
          for (var i=3; i<things.length; i++) {
              t = new Snap.Matrix();
-             if (i==3) t.translate(1000,-322);
+             if (i==3) t.translate(1000,120);
              else if (i==4) t.translate(721,274);
-             else if (i==5) t.translate(794,7);
+             else if (i==5) t.translate(870,260);
              else if (i==6) t.translate(425,7);
-             else t.translate(731,397);
+             else t.translate(731,232);
              things[i].transform(t);
              things[i].drag(function (dx, dy, posx, posy) {
                            var index=findIndex(this);

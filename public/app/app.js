@@ -54,8 +54,8 @@ function turnOff (light, wireColor, time, func) {
 var s;
 // buttons
 var buttonReset,buttonElCur,buttonRestart,buttonCheck,buttonHelp,buttonStatement;
-// input box for level1
-var inputLvl1;
+// input box for level1 and textfield for ampere meter
+var inputLvl1,textAmpMeter;
 
 $(document).ready(function() {
                  // finding html for buttons of level 1
