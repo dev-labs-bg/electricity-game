@@ -52,24 +52,35 @@ function turnOff (light, wireColor, time, func) {
 
 // s contains the drawing surface of Snap
 var s;
-// buttons
+// buttons for lvl1
 var buttonReset,buttonElCur,buttonRestart,buttonCheck,buttonHelp,buttonStatement;
-// input box for level1 and textfield for ampere meter
-var inputLvl1,textAmpMeter;
+// buttons for lvl3
+var buttonEmptyText
+// input box for level1, textfield for ampere meter and text area for level3
+var inputLvl1,textAmpMeter,textArea;
 
 $(document).ready(function() {
                  // finding html for buttons of level 1
                  buttonReset=$('#reset'); buttonElCur=$('#on');
                  buttonRestart=$('#restart'); buttonCheck=$('#check');
                  buttonHelp=$('#help'); buttonStatement=$("#statement");
+    
+                 // finding html for buttons of level 3
+                 buttonEmptyText=$('#emptyText');
+    
                  removeBtn(buttonStatement);
+    
                  // finding html for input box for level1
                  inputLvl1=$(".input-field");
+    
+                 // finding html for text area for level3
+                 textArea=$(".textarea");
+    
                  // the menu
                  $(".button-collapse").sideNav();
                  $(".button-collapse").css({top:0, left:0});
     
-                 $(".level1").hide(); $(".level2").hide();
+                 $(".level1").hide(); $(".level2").hide(); $(".level3").hide();
 });
 
 function menu (level) {

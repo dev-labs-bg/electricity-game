@@ -8,14 +8,14 @@
     user-select:none;
     cursor: default;
 }
-.btn-wrapperReset, .btn-wrapperOn, .btn-wrapperRestart, .input-field, .btn-wrapperHelp, .btn-wrapperCheck, .btn-wrapperStatement, .button-collapse {
+.btn-wrapperReset, .btn-wrapperOn, .btn-wrapperRestart, .input-field, .btn-wrapperHelp, .btn-wrapperCheck, .btn-wrapperStatement, .button-collapse, .btn-wrapperEmptyText {
     position: absolute;
 }
 #reset, #on, #restart, #help, #check {
     line-height: 30px;
 }
 canvas {
-    position:absolute;
+    position: absolute;
     padding-left: 0;
     padding-right: 0;
     margin-left: auto;
@@ -23,4 +23,10 @@ canvas {
     display: block;
     left: -1000px;
 }
-img{display:none;}
+img { display:none; }
+.textarea {
+    position: absolute;
+    resize: none;
+    height: 200;
+    width: 100;
+}
