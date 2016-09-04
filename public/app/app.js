@@ -53,9 +53,11 @@ function turnOff (light, wireColor, time, func) {
 // s contains the drawing surface of Snap
 var s;
 // buttons for lvl1
-var buttonReset,buttonElCur,buttonRestart,buttonCheck,buttonHelp,buttonStatement;
+var buttonReset,buttonElCur,buttonRestart,buttonHelp;
 // buttons for lvl3
-var buttonEmptyText
+var buttonEmptyText;
+// buttons for all levels;
+var buttonCheck,buttonStatement;
 // input box for level1, textfield for ampere meter and text area for level3
 var inputLvl1,textAmpMeter,textArea;
 
@@ -68,7 +70,7 @@ $(document).ready(function() {
                  // finding html for buttons of level 3
                  buttonEmptyText=$('#emptyText');
     
-                 removeBtn(buttonStatement);
+                 removeBtn(buttonStatement); removeBtn(buttonCheck);
     
                  // finding html for input box for level1
                  inputLvl1=$(".input-field");
