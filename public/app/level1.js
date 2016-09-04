@@ -437,7 +437,7 @@ function electricCurrent () {
 }
 
 function removeLvl1 () {
-         $("#canvas").css({left: -1000});
+         $("#canvas").css({left: -1000}); removeBtn(buttonHelp);
          if ((light!==undefined)&&(light!==null)) light.remove();
          if ((timeOutBlow!==undefined)&&(timeOutBlow!==null)) clearTimeout(timeOutBlow);
          if ((timeOutLight!==undefined)&&(timeOutLight!==null)) clearTimeout(timeOutLight);

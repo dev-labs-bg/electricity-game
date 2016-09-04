@@ -1,4 +1,4 @@
-#A, #V, #textAmpMeter, #formula, #voltSign, #objPosition, #ampSign {
+#A, #V, #textAmpMeter, #formula, #voltSign, #objPosition, #ampSign, #label, #label_toaster, #label_microwave, #label_fridge, #labelTextarea, #labelDrawingField {
     -webkit-touch-callout: none;
     -webkit-user-select:none;
     -khtml-user-select:none;
@@ -8,7 +8,7 @@
     user-select:none;
     cursor: default;
 }
-.btn-wrapperReset, .btn-wrapperOn, .btn-wrapperRestart, .input-field, .btn-wrapperHelp, .btn-wrapperCheck, .btn-wrapperStatement, .button-collapse, .btn-wrapperEmptyText {
+.btn-wrapperReset, .btn-wrapperOn, .btn-wrapperRestart, .input-field, .btn-wrapperHelp, .btn-wrapperCheck, .btn-wrapperStatement, .button-collapse, .btn-wrapperEmptyText, .btn-wrapperEmptyDrawings, .btn-wrapperEraseDrawing {
     position: absolute;
 }
 #reset, #on, #restart, #help, #check {

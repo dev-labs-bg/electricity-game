@@ -55,11 +55,12 @@ var s;
 // buttons for lvl1
 var buttonReset,buttonElCur,buttonRestart,buttonHelp;
 // buttons for lvl3
-var buttonEmptyText;
+var buttonEmptyText,buttonEmptyDrawings,buttonEraseDrawing;
 // buttons for all levels;
 var buttonCheck,buttonStatement;
 // input box for level1, textfield for ampere meter and text area for level3
 var inputLvl1,textAmpMeter,textArea;
+var interval;
 
 $(document).ready(function() {
                  // finding html for buttons of level 1
@@ -68,12 +69,13 @@ $(document).ready(function() {
                  buttonHelp=$('#help'); buttonStatement=$("#statement");
     
                  // finding html for buttons of level 3
-                 buttonEmptyText=$('#emptyText');
+                 buttonEmptyText=$('#emptyText'); buttonEmptyDrawings=$('#emptyDrawings');
+                 buttonEraseDrawing=$('#eraseDrawing');
     
                  removeBtn(buttonStatement); removeBtn(buttonCheck);
     
                  // finding html for input box for level1
-                 inputLvl1=$(".input-field");
+                 inputLvl1=$("#inputLvl1");
     
                  // finding html for text area for level3
                  textArea=$(".textarea");
