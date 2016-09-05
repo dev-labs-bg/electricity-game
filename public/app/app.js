@@ -41,7 +41,7 @@ function blink (light, wireColor) {
 
 function turnOn (light, wireColor, time, func) {
          // makes animation for the light-bulb to flash
-         light.animate({opacity:1},time,func);
+         light.animate({opacity:1},time*1.5,func);
          wireColor.animate({fill:"orangered"},time);
 }
 function turnOff (light, wireColor, time, func) {
@@ -53,11 +53,11 @@ function turnOff (light, wireColor, time, func) {
 // s contains the drawing surface of Snap
 var s;
 // buttons for lvl1
-var buttonReset,buttonElCur,buttonRestart,buttonHelp;
+var buttonReset,buttonElCur,buttonRestart;
 // buttons for lvl3
 var buttonEmptyText,buttonEmptyDrawings,buttonEraseDrawing;
 // buttons for all levels;
-var buttonCheck,buttonStatement;
+var buttonCheck,buttonStatement,buttonHelp;
 // input box for level1, textfield for ampere meter and text area for level3
 var inputLvl1,textAmpMeter,textArea;
 var interval;
@@ -72,7 +72,7 @@ $(document).ready(function() {
                  buttonEmptyText=$('#emptyText'); buttonEmptyDrawings=$('#emptyDrawings');
                  buttonEraseDrawing=$('#eraseDrawing');
     
-                 removeBtn(buttonStatement); removeBtn(buttonCheck);
+                 removeBtn(buttonStatement); removeBtn(buttonCheck); removeBtn(buttonHelp);
     
                  // finding html for input box for level1
                  inputLvl1=$("#inputLvl1");

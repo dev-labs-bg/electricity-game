@@ -71,6 +71,10 @@ function initLvl2 () {
          buttonStatement.on('click',function() {
                            message('Първоначално всички ключове във веригата са изключени. Идеята е да се включат част от тях, така че да светнат само лампата точно над батерията и първата вдясно от нея. При всяко състояние на ключовете ще светват подходящите лампи. Забавлявай се!');
                            });
+         buttonHelp.parent().css({top:70, left:650});
+         buttonHelp.on('click',function() {
+                      message("Токът избира винаги най-малкото съпротивление. Затова ако има път с нулево съпротивление, токът би минавал само през него");
+                      });
 }
 
 function loadLighteningBulbs (index)  {
@@ -200,7 +204,7 @@ function removeLvl2 () {
          for (var i=0; i<5; i++) {
              if ((bulbs[i]!==undefined)&&(bulbs[i]!==null)) bulbs[i].remove();
              }
-         removeBtn(buttonStatement);
+         removeBtn(buttonStatement); removeBtn(buttonHelp);
          // setting flag to 1 so that the svg buttons cannot be clicked
          flagClick=1;
          if ((s!==undefined)&&(s!==null)) s.clear();

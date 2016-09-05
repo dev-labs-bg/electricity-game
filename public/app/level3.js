@@ -8,6 +8,7 @@ var mouseX,mouseY,prevX,prevY,mouseDown;
 var rectDrawing;
 // labels for boxes
 var labelTextarea,labelDrawingField;
+var helpCounter;
 
 function initLvl3 () {
          s=Snap(".level3 .resistance");
@@ -20,7 +21,7 @@ function initLvl3 () {
         
          mouseDown=false;
          ampSigns=[]; drawings=[];
-         drawingsLen=0;
+         drawingsLen=0; helpCounter=0;
     
          initTextFieldsLvl3();
          handlersBtnsLvl3();
@@ -66,10 +67,10 @@ function initTextFieldsLvl3 () {
              }
     
          labelTextarea=s.text(125,400,"Поле за писане");
-         labelTextarea.attr({"font-size": 20, id: "labelTextarea"});
+         labelTextarea.attr({"font-size": 20, fill:"rgb(38, 166, 154)", id: "labelTextarea"});
     
          labelDrawingField=s.text(750,310,"Поле за рисуване");
-         labelDrawingField.attr({"font-size": 20, id: "labelDrawingField"});
+         labelDrawingField.attr({"font-size": 20, fill:"rgb(38, 166, 154)", id: "labelDrawingField"});
     
          // make input boxes undisabled and without text
          $("#ans_toaster").prop('disabled',false);
@@ -138,6 +139,15 @@ function handlersBtnsLvl3 () {
                        if (flag==3) text+="Браво, всичко си сметнал вярно!";
                        message(text);
                        });
+         buttonHelp.parent().css({top:50, left:680});
+         buttonHelp.on('click',function() {
+                      helpCounter++;
+                      if (helpCounter>4) helpCounter=4;
+                      if (helpCounter==1) message("Пробвай да намериш еквивалентното съпротивление. След това можеш да откриеш напрежението на батерията (това е само част от веригата без изобразена батерия).");
+                      if (helpCounter==2) message("През успоредно свързани части, напрежението е едно и също.");
+                      if (helpCounter==3) message("През последователно свързани елементи, токът е един и същ.");
+                      if (helpCounter==4) message("Eeee, стига толкова съвети :P!");
+                      });
 }
 
 function eraseDrawing () {
@@ -151,7 +161,7 @@ function eraseDrawing () {
 function removeLvl3 () {
          removeBtn(buttonHelp); removeBtn(buttonEmptyText);
          removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
-         removeBtn(buttonCheck);
+         removeBtn(buttonCheck); removeBtn(buttonHelp);
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level3").hide();
          document.onmousemove=document.body.onmousedown=document.body.onmouseup=null;
