@@ -1,21 +1,21 @@
 // bulb and switches objects and components
-var bulbs=[],bulbsComp=[],switches=[],switchesComp=[];
-var stateSwitches=[];
+var bulbs=[],bulbsComp,switches,switchesComp;
+var stateSwitches;
 // coordinatates of the light-bulbs in the electrical circuit
-var origCoord=[];
+var origCoord;
 // strings for the name when selecting from svg
 var selName1,selName2;
 // flagAnimSwitches1 and flagAnimSwitches2 if the animations have finished, flagApprBulbs counts if the appropriate light bulbs are flashing and flagOtherBulbs - if other light bulbs are flashing
 var flagAnimSwitches1,flagAnimSwitches2,flagApprBulbs,flagOtherBulbs;
 // making adjecent matrix a for the graph with the points (vertices) connecting wire (edges)
-var a=[],numberVertices=8;
+var a,numberVertices;
 // starting point (vertex) and final point (vertex) to check for electrical current in the circuit
-var startVertex=0,finalVertex=7;
+var startVertex,finalVertex;
 // array used for the dfs function and an array if electrical current passes through a point
-var used=[8],electricalCurrent=[8];
+var used,electricalCurrent;
 // variable for removing the timeOut
 var timeOutCheck;
-var numberBulbs=5,numberSwitches=8;
+var numberBulbs,numberSwitches;
 
 function initLvl2 () {
          // load snap for level1
@@ -23,6 +23,11 @@ function initLvl2 () {
     
          $(".level2").show();
     
+         bulbsComp=[]; switches=[]; switchesComp=[];
+         stateSwitches=[]; origCoord=[]; a=[];
+         numberVertices=8; startVertex=0; finalVertex=7;
+         used=[8]; electricalCurrent=[8];
+         numberBulbs=5; numberSwitches=8;
          // default value for arrays and variables
          for (var i=0; i<numberSwitches; i++) {
              stateSwitches[i]=0;
@@ -62,10 +67,14 @@ function initLvl2 () {
                   });
          
          // makes handlers and css atrributes for the buttons made with materialize
-         buttonStatement.parent().css({top:20, left: 600});
+         buttonStatement.parent().css({top:5, left: 600});
          buttonStatement.on('click',function() {
                            message('Първоначално всички ключове във веригата са изключени. Идеята е да се включат част от тях, така че да светнат само лампата точно над батерията и първата вдясно от нея. При всяко състояние на ключовете ще светват подходящите лампи. Забавлявай се!');
                            });
+         buttonHelp.parent().css({top:70, left:650});
+         buttonHelp.on('click',function() {
+                      message("Токът избира винаги най-малкото съпротивление. Затова ако има път с нулево съпротивление, токът би минавал само през него");
+                      });
 }
 
 function loadLighteningBulbs (index)  {
@@ -195,6 +204,7 @@ function removeLvl2 () {
          for (var i=0; i<5; i++) {
              if ((bulbs[i]!==undefined)&&(bulbs[i]!==null)) bulbs[i].remove();
              }
+         removeBtn(buttonStatement); removeBtn(buttonHelp);
          // setting flag to 1 so that the svg buttons cannot be clicked
          flagClick=1;
          if ((s!==undefined)&&(s!==null)) s.clear();

@@ -41,7 +41,7 @@ function blink (light, wireColor) {
 
 function turnOn (light, wireColor, time, func) {
          // makes animation for the light-bulb to flash
-         light.animate({opacity:1},time,func);
+         light.animate({opacity:1},time*1.5,func);
          wireColor.animate({fill:"orangered"},time);
 }
 function turnOff (light, wireColor, time, func) {
@@ -52,30 +52,46 @@ function turnOff (light, wireColor, time, func) {
 
 // s contains the drawing surface of Snap
 var s;
-// buttons
-var buttonReset,buttonElCur,buttonRestart,buttonCheck,buttonHelp,buttonStatement;
-// input box for level1
-var inputLvl1;
+// buttons for lvl1
+var buttonReset,buttonElCur,buttonRestart;
+// buttons for lvl3
+var buttonEmptyText,buttonEmptyDrawings,buttonEraseDrawing;
+// buttons for all levels;
+var buttonCheck,buttonStatement,buttonHelp;
+// input box for level1, textfield for ampere meter and text area for level3
+var inputLvl1,textAmpMeter,textArea;
+var interval;
 
 $(document).ready(function() {
                  // finding html for buttons of level 1
                  buttonReset=$('#reset'); buttonElCur=$('#on');
                  buttonRestart=$('#restart'); buttonCheck=$('#check');
                  buttonHelp=$('#help'); buttonStatement=$("#statement");
-                 removeBtn(buttonStatement);
+    
+                 // finding html for buttons of level 3
+                 buttonEmptyText=$('#emptyText'); buttonEmptyDrawings=$('#emptyDrawings');
+                 buttonEraseDrawing=$('#eraseDrawing');
+    
+                 removeBtn(buttonStatement); removeBtn(buttonCheck); removeBtn(buttonHelp);
+    
                  // finding html for input box for level1
-                 inputLvl1=$(".input-field");
+                 inputLvl1=$("#inputLvl1");
+    
+                 // finding html for text area for level3
+                 textArea=$(".textarea");
+    
                  // the menu
                  $(".button-collapse").sideNav();
                  $(".button-collapse").css({top:0, left:0});
     
-                 $(".level1").hide(); $(".level2").hide();
+                 $(".level1").hide(); $(".level2").hide(); $(".level3").hide();
 });
 
 function menu (level) {
          // function managing levels of the electricity-game
-         removeLvl1(); removeLvl2();
+         removeLvl1(); removeLvl2(); removeLvl3();
          if (level==1) initLvl1();
          if (level==2) initLvl2();
+         if (level==3) initLvl3();
          $('.button-collapse').sideNav('hide');
 }
