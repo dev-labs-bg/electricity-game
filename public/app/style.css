@@ -1,0 +1,32 @@
+#A, #V, #textAmpMeter, #formula, #voltSign, #objPosition, #ampSign, #label, #label_toaster, #label_microwave, #label_fridge, #labelTextarea, #labelDrawingField {
+    -webkit-touch-callout: none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+    cursor: default;
+}
+.btn-wrapperReset, .btn-wrapperOn, .btn-wrapperRestart, .input-field, .btn-wrapperHelp, .btn-wrapperCheck, .btn-wrapperStatement, .button-collapse, .btn-wrapperEmptyText, .btn-wrapperEmptyDrawings, .btn-wrapperEraseDrawing {
+    position: absolute;
+}
+#reset, #on, #restart, #help, #check {
+    line-height: 30px;
+}
+canvas {
+    position: absolute;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    left: -1000px;
+}
+img { display:none; }
+.textarea {
+    position: absolute;
+    resize: none;
+    height: 200;
+    width: 100;
+}

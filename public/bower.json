@@ -18,6 +18,9 @@
     "tests"
   ],
   "dependencies": {
-    "Snap.svg": "snap.svg#^0.4.1"
+    "jquery": "^3.1.0",
+    "materialize": "^0.97.7",
+    "Snap.svg": "^0.4.1",
+    "dat-gui": "^0.5.1"
   }
 }
