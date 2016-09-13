@@ -92,7 +92,7 @@ function makeSvgLinesLvl1 () {
 
 function loadSvgsLvl1 () {
          // loading objects from svgs for level 1
-         Snap.load("app/scheme1.svg",function(data) {
+         Snap.load("app/scheme1_1.svg",function(data) {
                   wires=data.selectAll("#Path-2");
                   bulbOrig=data.select("#light-bulb");
                   ampMeter=s.group(data.select("#Rectangle-3"),data.select("#Rectangle-4"),  data.selectAll("#circles"),data.select("#ampere-meter-path"),data.select("#ampere-meter"),data.select("#A"),data.select("#Line"),textAmpMeter);
@@ -103,7 +103,7 @@ function loadSvgsLvl1 () {
                   groupBottom=s.group(data,lines[0],lines[1],lines[2],wires);
                   s.append(groupBottom);
                   bulbOrig.remove();
-                  Snap.load("app/scheme4.svg",function(data) {
+                  Snap.load("app/scheme1_2.svg",function(data) {
                           toaster=data.select("#bread-toaster");
                           microwave=data.select("#microwave");
                           fridge=data.select("#fridge");

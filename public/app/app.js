@@ -84,14 +84,19 @@ $(document).ready(function() {
                  $(".button-collapse").sideNav();
                  $(".button-collapse").css({top:0, left:0});
     
-                 $(".level1").hide(); $(".level2").hide(); $(".level3").hide();
+                 $(".level1").hide(); $(".level2").hide();
+                 $(".level3").hide(); $(".level4").hide();
 });
 
 function menu (level) {
          // function managing levels of the electricity-game
-         removeLvl1(); removeLvl2(); removeLvl3();
+         removeLvl1(); removeLvl2();
+         removeLvl3(); removeLvl4();
+    
          if (level==1) initLvl1();
          if (level==2) initLvl2();
          if (level==3) initLvl3();
+         if (level==4) initLvl4();
+    
          $('.button-collapse').sideNav('hide');
 }
