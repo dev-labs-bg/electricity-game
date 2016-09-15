@@ -60,6 +60,19 @@ var buttonEmptyText,buttonEmptyDrawings,buttonEraseDrawing;
 var buttonCheck,buttonStatement,buttonHelp;
 // input box for level1, textfield for ampere meter and text area for level3
 var inputLvl1,textAmpMeter,textArea;
+
+// variables for the drawing field in lvl 3 and lvl4
+// drawings is array containing the lines of the drawing and len - its length
+var drawings,drawingsLen;
+// this variables are for storing mouse position and if the mouse is down
+var mouseX,mouseY,prevX,prevY,mouseDown;
+// rectangle for drawing
+var rectDrawing;
+
+// labels for boxes in lvl3 and lvl4
+var labelTextarea,labelDrawingField;
+
+// variable for storing interval in lvl3 and lvl4
 var interval;
 
 $(document).ready(function() {
@@ -71,14 +84,16 @@ $(document).ready(function() {
                  // finding html for buttons of level 3
                  buttonEmptyText=$('#emptyText'); buttonEmptyDrawings=$('#emptyDrawings');
                  buttonEraseDrawing=$('#eraseDrawing');
-    
-                 removeBtn(buttonStatement); removeBtn(buttonCheck); removeBtn(buttonHelp);
-    
+                
                  // finding html for input box for level1
                  inputLvl1=$("#inputLvl1");
-    
-                 // finding html for text area for level3
+                 // finding html for text area for level3 and level4
                  textArea=$(".textarea");
+                
+                 // removes global (for html) things
+                 removeBtn(buttonStatement); removeBtn(buttonCheck); removeBtn(buttonHelp);
+                 removeBtn(buttonEmptyText); removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
+                 textArea.css({top:-1000, left:-1000});
     
                  // the menu
                  $(".button-collapse").sideNav();

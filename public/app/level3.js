@@ -1,13 +1,5 @@
 // snap textfields
 var ampSigns;
-// drawings is array containing the lines of the drawing and len - its length
-var drawings,drawingsLen;
-// this variables are for storing mouse position and if the mouse is down
-var mouseX,mouseY,prevX,prevY,mouseDown;
-// rectangle for drawing
-var rectDrawing;
-// labels for boxes
-var labelTextarea,labelDrawingField;
 var helpCounter;
 
 function initLvl3 () {
@@ -59,6 +51,7 @@ function initTextFieldsLvl3 () {
          textAmpMeter=s.text(772,188,"3 A");
          textAmpMeter.attr({"font-size": 20, id: "textAmpMeter"});
     
+         textArea.val("");
          textArea.css({top: 410, left: 125, width: 500});
     
          for (var i=0; i<3; i++) {
@@ -162,6 +155,7 @@ function removeLvl3 () {
          removeBtn(buttonHelp); removeBtn(buttonEmptyText);
          removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
          removeBtn(buttonCheck); removeBtn(buttonHelp);
+         textArea.css({top:-1000, left:-1000});
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level3").hide();
          document.onmousemove=document.body.onmousedown=document.body.onmouseup=null;
