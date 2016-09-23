@@ -1,4 +1,4 @@
-#A, #V, #textAmpMeter, #formula, #voltSign, #objPosition, #ampSign, #label, #label_toaster, #label_microwave, #label_fridge, #labelTextarea, #labelDrawingField {
+#A, #V, #textAmpMeter, #formula, #voltSign, #objPosition, #ampSign, #label, #label_toaster, #label_microwave, #label_fridge, #labelTextarea, #labelDrawingField, #shortStmentLvl4, #wattSign, #label_lvl4 {
     -webkit-touch-callout: none;
     -webkit-user-select:none;
     -khtml-user-select:none;
@@ -29,4 +29,7 @@ img { display:none; }
     resize: none;
     height: 200;
     width: 100;
+}
+.label-style {
+    color:rgb(38, 166, 154)
 }

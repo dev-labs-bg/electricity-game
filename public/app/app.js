@@ -58,8 +58,10 @@ var buttonReset,buttonElCur,buttonRestart;
 var buttonEmptyText,buttonEmptyDrawings,buttonEraseDrawing;
 // buttons for all levels;
 var buttonCheck,buttonStatement,buttonHelp;
-// input box for level1, textfield for ampere meter and text area for level3
+// input box for level1, textfield for ampere meter and text area for level3(and 4)
 var inputLvl1,textAmpMeter,textArea;
+// radio buttons group for level4
+var radioBtns;
 
 // variables for the drawing field in lvl 3 and lvl4
 // drawings is array containing the lines of the drawing and len - its length
@@ -89,7 +91,11 @@ $(document).ready(function() {
                  inputLvl1=$("#inputLvl1");
                  // finding html for text area for level3 and level4
                  textArea=$(".textarea");
-                
+    
+                 // finding html for radio buttons for level4
+                 radioBtns=$("#radioButtons");
+                 radioBtns.css({top:-1000, left:-1000});
+    
                  // removes global (for html) things
                  removeBtn(buttonStatement); removeBtn(buttonCheck); removeBtn(buttonHelp);
                  removeBtn(buttonEmptyText); removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);

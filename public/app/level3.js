@@ -154,7 +154,7 @@ function eraseDrawing () {
 function removeLvl3 () {
          removeBtn(buttonHelp); removeBtn(buttonEmptyText);
          removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
-         removeBtn(buttonCheck); removeBtn(buttonHelp);
+         removeBtn(buttonCheck);
          textArea.css({top:-1000, left:-1000});
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level3").hide();
