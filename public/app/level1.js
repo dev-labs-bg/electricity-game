@@ -1,3 +1,4 @@
+﻿(function lvl1 (hitTest, hitTestBtn, message, removeBtn, blink, turnOn, turnOff) {
 // these are the objects that will be able to be dragged and some of their components
 var bulbOrig,bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,battery,light,bulbWire,batteryComp,bulbWireColor;
 // snap textfields
@@ -17,7 +18,7 @@ var flag1,flag2,flag3;
 // variables for removing timeOuts
 var timeOutBlow,timeOutLight;
 
-function initLvl1() {
+initLvl1 = function () {
          // load snap for level1
          s=Snap(".level1 .circuit");
     
@@ -436,7 +437,7 @@ function electricCurrent () {
          removeBtn(buttonElCur);
 }
 
-function removeLvl1 () {
+removeLvl1 = function () {
          $("#canvas").css({left: -1000}); removeBtn(buttonHelp);
          if ((light!==undefined)&&(light!==null)) light.remove();
          if ((timeOutBlow!==undefined)&&(timeOutBlow!==null)) clearTimeout(timeOutBlow);
@@ -444,3 +445,4 @@ function removeLvl1 () {
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level1").hide();
 }
+})(hitTest,hitTestBtn,message,removeBtn,blink,turnOn,turnOff);

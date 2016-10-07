@@ -50,6 +50,14 @@ function turnOff (light, wireColor, time, func) {
          wireColor.animate({fill:"grey"},time);
 }
 
+function eraseDrawing () {
+         // if mouse is down and there are drawings left, erase the last
+         if (mouseDown==false) return ;
+         if (drawingsLen==0) return ;
+         drawings[drawingsLen-1].remove();
+         drawingsLen--;
+}
+
 // s contains the drawing surface of Snap
 var s;
 // buttons for lvl1
@@ -76,6 +84,9 @@ var labelTextarea,labelDrawingField;
 
 // variable for storing interval in lvl3 and lvl4
 var interval;
+
+// variables storing the init and remove functions of the levels
+var initLvl1,removeLvl1,initLvl2,removeLvl2,initLvl3,removeLvl3,initLvl4,removeLvl4;
 
 $(document).ready(function() {
                  // finding html for buttons of level 1

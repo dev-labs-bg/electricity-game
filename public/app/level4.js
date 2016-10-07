@@ -1,5 +1,6 @@
+(function lvl4 (message, removeBtn, eraseDrawing) {
 var shortStatementLvl4,wattSign;
-function initLvl4 () {
+initLvl4 = function () {
          s=Snap(".level4 .power");
     
          $(".level4").show();
@@ -112,7 +113,7 @@ function handlersBtnsLvl4 () {
                        });
 }
 
-function removeLvl4 () {
+removeLvl4 = function () {
          removeBtn(buttonHelp); removeBtn(buttonEmptyText);
          removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
          removeBtn(buttonCheck);
@@ -120,3 +121,4 @@ function removeLvl4 () {
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level4").hide();
 }
+})(message,removeBtn,eraseDrawing);

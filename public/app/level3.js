@@ -1,8 +1,9 @@
+(function lvl3 (message, removeBtn, eraseDrawing) {
 // snap textfields
 var ampSigns;
 var helpCounter;
 
-function initLvl3 () {
+initLvl3 = function () {
          s=Snap(".level3 .resistance");
     
          $(".level3").show();
@@ -143,15 +144,7 @@ function handlersBtnsLvl3 () {
                       });
 }
 
-function eraseDrawing () {
-         // if mouse is down and there are drawings left, erase the last
-         if (mouseDown==false) return ;
-         if (drawingsLen==0) return ;
-         drawings[drawingsLen-1].remove();
-         drawingsLen--;
-}
-
-function removeLvl3 () {
+removeLvl3 = function () {
          removeBtn(buttonHelp); removeBtn(buttonEmptyText);
          removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
          removeBtn(buttonCheck);
@@ -160,3 +153,4 @@ function removeLvl3 () {
          $(".level3").hide();
          document.onmousemove=document.body.onmousedown=document.body.onmouseup=null;
 }
+})(message,removeBtn,eraseDrawing);
