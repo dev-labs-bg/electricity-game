@@ -1,5 +1,7 @@
 (function lvl4 (message, removeBtn, eraseDrawing) {
 var shortStatementLvl4,wattSign;
+var drawingField;
+    
 initLvl4 = function () {
          s=Snap(".level4 .power");
     
@@ -9,8 +11,7 @@ initLvl4 = function () {
                   s.append(data);
          });
     
-         mouseDown=false; drawings=[];
-         drawingsLen=0; helpCounter=0;
+         helpCounter=0;
     
          shortStatementLvl4=s.text(160,210,"Уреда с най-голяма мощност е:");
          shortStatementLvl4.attr({"font-size":20, fill:"black", id:"shortStmentLvl4"});
@@ -40,33 +41,11 @@ initLvl4 = function () {
          radioBtns.css({top:220, left:160});
     
          handlersBtnsLvl4();
+         
          // makes the rectangle for the drawing field
-         rectDrawing=s.rect(750,320,500,250);
-         rectDrawing.attr({fill:"white",stroke:"black"});
-    
-         document.onmousemove = function(data){
-                 mouseX = data.pageX;
-                 mouseY = data.pageY;
-                 if (mouseDown==false) {
-                    prevX=mouseX; prevY=mouseY;
-                    return ;
-                    }
-                 if ((mouseX>750)&&(mouseX<1250)&&(mouseY>320)&&(mouseY<570)) {
-                    if (prevX<750) prevX=751;
-                    else if (prevX>1250) prevX=1249;
-                    if (prevY<320) prevY=321;
-                    else if (prevY>570) prevY=569;
-                    drawings[drawingsLen]=s.line(prevX,prevY,mouseX,mouseY);
-                    drawings[drawingsLen++].attr({stroke:"black", strokeWidth:1});
-                    }
-                 prevX=mouseX; prevY=mouseY;
-                 }
-         document.body.onmousedown = function() {
-                mouseDown=true;
-                }
-         document.body.onmouseup = function() {
-                mouseDown=false;
-                }
+         drawingField=s.rect(750,320,500,250);
+         drawingField.attr({fill:"white",stroke:"black"});
+         initDrawModule(drawingField);
 }
 
 function handlersBtnsLvl4 () {
@@ -80,23 +59,6 @@ function handlersBtnsLvl4 () {
          buttonEmptyText.on('click',function() {
                            textArea.val("");
                            });
-    
-         buttonEmptyDrawings.parent().css({top:283.5, left:1010});
-         buttonEmptyDrawings.on('click',function() {
-                               for (var i=0; i<drawingsLen; i++) {
-                                   drawings[i].remove();
-                                   }
-                               drawingsLen=0;
-                               });
-    
-         buttonEraseDrawing.parent().css({top:570, left:1018});
-         buttonEraseDrawing.mousedown(function() {
-                                     // making a continuous function for erasing the drawings
-                                     interval=setInterval(eraseDrawing,50);
-                                     }).mouseup(function() {
-                                               clearInterval(interval);
-                                               });
-    
          buttonHelp.parent().css({top:100, left:620});
          buttonHelp.on('click',function() {
                       message("Има няколко формули за мощността. P=I*I*R е основната. От закона на Ом следват и още две: P=U*U/R и P=I*U. С една от тези формули задачата може да се реши много лесно и бързо!");
@@ -114,8 +76,8 @@ function handlersBtnsLvl4 () {
 }
 
 removeLvl4 = function () {
+         removeDrawModule();
          removeBtn(buttonHelp); removeBtn(buttonEmptyText);
-         removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
          removeBtn(buttonCheck);
          textArea.css({top:-1000, left:-1000});
          if ((s!==undefined)&&(s!==null)) s.clear();

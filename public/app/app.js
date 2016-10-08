@@ -50,20 +50,12 @@ function turnOff (light, wireColor, time, func) {
          wireColor.animate({fill:"grey"},time);
 }
 
-function eraseDrawing () {
-         // if mouse is down and there are drawings left, erase the last
-         if (mouseDown==false) return ;
-         if (drawingsLen==0) return ;
-         drawings[drawingsLen-1].remove();
-         drawingsLen--;
-}
-
 // s contains the drawing surface of Snap
 var s;
 // buttons for lvl1
 var buttonReset,buttonElCur,buttonRestart;
 // buttons for lvl3
-var buttonEmptyText,buttonEmptyDrawings,buttonEraseDrawing;
+var buttonEmptyText;
 // buttons for all levels;
 var buttonCheck,buttonStatement,buttonHelp;
 // input box for level1, textfield for ampere meter and text area for level3(and 4)
@@ -71,22 +63,16 @@ var inputLvl1,textAmpMeter,textArea;
 // radio buttons group for level4
 var radioBtns;
 
-// variables for the drawing field in lvl 3 and lvl4
-// drawings is array containing the lines of the drawing and len - its length
-var drawings,drawingsLen;
-// this variables are for storing mouse position and if the mouse is down
-var mouseX,mouseY,prevX,prevY,mouseDown;
-// rectangle for drawing
-var rectDrawing;
-
 // labels for boxes in lvl3 and lvl4
 var labelTextarea,labelDrawingField;
 
-// variable for storing interval in lvl3 and lvl4
-var interval;
-
 // variables storing the init and remove functions of the levels
 var initLvl1,removeLvl1,initLvl2,removeLvl2,initLvl3,removeLvl3,initLvl4,removeLvl4;
+
+// variables storing the init and remove functions of the drawing module
+var initDrawModule,removeDrawModule;
+// buttons for drawing module
+var buttonEmptyDrawings,buttonEraseDrawing;
 
 $(document).ready(function() {
                  // finding html for buttons of level 1
