@@ -33,3 +33,13 @@ img { display:none; }
 .label-style {
     color:rgb(38, 166, 154)
 }
+
+.level1 {
+    min-height: 560px;
+}
+
+.level2,
+.level3,
+.level4 {
+    min-height: 650px;
+}
