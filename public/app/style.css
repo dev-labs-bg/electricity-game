@@ -23,7 +23,9 @@ canvas {
     display: block;
     left: -1000px;
 }
-img { display:none; }
+img { 
+	display:none;
+}
 .textarea {
     position: absolute;
     resize: none;
@@ -31,15 +33,11 @@ img { display:none; }
     width: 100;
 }
 .label-style {
-    color:rgb(38, 166, 154)
+    color: rgb(38, 166, 154);
 }
-
 .level1 {
     min-height: 560px;
 }
-
-.level2,
-.level3,
-.level4 {
-    min-height: 650px;
+.level2, .level3, .level4 {
+    min-height: 610px;
 }
