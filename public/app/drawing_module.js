@@ -39,14 +39,17 @@ initDrawModule = function (drawingField) {
                         }
                  
                  // handlers for the buttons of the module
-                 buttonEmptyDrawings.parent().css({top:283.5, left:1010});
+                 buttonEmptyDrawings.parent().css({top:rectDrawing.getBBox().y-$(".btn-wrapperEmptyDrawings").innerHeight(),
+                                                   left:rectDrawing.getBBox().x2-$(".btn-wrapperEmptyDrawings").innerWidth()});
                  buttonEmptyDrawings.on('click',function() {
                                        for (var i=0; i<drawingsLen; i++) {
                                            drawings[i].remove();
                                            }
                                        drawingsLen=0;
                                        });
-                 buttonEraseDrawing.parent().css({top:570, left:1018});
+                 buttonEraseDrawing.parent().css({top:rectDrawing.getBBox().y2,
+                                                  left:rectDrawing.getBBox().x2-$(".btn-wrapperEraseDrawing").innerWidth()});
+                 //console.log(buttonEraseDrawing.css("height"));
                  buttonEraseDrawing.mousedown(function() {
                                              // making a continuous function for erasing the drawings
                                              interval=setInterval(eraseDrawing,50);

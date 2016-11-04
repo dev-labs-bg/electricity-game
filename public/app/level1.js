@@ -1,4 +1,4 @@
-﻿(function lvl1 (hitTest, hitTestBtn, message, removeBtn, blink, turnOn, turnOff) {
+(function lvl1 (hitTest, hitTestBtn, message, removeBtn, blink, turnOn, turnOff) {
 // these are the objects that will be able to be dragged and some of their components
 var bulbOrig,bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,battery,light,bulbWire,batteryComp,bulbWireColor;
 // snap textfields
@@ -186,7 +186,7 @@ function handlersBtnsLvl1 () {
                          batteryComp[2].attr({fill:"#C5E1A5"});
                          batteryComp[1].attr({fill:"#FFFFFF"});
                          batteryComp[0].attr({fill:"#DEDEDE"});
-                         $("#canvas").css({left: -1000});
+                         $("#canvas").css({top: -2000, left: -2000});
                          buttonRestart.parent().css({top: -1000, left: -1000});                
                          workLvl1();
                          });
@@ -438,7 +438,7 @@ function electricCurrent () {
 }
 
 removeLvl1 = function () {
-         $("#canvas").css({left: -1000}); removeBtn(buttonHelp);
+         $("#canvas").css({top: -2000, left: -2000}); removeBtn(buttonHelp);
          if ((light!==undefined)&&(light!==null)) light.remove();
          if ((timeOutBlow!==undefined)&&(timeOutBlow!==null)) clearTimeout(timeOutBlow);
          if ((timeOutLight!==undefined)&&(timeOutLight!==null)) clearTimeout(timeOutLight);
