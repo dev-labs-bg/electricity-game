@@ -26,7 +26,7 @@ function initDrawModule(drawingField) {
                            else if (prevX>rectDrawing.getBBox().x2) prevX=rectDrawing.getBBox().x2-1;
                            if (prevY<rectDrawing.getBBox().y) prevY=rectDrawing.getBBox().y+1;
                            else if (prevY>rectDrawing.getBBox().y2) prevY=rectDrawing.getBBox().y2-1;
-                           drawings[drawingsLen]=s.line(prevX,prevY,mouseX,mouseY);
+                           drawings[drawingsLen]=rectDrawing.line(prevX,prevY,mouseX,mouseY);
                            drawings[drawingsLen++].attr({stroke:"black", strokeWidth:1});
                            }
                         prevX=mouseX; prevY=mouseY;

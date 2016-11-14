@@ -9,8 +9,6 @@
 #label_toaster, 
 #label_microwave, 
 #label_fridge, 
-#labelTextarea, 
-#labelDrawingField, 
 #shortStmentLvl4, 
 #wattSign, 
 #label_lvl4 {
@@ -31,10 +29,7 @@
 .btn-wrapperHelp, 
 .btn-wrapperCheck, 
 .btn-wrapperStatement, 
-.button-collapse, 
-.btn-wrapperEmptyText, 
-.btn-wrapperEmptyDrawings, 
-.btn-wrapperEraseDrawing {
+.button-collapse {
     position: absolute;
     padding: 0;
 }
@@ -61,23 +56,35 @@ img {
 	display:none;
 }
 
+.container {
+    padding: 15px 10px;
+}
+
+.btn-group {
+    padding: 5px 0;
+}
+
 .textarea {
-    position: absolute;
     resize: none;
     height: 200;
-    width: 100;
 }
 
 .label-style {
     color: rgb(38, 166, 154);
 }
 
-.level1 {
-    min-height: 560px;
+.level {
+    padding: 10px 0;
+    position: relative;
 }
 
-.level2, 
-.level3, 
-.level4 {
-    min-height: 610px;
+.level1 .btn-floating {
+    width: 100px;
+    height: 100px;
+}
+
+@media (max-width: 1560px) {
+  .container {
+    width: 90%;
+  }
 }

@@ -20,7 +20,7 @@ initLvl3 = function () {
          handlersBtnsLvl3();
 
          // makes the rectangle for the drawing field
-         drawingField = Snap(".level3 .draw-notes-wrapper svg").rect(750, 320, 500, 250);
+         drawingField = Snap(".level3 .draw-note-wrapper svg").rect(0, 0, 500, 250);
          drawingField.attr({
           fill: "white",
           stroke: "black"
@@ -40,12 +40,6 @@ function initTextFieldsLvl3 () {
              ampSigns[i]=s.text(1220,80+i*70,"A");
              ampSigns[i].attr({"font-size": 25, "font-weight": "bold", id: "ampSign"});
              }
-    
-         labelTextarea=s.text(125,400,"Поле за писане");
-         labelTextarea.attr({"font-size": 20, fill:"rgb(38, 166, 154)", id: "labelTextarea"});
-    
-         labelDrawingField=s.text(750,310,"Поле за рисуване");
-         labelDrawingField.attr({"font-size": 20, fill:"rgb(38, 166, 154)", id: "labelDrawingField"});
     
          // make input boxes undisabled and without text
          $("#ans_toaster").prop('disabled',false);

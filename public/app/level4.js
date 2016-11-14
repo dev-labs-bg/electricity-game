@@ -32,18 +32,12 @@ initLvl4 = function () {
          textArea.val("");
          textArea.css({top: 60, left: 750, width: 500});
     
-         labelTextarea=s.text(750,50,"Поле за писане");
-         labelTextarea.attr({"font-size": 20, fill:"rgb(38, 166, 154)", id: "labelTextarea"});
-    
-         labelDrawingField=s.text(750,310,"Поле за рисуване");
-         labelDrawingField.attr({"font-size": 20, fill:"rgb(38, 166, 154)", id: "labelDrawingField"});
-    
          radioBtns.css({top:220, left:160});
     
          handlersBtnsLvl4();
          
          // makes the rectangle for the drawing field
-         drawingField = Snap(".level4 .draw-note-wrapper svg").rect(750, 320, 500, 250);
+         drawingField = Snap(".level4 .draw-note-wrapper svg").rect(0, 0, 500, 250);
          drawingField.attr({
           fill: "white",
           stroke: "black"

@@ -66,6 +66,8 @@ initLvl2 = function () {
                       }
                   loadLighteningBulbs(0);
                   });
+
+         $("#check").addClass("hide");
          
          // makes handlers and css atrributes for the buttons made with materialize
          buttonStatement.parent().css({top:5, left: 600});
@@ -202,6 +204,7 @@ function dfs (vr) {
 }
 
 removeLvl2 = function () {
+         $("#check").removeClass("hide");
          for (var i=0; i<5; i++) {
              if ((bulbs[i]!==undefined)&&(bulbs[i]!==null)) bulbs[i].remove();
              }

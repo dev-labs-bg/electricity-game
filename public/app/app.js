@@ -63,9 +63,6 @@ var inputLvl1,textAmpMeter,textArea;
 // radio buttons group for level4
 var radioBtns;
 
-// labels for boxes in lvl3 and lvl4
-var labelTextarea,labelDrawingField;
-
 // variables storing the init and remove functions of the levels
 var initLvl1,removeLvl1,initLvl2,removeLvl2,initLvl3,removeLvl3,initLvl4,removeLvl4;
 
@@ -121,6 +118,9 @@ $(document).ready(function() {
 });
 
 function menu (level) {
+         // show container if hidden
+         $(".container").removeClass("hide");
+
          // function managing levels of the electricity-game
          removeLvl1(); removeLvl2();
          removeLvl3(); removeLvl4();
