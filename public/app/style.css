@@ -1,15 +1,16 @@
-#A, #V, #textAmpMeter, #formula, #voltSign, #objPosition, #ampSign, #label, #label_toaster, #label_microwave, #label_fridge, #labelTextarea, #labelDrawingField {
+#A, #V, #textAmpMeter, #formula, #voltSign, #objPosition, #ampSign, #label, #label_toaster, #label_microwave, #label_fridge, #labelTextarea, #labelDrawingField, #shortStmentLvl4, #wattSign, #label_lvl4 {
     -webkit-touch-callout: none;
-    -webkit-user-select:none;
-    -khtml-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    -o-user-select:none;
-    user-select:none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
     cursor: default;
 }
 .btn-wrapperReset, .btn-wrapperOn, .btn-wrapperRestart, .input-field, .btn-wrapperHelp, .btn-wrapperCheck, .btn-wrapperStatement, .button-collapse, .btn-wrapperEmptyText, .btn-wrapperEmptyDrawings, .btn-wrapperEraseDrawing {
     position: absolute;
+    padding: 0;
 }
 #reset, #on, #restart, #help, #check {
     line-height: 30px;
@@ -23,10 +24,21 @@ canvas {
     display: block;
     left: -1000px;
 }
-img { display:none; }
+img { 
+	display:none;
+}
 .textarea {
     position: absolute;
     resize: none;
     height: 200;
     width: 100;
+}
+.label-style {
+    color: rgb(38, 166, 154);
+}
+.level1 {
+    min-height: 560px;
+}
+.level2, .level3, .level4 {
+    min-height: 610px;
 }

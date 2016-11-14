@@ -1,3 +1,4 @@
+﻿(function lvl2 (message, removeBtn, blink, turnOn, turnOff) {
 // bulb and switches objects and components
 var bulbs=[],bulbsComp,switches,switchesComp;
 var stateSwitches;
@@ -17,7 +18,7 @@ var used,electricalCurrent;
 var timeOutCheck;
 var numberBulbs,numberSwitches;
 
-function initLvl2 () {
+initLvl2 = function () {
          // load snap for level1
          s=Snap(".level2 .lamps");
     
@@ -200,7 +201,7 @@ function dfs (vr) {
              }
 }
 
-function removeLvl2 () {
+removeLvl2 = function () {
          for (var i=0; i<5; i++) {
              if ((bulbs[i]!==undefined)&&(bulbs[i]!==null)) bulbs[i].remove();
              }
@@ -211,3 +212,4 @@ function removeLvl2 () {
          if ((timeOutCheck!==undefined)&&(timeOutCheck!==null)) clearTimeout(timeOutCheck);
          $(".level2").hide();
 }
+})(message,removeBtn,blink,turnOn,turnOff);

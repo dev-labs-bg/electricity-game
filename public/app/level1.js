@@ -1,3 +1,4 @@
+(function lvl1 (hitTest, hitTestBtn, message, removeBtn, blink, turnOn, turnOff) {
 // these are the objects that will be able to be dragged and some of their components
 var bulbOrig,bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,battery,light,bulbWire,batteryComp,bulbWireColor;
 // snap textfields
@@ -17,7 +18,7 @@ var flag1,flag2,flag3;
 // variables for removing timeOuts
 var timeOutBlow,timeOutLight;
 
-function initLvl1() {
+initLvl1 = function () {
          // load snap for level1
          s=Snap(".level1 .circuit");
     
@@ -92,7 +93,7 @@ function makeSvgLinesLvl1 () {
 
 function loadSvgsLvl1 () {
          // loading objects from svgs for level 1
-         Snap.load("app/scheme1.svg",function(data) {
+         Snap.load("app/scheme1_1.svg",function(data) {
                   wires=data.selectAll("#Path-2");
                   bulbOrig=data.select("#light-bulb");
                   ampMeter=s.group(data.select("#Rectangle-3"),data.select("#Rectangle-4"),  data.selectAll("#circles"),data.select("#ampere-meter-path"),data.select("#ampere-meter"),data.select("#A"),data.select("#Line"),textAmpMeter);
@@ -103,7 +104,7 @@ function loadSvgsLvl1 () {
                   groupBottom=s.group(data,lines[0],lines[1],lines[2],wires);
                   s.append(groupBottom);
                   bulbOrig.remove();
-                  Snap.load("app/scheme4.svg",function(data) {
+                  Snap.load("app/scheme1_2.svg",function(data) {
                           toaster=data.select("#bread-toaster");
                           microwave=data.select("#microwave");
                           fridge=data.select("#fridge");
@@ -185,7 +186,7 @@ function handlersBtnsLvl1 () {
                          batteryComp[2].attr({fill:"#C5E1A5"});
                          batteryComp[1].attr({fill:"#FFFFFF"});
                          batteryComp[0].attr({fill:"#DEDEDE"});
-                         $("#canvas").css({left: -1000});
+                         $("#canvas").css({top: -2000, left: -2000});
                          buttonRestart.parent().css({top: -1000, left: -1000});                
                          workLvl1();
                          });
@@ -436,11 +437,12 @@ function electricCurrent () {
          removeBtn(buttonElCur);
 }
 
-function removeLvl1 () {
-         $("#canvas").css({left: -1000}); removeBtn(buttonHelp);
+removeLvl1 = function () {
+         $("#canvas").css({top: -2000, left: -2000}); removeBtn(buttonHelp);
          if ((light!==undefined)&&(light!==null)) light.remove();
          if ((timeOutBlow!==undefined)&&(timeOutBlow!==null)) clearTimeout(timeOutBlow);
          if ((timeOutLight!==undefined)&&(timeOutLight!==null)) clearTimeout(timeOutLight);
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level1").hide();
 }
+})(hitTest,hitTestBtn,message,removeBtn,blink,turnOn,turnOff);

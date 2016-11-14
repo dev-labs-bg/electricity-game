@@ -55,12 +55,24 @@ var s;
 // buttons for lvl1
 var buttonReset,buttonElCur,buttonRestart;
 // buttons for lvl3
-var buttonEmptyText,buttonEmptyDrawings,buttonEraseDrawing;
+var buttonEmptyText;
 // buttons for all levels;
 var buttonCheck,buttonStatement,buttonHelp;
-// input box for level1, textfield for ampere meter and text area for level3
+// input box for level1, textfield for ampere meter and text area for level3(and 4)
 var inputLvl1,textAmpMeter,textArea;
-var interval;
+// radio buttons group for level4
+var radioBtns;
+
+// labels for boxes in lvl3 and lvl4
+var labelTextarea,labelDrawingField;
+
+// variables storing the init and remove functions of the levels
+var initLvl1,removeLvl1,initLvl2,removeLvl2,initLvl3,removeLvl3,initLvl4,removeLvl4;
+
+// variables storing the init and remove functions of the drawing module
+var initDrawModule,removeDrawModule;
+// buttons for drawing module
+var buttonEmptyDrawings,buttonEraseDrawing;
 
 $(document).ready(function() {
                  // finding html for buttons of level 1
@@ -71,27 +83,38 @@ $(document).ready(function() {
                  // finding html for buttons of level 3
                  buttonEmptyText=$('#emptyText'); buttonEmptyDrawings=$('#emptyDrawings');
                  buttonEraseDrawing=$('#eraseDrawing');
-    
-                 removeBtn(buttonStatement); removeBtn(buttonCheck); removeBtn(buttonHelp);
-    
+                
                  // finding html for input box for level1
                  inputLvl1=$("#inputLvl1");
-    
-                 // finding html for text area for level3
+                 // finding html for text area for level3 and level4
                  textArea=$(".textarea");
+    
+                 // finding html for radio buttons for level4
+                 radioBtns=$("#radioButtons");
+                 radioBtns.css({top:-1000, left:-1000});
+    
+                 // removes global (for html) things
+                 removeBtn(buttonStatement); removeBtn(buttonCheck); removeBtn(buttonHelp);
+                 removeBtn(buttonEmptyText); removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
+                 textArea.css({top:-1000, left:-1000});
     
                  // the menu
                  $(".button-collapse").sideNav();
                  $(".button-collapse").css({top:0, left:0});
     
-                 $(".level1").hide(); $(".level2").hide(); $(".level3").hide();
+                 $(".level1").hide(); $(".level2").hide();
+                 $(".level3").hide(); $(".level4").hide();
 });
 
 function menu (level) {
          // function managing levels of the electricity-game
-         removeLvl1(); removeLvl2(); removeLvl3();
+         removeLvl1(); removeLvl2();
+         removeLvl3(); removeLvl4();
+    
          if (level==1) initLvl1();
          if (level==2) initLvl2();
          if (level==3) initLvl3();
+         if (level==4) initLvl4();
+    
          $('.button-collapse').sideNav('hide');
 }

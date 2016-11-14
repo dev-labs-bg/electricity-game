@@ -1,16 +1,11 @@
+(function lvl3 (message, removeBtn, eraseDrawing) {
 // snap textfields
 var ampSigns;
-// drawings is array containing the lines of the drawing and len - its length
-var drawings,drawingsLen;
-// this variables are for storing mouse position and if the mouse is down
-var mouseX,mouseY,prevX,prevY,mouseDown;
-// rectangle for drawing
-var rectDrawing;
-// labels for boxes
-var labelTextarea,labelDrawingField;
 var helpCounter;
-
-function initLvl3 () {
+// snap object for the drawing field
+var drawingField;
+    
+initLvl3 = function () {
          s=Snap(".level3 .resistance");
     
          $(".level3").show();
@@ -18,40 +13,15 @@ function initLvl3 () {
          Snap.load("app/scheme3.svg",function(data){
                   s.append(s.group(data,textAmpMeter));
          });
-        
-         mouseDown=false;
-         ampSigns=[]; drawings=[];
-         drawingsLen=0; helpCounter=0;
+    
+         ampSigns=[]; helpCounter=0;
     
          initTextFieldsLvl3();
          handlersBtnsLvl3();
          // makes the rectangle for the drawing field
-         rectDrawing=s.rect(750,320,500,250);
-         rectDrawing.attr({fill:"white",stroke:"black"});
-    
-         document.onmousemove = function(data){
-                 mouseX = data.pageX;
-                 mouseY = data.pageY;
-                 if (mouseDown==false) {
-                    prevX=mouseX; prevY=mouseY;
-                    return ;
-                    }
-                 if ((mouseX>750)&&(mouseX<1250)&&(mouseY>320)&&(mouseY<570)) {
-                    if (prevX<750) prevX=751;
-                    else if (prevX>1250) prevX=1249;
-                    if (prevY<320) prevY=321;
-                    else if (prevY>570) prevY=569;
-                    drawings[drawingsLen]=s.line(prevX,prevY,mouseX,mouseY);
-                    drawings[drawingsLen++].attr({stroke:"black", strokeWidth:1});
-                    }
-                 prevX=mouseX; prevY=mouseY;
-                 }
-         document.body.onmousedown = function() {
-                mouseDown=true;
-                }
-         document.body.onmouseup = function() {
-                mouseDown=false;
-                }
+         drawingField=s.rect(750,320,500,250);
+         drawingField.attr({fill:"white",stroke:"black"});
+         initDrawModule(drawingField);
 }
 
 function initTextFieldsLvl3 () {
@@ -59,6 +29,7 @@ function initTextFieldsLvl3 () {
          textAmpMeter=s.text(772,188,"3 A");
          textAmpMeter.attr({"font-size": 20, id: "textAmpMeter"});
     
+         textArea.val("");
          textArea.css({top: 410, left: 125, width: 500});
     
          for (var i=0; i<3; i++) {
@@ -93,27 +64,10 @@ function handlersBtnsLvl3 () {
                            message('В тази част от електрическа верига трябва да откриеш големината на тока, минаващ през трите уреда! Известно е, че тостера е с 40 Ω съпротивление, микровълновата с 20 Ω съпротивление, а хладилника - с 30 Ω съпротивление. Всеки уред има екранно пояснение, където пише и съпротивлението му. За улеснение има текстово поле под веригата за записки и поле за рисуване. Успех!');
                            });
     
-         buttonEmptyText.parent().css({top:374, left:430});
+         buttonEmptyText.parent().css({top:374, left:429});
          buttonEmptyText.on('click',function() {
                            textArea.val("");
-                           });
-    
-         buttonEmptyDrawings.parent().css({top:283.5, left:1010});
-         buttonEmptyDrawings.on('click',function() {
-                               for (var i=0; i<drawingsLen; i++) {
-                                   drawings[i].remove();
-                                   }
-                               drawingsLen=0;
-                               });
-    
-         buttonEraseDrawing.parent().css({top:570, left:1018});
-         buttonEraseDrawing.mousedown(function() {
-                                     // making a continuous function for erasing the drawings
-                                     interval=setInterval(eraseDrawing,50);
-                                     }).mouseup(function() {
-                                               clearInterval(interval);
-                                               });
-    
+                           });    
          buttonCheck.parent().css({top:50, left:800});
          buttonCheck.on('click',function() {
                        // check the text in the input boxes i.e. the answer boxes
@@ -150,19 +104,12 @@ function handlersBtnsLvl3 () {
                       });
 }
 
-function eraseDrawing () {
-         // if mouse is down and there are drawings left, erase the last
-         if (mouseDown==false) return ;
-         if (drawingsLen==0) return ;
-         drawings[drawingsLen-1].remove();
-         drawingsLen--;
-}
-
-function removeLvl3 () {
+removeLvl3 = function () {
+         removeDrawModule();
          removeBtn(buttonHelp); removeBtn(buttonEmptyText);
-         removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
-         removeBtn(buttonCheck); removeBtn(buttonHelp);
+         removeBtn(buttonCheck);
+         textArea.css({top:-1000, left:-1000});
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level3").hide();
-         document.onmousemove=document.body.onmousedown=document.body.onmouseup=null;
 }
+})(message,removeBtn,eraseDrawing);
