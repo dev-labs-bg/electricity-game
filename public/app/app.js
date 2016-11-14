@@ -21,6 +21,7 @@ function message (text) {
 
 function removeBtn (btn) {
          // function for removing handlers of button and making him disappear from the screen
+         // TODO: please use class "hide"! 
          btn.parent().css({top:-1000, left:-1000});
          btn.off();
 }
@@ -91,7 +92,6 @@ $(document).ready(function() {
                  radioBtns.css({top:-1000, left:-1000});
     
                  // removes global (for html) things
-                 removeBtn(buttonStatement); removeBtn(buttonCheck); removeBtn(buttonHelp);
                  removeBtn(buttonEmptyText); removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
                  textArea.css({top:-1000, left:-1000});
     

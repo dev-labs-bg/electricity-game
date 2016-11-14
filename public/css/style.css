@@ -57,6 +57,7 @@ img {
 }
 
 .container {
+    width: 90%;
     padding: 15px 10px;
 }
 
@@ -74,17 +75,22 @@ img {
 }
 
 .level {
-    padding: 10px 0;
     position: relative;
+    padding: 10px 0;
+}
+
+.scheme-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scheme {
+    position: relative;
+    display: block;
 }
 
 .level1 .btn-floating {
     width: 100px;
     height: 100px;
-}
-
-@media (max-width: 1560px) {
-  .container {
-    width: 90%;
-  }
 }

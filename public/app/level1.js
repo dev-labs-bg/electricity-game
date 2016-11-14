@@ -124,7 +124,7 @@ function loadSvgsLvl1 () {
                                             bulbWireColor.attr({fill:"grey"});
                                             curCoord=[bulb.getBBox().x,bulb.getBBox().y];
                                             things=[bulb,ampMeter,battery,toaster,microwave,fridge,blender,voltMeter];
-                                            buttons=[buttonReset.parent(),buttonElCur.parent(),buttonStatement.parent()];
+                                            buttons=[buttonReset.parent(),buttonElCur.parent()];
                                             workLvl1();
                                    });
                           });
@@ -156,11 +156,14 @@ function handlersBtnsLvl1 () {
                               things[i].undrag();
                               }
                           timeOutBlow = setTimeout(function() {
-                                                  $("#canvas").css({left: battery.getBBox().x-$("#canvas").innerWidth()/2+ (Math.random()*100)%30, top: battery.getBBox().y-$("#canvas").innerHeight()+20+(Math.random()*100)%30});
-                                                  message('Упс, това е неприятно. :( Батерията беше свързана без консуматор (на електричен ток). Тогава се казва, че е свързана на късо. Отделя се голям заряд и батерията изгаря дори понякога може да се взриви. Рестартирай нивото с бутона РЕСТАРТ.');
-                                                  buttonRestart.parent().css({top: 400, left: 55});
-                                                  flag1++;
-                                                  },1600);
+                            $("#canvas").css({
+                              left: battery.getBBox().x - $("#canvas").innerWidth() / 2 + (Math.random() * 100) % 30, 
+                              top: battery.getBBox().y - $("#canvas").innerHeight() + 20 + (Math.random() * 100) % 30
+                            });
+                            message('Упс, това е неприятно. :( Батерията беше свързана без консуматор (на електричен ток). Тогава се казва, че е свързана на късо. Отделя се голям заряд и батерията изгаря дори понякога може да се взриви. Рестартирай нивото с бутона РЕСТАРТ.');
+                            buttonRestart.parent().css({top: 400, left: 55});
+                            flag1++;
+                          }, 1600);
                           return ;
                           }
                        if (ampMeterReady==0) {
@@ -225,12 +228,14 @@ function hitCheck (ind, curTransform, obj, dx, dy) {
                          return true;
                          }
                       }
+
                   for (var i=0; i<buttons.length; i++) {
                       if (hitTestBtn(buttons[i],obj)==1) {
                          obj.attr({transform: origTransform[ind] + (origTransform[ind] ? "T" : "t") + [prev[ind][0], prev[ind][1]]});
                          return true;
                          }
                       }
+
                   prev[ind]=[dx,dy];
                   return false;
 }
