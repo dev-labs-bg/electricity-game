@@ -1,4 +1,4 @@
-(function lvl4 (message, removeBtn, eraseDrawing) {
+(function lvl4 (message, removeBtn, drawingModule) {
 var shortStatementLvl4,wattSign;
 var drawingField;
     
@@ -43,9 +43,12 @@ initLvl4 = function () {
          handlersBtnsLvl4();
          
          // makes the rectangle for the drawing field
-         drawingField=s.rect(750,320,500,250);
-         drawingField.attr({fill:"white",stroke:"black"});
-         initDrawModule(drawingField);
+         drawingField = Snap(".level4 .draw-note-wrapper svg").rect(750, 320, 500, 250);
+         drawingField.attr({
+          fill: "white",
+          stroke: "black"
+         });
+         drawingModule.init(drawingField);
 }
 
 function handlersBtnsLvl4 () {
@@ -76,11 +79,11 @@ function handlersBtnsLvl4 () {
 }
 
 removeLvl4 = function () {
-         removeDrawModule();
+         drawingModule.remove();
          removeBtn(buttonHelp); removeBtn(buttonEmptyText);
          removeBtn(buttonCheck);
          textArea.css({top:-1000, left:-1000});
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level4").hide();
 }
-})(message,removeBtn,eraseDrawing);
+})(message, removeBtn, drawingModule);

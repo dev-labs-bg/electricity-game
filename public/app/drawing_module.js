@@ -1,4 +1,4 @@
-(function drawingModule (removeBtn) {
+(function (removeBtn) {
 // drawings is array containing the lines of the drawing and len - its length
 var drawings,drawingsLen;
 // this variables are for storing mouse position and if the mouse is down
@@ -7,7 +7,7 @@ var mouseX,mouseY,prevX,prevY,mouseDown;
 var rectDrawing;
 var interval;
     
-initDrawModule = function (drawingField) {
+function initDrawModule(drawingField) {
                  drawings=[]; drawingsLen=0;
                  mouseDown=false;
     
@@ -66,8 +66,15 @@ function eraseDrawing () {
          drawingsLen--;
 }
 
-removeDrawModule = function () {
+function removeDrawModule() {
                    removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
                    document.onmousemove=document.body.onmousedown=document.body.onmouseup=null;
 }
+
+// exports
+drawingModule = {
+  init: initDrawModule,
+  remove: removeDrawModule
+};
+
 })(removeBtn);

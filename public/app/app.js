@@ -69,8 +69,8 @@ var labelTextarea,labelDrawingField;
 // variables storing the init and remove functions of the levels
 var initLvl1,removeLvl1,initLvl2,removeLvl2,initLvl3,removeLvl3,initLvl4,removeLvl4;
 
-// variables storing the init and remove functions of the drawing module
-var initDrawModule,removeDrawModule;
+// global storage for drawing module
+var drawingModule;
 // buttons for drawing module
 var buttonEmptyDrawings,buttonEraseDrawing;
 
@@ -104,6 +104,20 @@ $(document).ready(function() {
     
                  $(".level1").hide(); $(".level2").hide();
                  $(".level3").hide(); $(".level4").hide();
+
+                 // render note components from templates
+                 // Note: this can be done for each level individually as part of component logic
+                 var noteWrappers = $(".user-notes .note-wrapper");
+                 var noteTemplate = $("#note-component");
+                 var drawNoteWrappers = $(".user-notes .draw-note-wrapper");
+                 var drawNoteTemplate = $("#draw-note-component");
+
+                 noteWrappers.each(function(i, wrapper) {
+                    $(wrapper).html(noteTemplate.html());
+                 });
+                 drawNoteWrappers.each(function(i, wrapper) {
+                    $(wrapper).html(drawNoteTemplate.html());
+                 });
 });
 
 function menu (level) {

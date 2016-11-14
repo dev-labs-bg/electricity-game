@@ -1,4 +1,4 @@
-(function lvl3 (message, removeBtn, eraseDrawing) {
+(function lvl3 (message, removeBtn, drawingModule) {
 // snap textfields
 var ampSigns;
 var helpCounter;
@@ -18,10 +18,14 @@ initLvl3 = function () {
     
          initTextFieldsLvl3();
          handlersBtnsLvl3();
+
          // makes the rectangle for the drawing field
-         drawingField=s.rect(750,320,500,250);
-         drawingField.attr({fill:"white",stroke:"black"});
-         initDrawModule(drawingField);
+         drawingField = Snap(".level3 .draw-notes-wrapper svg").rect(750, 320, 500, 250);
+         drawingField.attr({
+          fill: "white",
+          stroke: "black"
+         });
+         drawingModule.init(drawingField);
 }
 
 function initTextFieldsLvl3 () {
@@ -105,11 +109,11 @@ function handlersBtnsLvl3 () {
 }
 
 removeLvl3 = function () {
-         removeDrawModule();
+         drawingModule.remove();
          removeBtn(buttonHelp); removeBtn(buttonEmptyText);
          removeBtn(buttonCheck);
          textArea.css({top:-1000, left:-1000});
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level3").hide();
 }
-})(message,removeBtn,eraseDrawing);
+})(message, removeBtn, drawingModule);
