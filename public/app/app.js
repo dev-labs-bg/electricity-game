@@ -19,11 +19,19 @@ function message (text) {
          $(".modal").openModal();
 }
 
+// TODO: deprecate me in favour of hideBtn/showBtn
 function removeBtn (btn) {
          // function for removing handlers of button and making him disappear from the screen
-         // TODO: please use class "hide"! 
          btn.parent().css({top:-1000, left:-1000});
          btn.off();
+}
+
+function hideBtn(btn) {
+    btn.parent().addClass("hide");
+}
+
+function showBtn(btn) {
+    btn.parent().removeClass("hide");
 }
 
 function blink (light, wireColor) {
@@ -74,9 +82,12 @@ var buttonEmptyDrawings,buttonEraseDrawing;
 
 $(document).ready(function() {
                  // finding html for buttons of level 1
-                 buttonReset=$('#reset'); buttonElCur=$('#on');
-                 buttonRestart=$('#restart'); buttonCheck=$('#check');
-                 buttonHelp=$('#help'); buttonStatement=$("#statement");
+                 buttonReset=$('#reset'); 
+                 buttonElCur=$('#on');
+                 buttonRestart=$('#restart'); 
+                 buttonCheck=$('#check');
+                 buttonHelp=$('#help'); 
+                 buttonStatement=$("#statement");
     
                  // finding html for buttons of level 3
                  buttonEmptyText=$('#emptyText'); buttonEmptyDrawings=$('#emptyDrawings');

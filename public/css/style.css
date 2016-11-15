@@ -34,6 +34,31 @@
     padding: 0;
 }
 
+.level1 .btn-wrapperRestart {
+    top: 400;
+    left: 55;
+}
+
+.level1 .btn-wrapperOn {
+    top: 400;
+    left: 500;
+}
+
+.level1 .btn-wrapperReset {
+    top: 400;
+    left: 860;
+}
+
+.level1 .answer {
+    top: 183; 
+    left: 1125;
+}
+
+.level1 .answer input {
+    width: 130;
+    font-size: 25;
+}
+
 #reset, 
 #on, 
 #restart, 
@@ -59,6 +84,11 @@ img {
 .container {
     width: 90%;
     padding: 15px 10px;
+}
+
+.btn-wrapper {
+    margin: 0 3px;
+    display: inline-block;
 }
 
 .btn-group {
