@@ -25,38 +25,12 @@
 .btn-wrapperReset, 
 .btn-wrapperOn, 
 .btn-wrapperRestart, 
-.input-field, 
 .btn-wrapperHelp, 
 .btn-wrapperCheck, 
 .btn-wrapperStatement, 
 .button-collapse {
     position: absolute;
     padding: 0;
-}
-
-.level1 .btn-wrapperRestart {
-    top: 400;
-    left: 55;
-}
-
-.level1 .btn-wrapperOn {
-    top: 400;
-    left: 500;
-}
-
-.level1 .btn-wrapperReset {
-    top: 400;
-    left: 860;
-}
-
-.level1 .answer {
-    top: 183; 
-    left: 1125;
-}
-
-.level1 .answer input {
-    width: 130;
-    font-size: 25;
 }
 
 #reset, 
@@ -120,7 +94,56 @@ img {
     display: block;
 }
 
+.input-metric-sign {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
 .level1 .btn-floating {
     width: 100px;
     height: 100px;
+}
+
+.level1 .btn-wrapperRestart {
+    top: 400px;
+    left: 55px;
+}
+
+.level1 .btn-wrapperOn {
+    top: 400px;
+    left: 500px;
+}
+
+.level1 .btn-wrapperReset {
+    top: 400px;
+    left: 860px;
+}
+
+.level1 .answer {
+    position: absolute;
+    top: 183px;
+    left: 1125px;
+}
+
+.level1 .answer input {
+    width: 130px;
+    font-size: 25px;
+}
+
+.level3 .answer {
+    width: 270px;
+    font-size: 25px;
+}
+
+.level4 .answer {
+    position: absolute;
+    top: 260px;
+    left: 320px;
+}
+
+.level4 .answer-form {
+    position: absolute;
 }

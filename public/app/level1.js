@@ -60,7 +60,7 @@ function initTextFieldsLvl1 () {
          // hides the input box
          inputLvl1.addClass("hide");
 }
-    
+
 function makeSvgLinesLvl1 () {
          // lines for the holes in the wires
          lines[0]=s.line(318.8,79,348.2,79);
@@ -443,6 +443,7 @@ function electricCurrent () {
          hideBtn(buttonRestart);
          buttonElCur.off();
          hideBtn(buttonElCur);
+         buttonStatement.off();
 }
 
 removeLvl1 = function () {

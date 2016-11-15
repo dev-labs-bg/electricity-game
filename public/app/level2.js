@@ -1,4 +1,4 @@
-﻿(function lvl2 (message, removeBtn, blink, turnOn, turnOff) {
+﻿(function lvl2 (message, showBtn, hideBtn, blink, turnOn, turnOff) {
 // bulb and switches objects and components
 var bulbs=[],bulbsComp,switches,switchesComp;
 var stateSwitches;
@@ -70,11 +70,11 @@ initLvl2 = function () {
          $("#check").addClass("hide");
          
          // makes handlers and css atrributes for the buttons made with materialize
-         buttonStatement.parent().css({top:5, left: 600});
          buttonStatement.on('click',function() {
                            message('Първоначално всички ключове във веригата са изключени. Идеята е да се включат част от тях, така че да светнат само лампата точно над батерията и първата вдясно от нея. При всяко състояние на ключовете ще светват подходящите лампи. Забавлявай се!');
                            });
-         buttonHelp.parent().css({top:70, left:650});
+
+         showBtn(buttonHelp);
          buttonHelp.on('click',function() {
                       message("Токът избира винаги най-малкото съпротивление. Затова ако има път с нулево съпротивление, токът би минавал само през него");
                       });
@@ -208,11 +208,14 @@ removeLvl2 = function () {
          for (var i=0; i<5; i++) {
              if ((bulbs[i]!==undefined)&&(bulbs[i]!==null)) bulbs[i].remove();
              }
-         removeBtn(buttonStatement); removeBtn(buttonHelp);
+
+         hideBtn(buttonHelp);
+         buttonHelp.off();
+         buttonStatement.off();
          // setting flag to 1 so that the svg buttons cannot be clicked
          flagClick=1;
          if ((s!==undefined)&&(s!==null)) s.clear();
          if ((timeOutCheck!==undefined)&&(timeOutCheck!==null)) clearTimeout(timeOutCheck);
          $(".level2").hide();
 }
-})(message,removeBtn,blink,turnOn,turnOff);
+})(message, showBtn, hideBtn, blink, turnOn, turnOff);

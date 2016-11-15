@@ -59,7 +59,7 @@
                     <div class="scheme">
                         <svg class="circuit" width="1125px" height="620px"></svg>
                         <div class="btn-wrapperReset">
-                            <button id="reset" class="btn-floating btn-large waves-effect waves-light">върни обектите в мрежата</button>
+                            <button id="reset" class="btn-floating btn-large waves-effect waves-light">върни обектите</button>
                         </div>
                         <div class="btn-wrapperOn">
                             <button id="on" class="btn-floating btn-large waves-effect waves-light">включи веригата</button>
@@ -67,9 +67,11 @@
                         <div class="btn-wrapperRestart">
                             <button id="restart" class="btn-floating btn-large waves-effect waves-light">рестарт</button>
                         </div>
-                        <div class="input-field col s6 answer" id="inputLvl1">
-                            <label id="label" for="ans">Напиши тук отг.</label>
-                            <input id="ans" type="text" class="validate">
+                        <div class="answer">
+                            <div class="input-field col s12" id="inputLvl1">
+                                <label id="label" for="ans">Напиши тук отг.</label>
+                                <input id="ans" type="text" class="validate">
+                            </div>
                         </div>
                         <!-- smoke -->
                         <canvas id="canvas"></canvas>
@@ -88,22 +90,31 @@
             
             <div class="level level3">
                 <div class="row">
-                    <div class="scheme-center">
-                        <div class="scheme">
-                            <svg class="resistance" width="1280px" height="420px"></svg>
+                    <div class="scheme col l9 m12">
+                        <svg class="resistance" width="910px" height="420px"></svg>
+                    </div>
+                    <div class="col l3 m12">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="ans_toaster" type="text" class="validate">
+                                <label id="label_toaster" for="ans_toaster">Напиши тук отг. за тостера</label>
+                                <span class="input-metric-sign">A</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="input-field col s6" style="top: 30; left: 940">
-                        <input id="ans_toaster" type="text" class="validate" style="width: 270; font-size: 25">
-                        <label id="label_toaster" for="ans_toaster">Напиши тук отг. за тостера</label>
-                    </div>
-                    <div class="input-field col s6" style="top: 100; left: 940">
-                        <input id="ans_microwave" type="text" class="validate" style="width: 270; font-size: 25">
-                        <label id="label_microwave" for="ans_microwave">Напиши тук отг. за микровълновата</label>
-                    </div>
-                    <div class="input-field col s6" style="top: 170; left: 940">
-                        <input id="ans_fridge" type="text" class="validate" style="width: 270; font-size: 25">
-                        <label id="label_fridge" for="ans_fridge">Напиши тук отг. за хладилника</label>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="ans_microwave" type="text" class="validate">
+                                <label id="label_microwave" for="ans_microwave">Напиши тук отг. за микровълновата</label>
+                                <span class="input-metric-sign">A</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="ans_fridge" type="text" class="validate">
+                                <label id="label_fridge" for="ans_fridge">Напиши тук отг. за хладилника</label>
+                                <span class="input-metric-sign">A</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row user-notes">
@@ -121,7 +132,7 @@
                     <div class="scheme-center">
                         <div class="scheme">
                             <svg class="power" width="660px" height="620px"></svg>
-                            <form action="#" style="position:absolute" id="radioButtons">
+                            <form action="#" class="answer-form" id="radioButtons">
                               <p>
                                 <input class="with-gap" name="group1" type="radio" id="test1" />
                                 <label for="test1" class="label-style">микровълновата</label>
@@ -139,9 +150,12 @@
                                 <label for="test4" class="label-style">хладилника</label>
                               </p>
                             </form>
-                            <div class="input-field col s6" style="top: 260; left: 280">
-                                <input id="ans_lvl4" type="text" class="validate" style="width: 190; font-size: 25">
-                                <label id="label_lvl4" for="ans_lvl4">Напиши тук мощността</label>
+                            <div class="answer">
+                                <div class="input-field col s12">
+                                    <input id="ans_lvl4" type="text" class="validate">
+                                    <label id="label_lvl4" for="ans_lvl4">и е равна на</label>
+                                    <span class="input-metric-sign">W</span>
+                                </div>
                             </div>
                         </div>
                     </div>
