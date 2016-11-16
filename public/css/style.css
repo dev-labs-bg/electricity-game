@@ -1,3 +1,9 @@
+/* Tweaks on Materialize styles */
+textarea.materialize-textarea {
+    font-size: 20px;
+}
+
+/* Application styles */
 #A, 
 #V, 
 #textAmpMeter, 
@@ -69,11 +75,6 @@ img {
     padding: 5px 0;
 }
 
-.textarea {
-    resize: none;
-    height: 200;
-}
-
 .label-style {
     color: rgb(38, 166, 154);
 }
@@ -100,6 +101,16 @@ img {
     right: 0;
     font-size: 25px;
     font-weight: bold;
+}
+
+.draw-component-heading {
+    color: #9e9e9e;
+    font-size: 1rem;
+    padding: 27px 0 5px;
+}
+
+.draw-note-wrapper svg {
+    cursor: crosshair;
 }
 
 .level1 .btn-floating {
@@ -146,4 +157,6 @@ img {
 
 .level4 .answer-form {
     position: absolute;
+    top: 220px;
+    left: 160px;
 }

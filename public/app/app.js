@@ -63,12 +63,11 @@ function turnOff (light, wireColor, time, func) {
 var s;
 // buttons for lvl1
 var buttonReset,buttonElCur,buttonRestart;
-// buttons for lvl3
-var buttonEmptyText;
+
 // buttons for all levels;
 var buttonCheck,buttonStatement,buttonHelp;
 // input box for level1, textfield for ampere meter and text area for level3(and 4)
-var inputLvl1,textAmpMeter,textArea;
+var inputLvl1,textAmpMeter;
 // radio buttons group for level4
 var radioBtns;
 
@@ -77,8 +76,6 @@ var initLvl1,removeLvl1,initLvl2,removeLvl2,initLvl3,removeLvl3,initLvl4,removeL
 
 // global storage for drawing module
 var drawingModule;
-// buttons for drawing module
-var buttonEmptyDrawings,buttonEraseDrawing;
 
 $(document).ready(function() {
                  // finding html for buttons of level 1
@@ -88,23 +85,12 @@ $(document).ready(function() {
                  buttonCheck=$('#check');
                  buttonHelp=$('#help'); 
                  buttonStatement=$("#statement");
-    
-                 // finding html for buttons of level 3
-                 buttonEmptyText=$('#emptyText'); buttonEmptyDrawings=$('#emptyDrawings');
-                 buttonEraseDrawing=$('#eraseDrawing');
                 
                  // finding html for input box for level1
                  inputLvl1=$("#inputLvl1");
-                 // finding html for text area for level3 and level4
-                 textArea=$(".textarea");
     
                  // finding html for radio buttons for level4
                  radioBtns=$("#radioButtons");
-                 radioBtns.css({top:-1000, left:-1000});
-    
-                 // removes global (for html) things
-                 removeBtn(buttonEmptyText); removeBtn(buttonEmptyDrawings); removeBtn(buttonEraseDrawing);
-                 textArea.css({top:-1000, left:-1000});
     
                  // the menu
                  $(".button-collapse").sideNav();
@@ -133,8 +119,10 @@ function menu (level) {
          $(".container").removeClass("hide");
 
          // function managing levels of the electricity-game
-         removeLvl1(); removeLvl2();
-         removeLvl3(); removeLvl4();
+         removeLvl1();
+         removeLvl2();
+         removeLvl3();
+         removeLvl4();
     
          if (level==1) initLvl1();
          if (level==2) initLvl2();

@@ -1,9 +1,13 @@
-(function lvl3 (message, removeBtn, showBtn, hideBtn, drawingModule) {
+(function lvl3 (message, showBtn, hideBtn, drawingModule) {
 // snap textfields
 var helpCounter;
-// snap object for the drawing field
-var drawingField;
-    
+
+var buttonClearNotes, notesArea;
+$(document).ready(function() {
+  buttonClearNotes = $(".level3 .clear-text-notes");
+  notesArea = $(".level3 .textarea");
+});
+
 initLvl3 = function () {
          s=Snap(".level3 .resistance");
     
@@ -19,12 +23,7 @@ initLvl3 = function () {
          handlersBtnsLvl3();
 
          // makes the rectangle for the drawing field
-         drawingField = Snap(".level3 .draw-note-wrapper svg").rect(0, 0, 500, 250);
-         drawingField.attr({
-          fill: "white",
-          stroke: "black"
-         });
-         drawingModule.init(drawingField);
+         drawingModule.init(".level3 .draw-note-wrapper", [0, 0, 500, 250]);
 }
 
 function initTextFieldsLvl3 () {
@@ -32,8 +31,8 @@ function initTextFieldsLvl3 () {
          textAmpMeter=s.text(772,188,"3 A");
          textAmpMeter.attr({"font-size": 20, id: "textAmpMeter"});
     
-         textArea.val("");
-         textArea.css({top: 410, left: 125, width: 500});
+         notesArea.val("");
+         notesArea.trigger('autoresize');
     
          // make input boxes undisabled and without text
          $("#ans_toaster").prop('disabled',false);
@@ -54,10 +53,10 @@ function handlersBtnsLvl3 () {
          buttonStatement.on('click',function() {
                            message('В тази част от електрическа верига трябва да откриеш големината на тока, минаващ през трите уреда! Известно е, че тостера е с 40 Ω съпротивление, микровълновата с 20 Ω съпротивление, а хладилника - с 30 Ω съпротивление. Всеки уред има екранно пояснение, където пише и съпротивлението му. За улеснение има текстово поле под веригата за записки и поле за рисуване. Успех!');
                            });
-    
-         buttonEmptyText.parent().css({top:374, left:429});
-         buttonEmptyText.on('click',function() {
-                           textArea.val("");
+
+         buttonClearNotes.on('click',function() {
+                           notesArea.val("");
+                           notesArea.trigger('autoresize');
                            });
 
          showBtn(buttonCheck);
@@ -99,14 +98,17 @@ function handlersBtnsLvl3 () {
 
 removeLvl3 = function () {
          drawingModule.remove();
+
          hideBtn(buttonHelp);
          buttonHelp.off();
+
          hideBtn(buttonCheck);
          buttonCheck.off();
-         removeBtn(buttonEmptyText);
+
+         buttonClearNotes.off();
          buttonStatement.off();
-         textArea.css({top:-1000, left:-1000});
+
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level3").hide();
 }
-})(message, removeBtn, showBtn, hideBtn, drawingModule);
+})(message, showBtn, hideBtn, drawingModule);

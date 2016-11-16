@@ -118,10 +118,10 @@
                     </div>
                 </div>
                 <div class="row user-notes">
-                    <div class="col m6 note-wrapper">
+                    <div class="col l6 m12 note-wrapper">
                         <!-- #note-component goes here -->
                     </div>
-                    <div class="col m6 draw-note-wrapper">
+                    <div class="col l6 m12 draw-note-wrapper">
                         <!-- #draw-note-component goes here -->
                     </div>
                 </div>
@@ -161,10 +161,10 @@
                     </div>
                 </div>
                 <div class="row user-notes">
-                    <div class="col m6 note-wrapper">
+                    <div class="col l6 m12 note-wrapper">
                         <!-- #note-component goes here -->
                     </div>
-                    <div class="col m6 draw-note-wrapper">
+                    <div class="col l6 m12 draw-note-wrapper">
                         <!-- #draw-note-component goes here -->
                     </div>
                 </div>
@@ -183,19 +183,23 @@
         </div>
 
         <template id="note-component">
-            <p>Поле за бележки</p>
-            <textarea class="textarea"></textarea>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="notes-textarea" class="materialize-textarea textarea"></textarea>
+                    <label for="notes-textarea">Поле за бележки</label>
+                </div>
+            </div>
             <div class="btn-group">
-                <button id="emptyText" class="btn waves-effect waves-light">изчисти текста</button>
+                <button class="btn waves-effect waves-light clear-text-notes">изчисти текста</button>
             </div>
         </template>
 
         <template id="draw-note-component">
-            <p>Поле за рисуване</p>
-            <svg></svg>
+            <div class="draw-component-heading">Поле за рисуване</div>
+            <svg width="500px" height="250px"></svg>
             <div class="btn-group">
-                <button id="emptyDrawings" class="btn waves-effect waves-light">изчисти рисуваното</button>
-                <button id="eraseDrawing" class="btn waves-effect waves-light">изтрий последното</button>
+                <button class="btn waves-effect waves-light erase-all">изчисти рисуваното</button>
+                <button class="btn waves-effect waves-light erase-last">изтрий последното</button>
             </div>
         </template>
         
