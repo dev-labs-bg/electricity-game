@@ -1,0 +1,162 @@
+/* Tweaks on Materialize styles */
+textarea.materialize-textarea {
+    font-size: 20px;
+}
+
+/* Application styles */
+#A, 
+#V, 
+#textAmpMeter, 
+#formula, 
+#voltSign, 
+#objPosition, 
+#ampSign, 
+#label, 
+#label_toaster, 
+#label_microwave, 
+#label_fridge, 
+#shortStmentLvl4, 
+#wattSign, 
+#label_lvl4 {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+.btn-wrapperReset, 
+.btn-wrapperOn, 
+.btn-wrapperRestart, 
+.btn-wrapperHelp, 
+.btn-wrapperCheck, 
+.btn-wrapperStatement, 
+.button-collapse {
+    position: absolute;
+    padding: 0;
+}
+
+#reset, 
+#on, 
+#restart, 
+#help, 
+#check {
+    line-height: 30px;
+}
+
+canvas {
+    position: absolute;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    left: -1000px;
+}
+
+img { 
+	display:none;
+}
+
+.container {
+    width: 90%;
+    padding: 15px 10px;
+}
+
+.btn-wrapper {
+    margin: 0 3px;
+    display: inline-block;
+}
+
+.btn-group {
+    padding: 5px 0;
+}
+
+.label-style {
+    color: rgb(38, 166, 154);
+}
+
+.level {
+    position: relative;
+    padding: 10px 0;
+}
+
+.scheme-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scheme {
+    position: relative;
+    display: block;
+}
+
+.input-metric-sign {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.draw-component-heading {
+    color: #9e9e9e;
+    font-size: 1rem;
+    padding: 27px 0 5px;
+}
+
+.draw-note-wrapper svg {
+    cursor: crosshair;
+}
+
+.level1 .btn-floating {
+    width: 100px;
+    height: 100px;
+}
+
+.level1 .btn-wrapperRestart {
+    top: 400px;
+    left: 55px;
+}
+
+.level1 .btn-wrapperOn {
+    top: 400px;
+    left: 500px;
+}
+
+.level1 .btn-wrapperReset {
+    top: 400px;
+    left: 860px;
+}
+
+.level1 .answer {
+    position: absolute;
+    top: 183px;
+    left: 1125px;
+}
+
+.level1 .answer input {
+    width: 130px;
+    font-size: 25px;
+}
+
+.level3 .answer {
+    width: 270px;
+    font-size: 25px;
+}
+
+.level4 .answer {
+    position: absolute;
+    top: 260px;
+    left: 320px;
+}
+
+.level4 .answer-form {
+    position: absolute;
+    top: 220px;
+    left: 160px;
+}

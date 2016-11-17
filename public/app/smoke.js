@@ -94,7 +94,7 @@ smoke.prototype.update = function () {
   this.y += this.velY;
 }
 
-smokeImage.src = document.getElementsByTagName("img")[0].src;
+smokeImage.src = document.querySelector("#smoke-template").src;
 smokeImage.onload = function(){
   loading = false; 
 }

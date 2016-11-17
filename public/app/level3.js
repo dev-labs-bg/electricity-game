@@ -1,10 +1,13 @@
-(function lvl3 (message, removeBtn, eraseDrawing) {
+(function lvl3 (message, showBtn, hideBtn, drawingModule) {
 // snap textfields
-var ampSigns;
 var helpCounter;
-// snap object for the drawing field
-var drawingField;
-    
+
+var buttonClearNotes, notesArea;
+$(document).ready(function() {
+  buttonClearNotes = $(".level3 .clear-text-notes");
+  notesArea = $(".level3 .textarea");
+});
+
 initLvl3 = function () {
          s=Snap(".level3 .resistance");
     
@@ -14,14 +17,13 @@ initLvl3 = function () {
                   s.append(s.group(data,textAmpMeter));
          });
     
-         ampSigns=[]; helpCounter=0;
+         helpCounter=0;
     
          initTextFieldsLvl3();
          handlersBtnsLvl3();
+
          // makes the rectangle for the drawing field
-         drawingField=s.rect(750,320,500,250);
-         drawingField.attr({fill:"white",stroke:"black"});
-         initDrawModule(drawingField);
+         drawingModule.init(".level3 .draw-note-wrapper", [0, 0, 500, 250]);
 }
 
 function initTextFieldsLvl3 () {
@@ -29,19 +31,8 @@ function initTextFieldsLvl3 () {
          textAmpMeter=s.text(772,188,"3 A");
          textAmpMeter.attr({"font-size": 20, id: "textAmpMeter"});
     
-         textArea.val("");
-         textArea.css({top: 410, left: 125, width: 500});
-    
-         for (var i=0; i<3; i++) {
-             ampSigns[i]=s.text(1220,80+i*70,"A");
-             ampSigns[i].attr({"font-size": 25, "font-weight": "bold", id: "ampSign"});
-             }
-    
-         labelTextarea=s.text(125,400,"Поле за писане");
-         labelTextarea.attr({"font-size": 20, fill:"rgb(38, 166, 154)", id: "labelTextarea"});
-    
-         labelDrawingField=s.text(750,310,"Поле за рисуване");
-         labelDrawingField.attr({"font-size": 20, fill:"rgb(38, 166, 154)", id: "labelDrawingField"});
+         notesArea.val("");
+         notesArea.trigger('autoresize');
     
          // make input boxes undisabled and without text
          $("#ans_toaster").prop('disabled',false);
@@ -59,16 +50,16 @@ function initTextFieldsLvl3 () {
 
 function handlersBtnsLvl3 () {
          // makes handlers and css atrributes for the buttons made with materialize
-         buttonStatement.parent().css({top:5, left: 600});
          buttonStatement.on('click',function() {
                            message('В тази част от електрическа верига трябва да откриеш големината на тока, минаващ през трите уреда! Известно е, че тостера е с 40 Ω съпротивление, микровълновата с 20 Ω съпротивление, а хладилника - с 30 Ω съпротивление. Всеки уред има екранно пояснение, където пише и съпротивлението му. За улеснение има текстово поле под веригата за записки и поле за рисуване. Успех!');
                            });
-    
-         buttonEmptyText.parent().css({top:374, left:429});
-         buttonEmptyText.on('click',function() {
-                           textArea.val("");
-                           });    
-         buttonCheck.parent().css({top:50, left:800});
+
+         buttonClearNotes.on('click',function() {
+                           notesArea.val("");
+                           notesArea.trigger('autoresize');
+                           });
+
+         showBtn(buttonCheck);
          buttonCheck.on('click',function() {
                        // check the text in the input boxes i.e. the answer boxes
                        var text="",flag=0;
@@ -93,7 +84,8 @@ function handlersBtnsLvl3 () {
                        if (flag==3) text+="Браво, всичко си сметнал вярно!";
                        message(text);
                        });
-         buttonHelp.parent().css({top:50, left:680});
+
+         showBtn(buttonHelp);
          buttonHelp.on('click',function() {
                       helpCounter++;
                       if (helpCounter>4) helpCounter=4;
@@ -105,11 +97,18 @@ function handlersBtnsLvl3 () {
 }
 
 removeLvl3 = function () {
-         removeDrawModule();
-         removeBtn(buttonHelp); removeBtn(buttonEmptyText);
-         removeBtn(buttonCheck);
-         textArea.css({top:-1000, left:-1000});
+         drawingModule.remove();
+
+         hideBtn(buttonHelp);
+         buttonHelp.off();
+
+         hideBtn(buttonCheck);
+         buttonCheck.off();
+
+         buttonClearNotes.off();
+         buttonStatement.off();
+
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level3").hide();
 }
-})(message,removeBtn,eraseDrawing);
+})(message, showBtn, hideBtn, drawingModule);

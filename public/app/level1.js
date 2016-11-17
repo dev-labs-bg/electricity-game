@@ -1,4 +1,4 @@
-(function lvl1 (hitTest, hitTestBtn, message, removeBtn, blink, turnOn, turnOff) {
+(function lvl1 (hitTest, hitTestBtn, message, hideBtn, showBtn, blink, turnOn, turnOff) {
 // these are the objects that will be able to be dragged and some of their components
 var bulbOrig,bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,battery,light,bulbWire,batteryComp,bulbWireColor;
 // snap textfields
@@ -58,9 +58,9 @@ function initTextFieldsLvl1 () {
          $("#label").removeClass("active");
     
          // hides the input box
-         inputLvl1.css({top: -1000, left: -1000});
+         inputLvl1.addClass("hide");
 }
-    
+
 function makeSvgLinesLvl1 () {
          // lines for the holes in the wires
          lines[0]=s.line(318.8,79,348.2,79);
@@ -124,7 +124,7 @@ function loadSvgsLvl1 () {
                                             bulbWireColor.attr({fill:"grey"});
                                             curCoord=[bulb.getBBox().x,bulb.getBBox().y];
                                             things=[bulb,ampMeter,battery,toaster,microwave,fridge,blender,voltMeter];
-                                            buttons=[buttonReset.parent(),buttonElCur.parent(),buttonStatement.parent()];
+                                            buttons=[buttonReset.parent(),buttonElCur.parent()];
                                             workLvl1();
                                    });
                           });
@@ -134,12 +134,12 @@ function loadSvgsLvl1 () {
 
 function handlersBtnsLvl1 () {
          // makes handlers and css atrributes for the buttons made with materialize
-         buttonReset.parent().css({top: 400, left: 860});
+         showBtn(buttonReset);
          buttonReset.on('click',function(){
                        workLvl1();
                        });
 
-         buttonElCur.parent().css({top: 400, left: 500});
+         showBtn(buttonElCur);
          buttonElCur.on('click',function() {
                        // validation for the electirical circuit
                        if (batteryReady==0) {
@@ -156,11 +156,14 @@ function handlersBtnsLvl1 () {
                               things[i].undrag();
                               }
                           timeOutBlow = setTimeout(function() {
-                                                  $("#canvas").css({left: battery.getBBox().x-$("#canvas").innerWidth()/2+ (Math.random()*100)%30, top: battery.getBBox().y-$("#canvas").innerHeight()+20+(Math.random()*100)%30});
-                                                  message('Упс, това е неприятно. :( Батерията беше свързана без консуматор (на електричен ток). Тогава се казва, че е свързана на късо. Отделя се голям заряд и батерията изгаря дори понякога може да се взриви. Рестартирай нивото с бутона РЕСТАРТ.');
-                                                  buttonRestart.parent().css({top: 400, left: 55});
-                                                  flag1++;
-                                                  },1600);
+                            $("#canvas").css({
+                              left: battery.getBBox().x - $("#canvas").innerWidth() / 2 + (Math.random() * 100) % 30, 
+                              top: battery.getBBox().y - $("#canvas").innerHeight() + 20 + (Math.random() * 100) % 30
+                            });
+                            message('Упс, това е неприятно. :( Батерията беше свързана без консуматор (на електричен ток). Тогава се казва, че е свързана на късо. Отделя се голям заряд и батерията изгаря дори понякога може да се взриви. Рестартирай нивото с бутона РЕСТАРТ.');
+                            showBtn(buttonRestart);
+                            flag1++;
+                          }, 1600);
                           return ;
                           }
                        if (ampMeterReady==0) {
@@ -178,7 +181,7 @@ function handlersBtnsLvl1 () {
                        electricCurrent();
                        });
 
-         buttonRestart.parent().css({top: -1000, left: -1000});
+         hideBtn(buttonRestart);
          buttonRestart.on('click',function() {
                          if (flag1==0) return ;
                          bulbReady=batteryReady=ampMeterReady=0;
@@ -187,29 +190,28 @@ function handlersBtnsLvl1 () {
                          batteryComp[1].attr({fill:"#FFFFFF"});
                          batteryComp[0].attr({fill:"#DEDEDE"});
                          $("#canvas").css({top: -2000, left: -2000});
-                         buttonRestart.parent().css({top: -1000, left: -1000});                
+                         hideBtn(buttonRestart);
                          workLvl1();
                          });
 
-         buttonCheck.parent().css({top:-1000, left: -1000});
+         hideBtn(buttonCheck);
          buttonCheck.on('click',function() {
                        if ($("#ans").val()==="12") {
                           $("#ans").prop('disabled',true);
                           message('Браво :)! Батерията е с 12 V напрежение.');
-                          removeBtn(buttonHelp);
-                          removeBtn($(this));
+                          hideBtn(buttonHelp);
+                          hideBtn($(this));
                           }
                        else { if ($("#ans").val()==="") message('Не си написал отговора.');
                               else message('Имаш грешка. Пробвай пак.'); }
                        });
 
-         buttonHelp.parent().css({top:-1000, left: -1000});
+         hideBtn(buttonHelp);
          buttonHelp.on('click',function() {
                       formula.attr({opacity: 1});
-                      removeBtn($(this));
+                      hideBtn($(this));
                       });
 
-         buttonStatement.parent().css({top:5, left: 600});
          buttonStatement.on('click',function() {
                            message('Имаш на разположение уредите в мрежата. Целта е да съставиш електрическа верига с някои от предметите, така че да откриеш неизвестното напрежение на батерията. Това, което знаеш е, че лампата е с 6 Ω съпротивление. Когато отидеш до някой уред излиза екранно пояснение какво е наименованието му. Можеш да влачиш всички уреди и ако си хванал правилен, то когато минеш с него близо до мястото, което трябва да заеме във веригата, ще се отвори отвор, където трябва да го поставиш. Когато уреда е поставен както трябва, ще излезе съобщение и повече няма да можеш да го влачиш. Успех!');
                            });
@@ -225,12 +227,14 @@ function hitCheck (ind, curTransform, obj, dx, dy) {
                          return true;
                          }
                       }
+
                   for (var i=0; i<buttons.length; i++) {
                       if (hitTestBtn(buttons[i],obj)==1) {
                          obj.attr({transform: origTransform[ind] + (origTransform[ind] ? "T" : "t") + [prev[ind][0], prev[ind][1]]});
                          return true;
                          }
                       }
+
                   prev[ind]=[dx,dy];
                   return false;
 }
@@ -406,20 +410,21 @@ function electricCurrent () {
                                      // show textboxes and buttons after finishing animation
                                      textAmpMeter.attr({opacity: 1});
                                      voltSign.attr({opacity: 1});
-                                     inputLvl1.css({top: 183, left: 1115});
-                                     buttonCheck.parent().css({top: 300, left: 1050});
-                                     buttonHelp.parent().css({top: 300, left: 800});
+                                     inputLvl1.removeClass("hide");
+                                     showBtn(buttonCheck);
+                                     showBtn(buttonHelp);
 
                                      // starts the looping blink animation
                                      blink(light,bulbWireColor);
                                      },1600);
-            }
+         }
          else { // if the lamp is already bright, than show the necessary text fields and buttons
                 textAmpMeter.attr({opacity: 1});
                 voltSign.attr({opacity: 1});
-                inputLvl1.css({top: 183, left: 1115});
-                buttonCheck.parent().css({top: 300, left: 1050});
-                buttonHelp.parent().css({top: 300, left: 800}); }
+                inputLvl1.removeClass("hide");
+                showBtn(buttonCheck);
+                showBtn(buttonHelp);
+         }
 
          // removing the 3x3 grid
          for (var i=3; i<lines.length; i++) {
@@ -432,17 +437,22 @@ function electricCurrent () {
              things[i].remove();
              }
          // removing unnecessary buttons
-         removeBtn(buttonReset);
-         removeBtn(buttonRestart);
-         removeBtn(buttonElCur);
+         buttonReset.off();
+         hideBtn(buttonReset);
+         buttonRestart.off();
+         hideBtn(buttonRestart);
+         buttonElCur.off();
+         hideBtn(buttonElCur);
+         buttonStatement.off();
 }
 
 removeLvl1 = function () {
-         $("#canvas").css({top: -2000, left: -2000}); removeBtn(buttonHelp);
+         $("#canvas").css({top: -2000, left: -2000}); 
+         hideBtn(buttonHelp);
          if ((light!==undefined)&&(light!==null)) light.remove();
          if ((timeOutBlow!==undefined)&&(timeOutBlow!==null)) clearTimeout(timeOutBlow);
          if ((timeOutLight!==undefined)&&(timeOutLight!==null)) clearTimeout(timeOutLight);
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level1").hide();
 }
-})(hitTest,hitTestBtn,message,removeBtn,blink,turnOn,turnOff);
+})(hitTest, hitTestBtn, message, hideBtn, showBtn, blink, turnOn, turnOff);
