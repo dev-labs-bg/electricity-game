@@ -77,6 +77,9 @@ var initLvl1,removeLvl1,initLvl2,removeLvl2,initLvl3,removeLvl3,initLvl4,removeL
 // global storage for drawing module
 var drawingModule;
 
+// svg tooltips
+var tooltips;
+
 $(document).ready(function() {
                  // finding html for buttons of level 1
                  buttonReset=$('#reset'); 
@@ -112,8 +115,10 @@ $(document).ready(function() {
                  drawNoteWrappers.each(function(i, wrapper) {
                     $(wrapper).html(drawNoteTemplate.html());
                  });
+
 });
 
+// TODO: ideally menu handler should be available only after document is ready
 function menu (level) {
          // show container if hidden
          $(".container").removeClass("hide");

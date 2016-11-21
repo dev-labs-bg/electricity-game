@@ -1,4 +1,4 @@
-(function lvl1 (hitTest, hitTestBtn, message, hideBtn, showBtn, blink, turnOn, turnOff) {
+(function lvl1 (hitTest, hitTestBtn, message, hideBtn, showBtn, blink, turnOn, turnOff, tooltips) {
 // these are the objects that will be able to be dragged and some of their components
 var bulbOrig,bulb,ampMeter,voltMeter,fridge,blender,toaster,microwave,battery,light,bulbWire,batteryComp,bulbWireColor;
 // snap textfields
@@ -125,6 +125,8 @@ function loadSvgsLvl1 () {
                                             curCoord=[bulb.getBBox().x,bulb.getBBox().y];
                                             things=[bulb,ampMeter,battery,toaster,microwave,fridge,blender,voltMeter];
                                             buttons=[buttonReset.parent(),buttonElCur.parent()];
+                                            tooltips.init();
+                                            
                                             workLvl1();
                                    });
                           });
@@ -454,5 +456,7 @@ removeLvl1 = function () {
          if ((timeOutLight!==undefined)&&(timeOutLight!==null)) clearTimeout(timeOutLight);
          if ((s!==undefined)&&(s!==null)) s.clear();
          $(".level1").hide();
+
+         tooltips.destroy();
 }
-})(hitTest, hitTestBtn, message, hideBtn, showBtn, blink, turnOn, turnOff);
+})(hitTest, hitTestBtn, message, hideBtn, showBtn, blink, turnOn, turnOff, tooltips);
